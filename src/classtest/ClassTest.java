@@ -1,7 +1,5 @@
 package classtest;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -9,14 +7,13 @@ import java.util.*;
 import javax.swing.*;
 import java.security.*;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class ClassTest extends javax.swing.JFrame {
 
     private Connection con;
     private Statement stmt;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
+    private String SUBJECT = null;
+    private int PRESENTUSERTYPE = -1;
 
     public ClassTest() {
         initComponents();
@@ -117,6 +114,8 @@ public class ClassTest extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
+        jTextField12 = new javax.swing.JTextField();
         jMenuBar5 = new javax.swing.JMenuBar();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -509,6 +508,11 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel3.setText("Password:");
 
         jButton1.setText("Login");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         buttonGroup2.add(jRadioButton9);
         jRadioButton9.setText("Student");
@@ -609,12 +613,24 @@ public class ClassTest extends javax.swing.JFrame {
             new String [] {
                 "Test ", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("Take Test!");
 
         jButton19.setText("See Previous Results");
+
+        jLabel34.setText("You currently have ");
+
+        jTextField12.setText("jTextField12");
 
         jMenu5.setText("Nav");
 
@@ -641,26 +657,32 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(studentPanelPageLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(studentPanelPageLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(studentPanelPageLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentPanelPageLayout.createSequentialGroup()
                         .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(studentPanelPageLayout.createSequentialGroup()
-                                .addGap(128, 128, 128)
-                                .addComponent(jButton3)
-                                .addGap(31, 31, 31)
-                                .addComponent(jButton19)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(studentPanelPageLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentPanelPageLayout.createSequentialGroup()
+                                .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentPanelPageLayout.createSequentialGroup()
+                                        .addComponent(jLabel34)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentPanelPageLayout.createSequentialGroup()
+                                        .addGap(128, 128, 128)
+                                        .addComponent(jButton3)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(jButton19)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(34, 34, 34))))
         );
         studentPanelPageLayout.setVerticalGroup(
@@ -679,9 +701,13 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton19))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
@@ -1703,9 +1729,15 @@ public class ClassTest extends javax.swing.JFrame {
         return false;
     }
 
-    private BigInteger validatePassword(char[] a, char[] b) {
+    private BigInteger validatePassword(char[] a, char[] b, boolean check) {
         BigInteger big = null;
-        if (Arrays.equals(a, b)) {
+        boolean passwordsMatch = false;
+        if (check) {
+            passwordsMatch = Arrays.equals(a, b);
+        } else {
+            passwordsMatch = true;
+        }
+        if (passwordsMatch) {
             MessageDigest digest;
             try {
                 digest = MessageDigest.getInstance("SHA-256");
@@ -1729,7 +1761,7 @@ public class ClassTest extends javax.swing.JFrame {
         regNameCorrect = validateRegName(regName, 0);
         char[] password = jPasswordField2.getPassword();
         char[] passwordConfirm = jPasswordField3.getPassword();
-        BigInteger big = validatePassword(password, passwordConfirm);
+        BigInteger big = validatePassword(password, passwordConfirm, true);
         if (big == null) {
             passwordCorrect = false;
         } else {
@@ -1739,6 +1771,9 @@ public class ClassTest extends javax.swing.JFrame {
             try {
                 stmt.executeUpdate("insert into student_auth values(\"" + regName + "\",\"" + big + "\",0);");
                 JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                studentRegisterPage.dispose();
+                loginPage.setVisible(true);
+                jRadioButton9.setSelected(true);
             } catch (SQLException ex) {
                 showSQLException("Error on creating user record");
                 ex.printStackTrace();
@@ -1754,7 +1789,7 @@ public class ClassTest extends javax.swing.JFrame {
         char[] passwordConfirm = jPasswordField5.getPassword();
         boolean regNameCorrect = validateRegName(regName, 1);
         boolean passwordCorrect = false;
-        BigInteger big = validatePassword(password, passwordConfirm);
+        BigInteger big = validatePassword(password, passwordConfirm, true);
         if (big != null) {
             passwordCorrect = true;
         }
@@ -1762,13 +1797,70 @@ public class ClassTest extends javax.swing.JFrame {
         if (regNameCorrect && passwordCorrect) {
             try {
                 stmt.executeUpdate("insert into teacher_auth values (\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
-                JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Your request has been submitted. Please have a system administrator review your request.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                teacherRegisterPage.dispose();
+                loginPage.setVisible(true);
+                jRadioButton10.setSelected(true);
             } catch (SQLException ex) {
                 showSQLException("Error on creating user record");
                 ex.printStackTrace();
             }
         }
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        ResultSet rs;
+        String loginName = jTextField1.getText().trim();
+        char[] loginPassword = jPasswordField1.getPassword();
+        boolean loginSuccess = false;
+        try {
+            if (jRadioButton9.isSelected()) {
+                PRESENTUSERTYPE=TYPE_STUDENT;
+                rs = stmt.executeQuery("select * from student_auth where name=\"" + loginName + "\";");
+                if (rs.next()) {
+                    String digest = rs.getString("password");
+                    if ((validatePassword(loginPassword, null, false)).toString().equals(digest)) {
+                        loginSuccess = true;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Your password is incorrect. If you've forgotten your password, contact system administrator for assistance.", "Invalid details", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "That account doesn't exist. Please register.", "Invalid details", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (jRadioButton10.isSelected()) {
+                PRESENTUSERTYPE=TYPE_TEACHER;
+                rs = stmt.executeQuery("select * from teacher_auth where name=\"" + loginName + "\";");
+                if (rs.next()) {
+                    int privilege = rs.getInt("status");
+                    if (privilege == 0) {
+                        JOptionPane.showMessageDialog(this, "Your details are yet to be reviewed. Please contact system administrator", "Application in Review", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    String digest = rs.getString("password");
+                    if ((validatePassword(loginPassword, null, false)).toString().equals(digest)) {
+                        loginSuccess = true;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Your password is incorrect. If you've forgotten your password, contact system administrator for assistance.", "Invalid details", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "That account doesn't exist. Please register.", "Invalid details", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            if (loginSuccess) {
+                loginPage.dispose();
+                if (isUserStudent()) {
+                    studentPanelPage.setVisible(true);
+                } else {
+                    teacherPanelPage.setVisible(true);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Error while fetching login results");
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private boolean checkValidCharsUsed(String a) {
         char tempChar;
@@ -1782,6 +1874,24 @@ public class ClassTest extends javax.swing.JFrame {
             }
         }
         return true;
+    }
+
+    private int getUserType() {
+        return PRESENTUSERTYPE;
+    }
+
+    private boolean isUserStudent() {
+        if (PRESENTUSERTYPE == TYPE_STUDENT) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isUserTeacher() {
+        if (PRESENTUSERTYPE != TYPE_STUDENT) {
+            return true;
+        }
+        return false;
     }
 
     private void abortTest() {
@@ -1892,6 +2002,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2002,6 +2113,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
