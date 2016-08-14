@@ -1,5 +1,7 @@
 package classtest;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -7,10 +9,14 @@ import java.util.*;
 import javax.swing.*;
 import java.security.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ClassTest extends javax.swing.JFrame {
 
     private Connection con;
     private Statement stmt;
+    private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
 
     public ClassTest() {
         initComponents();
@@ -410,6 +416,11 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel18.setText("Select subject:");
 
         jButton11.setText("Register");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jMenu3.setText("Nav");
 
@@ -1664,12 +1675,17 @@ public class ClassTest extends javax.swing.JFrame {
         // TODO add your handling code here:
         logout();
     }//GEN-LAST:event_jMenuItem37ActionPerformed
-    private boolean validateRegName(String a) {
+    private boolean validateRegName(String a, int type) {
         ResultSet rs;
         if (checkValidCharsUsed(a)) {
             if (a.length() >= 4) {
                 try {
-                    rs = stmt.executeQuery("select name from student_auth where name=\"" + a + "\";");
+                    if (type == TYPE_STUDENT) {
+                        rs = stmt.executeQuery("select name from student_auth where name=\"" + a + "\";");
+                    } else {
+                        rs = stmt.executeQuery("select name from teacher_auth where name=\"" + a + "\";");
+                    }
+
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(this, "That name is taken. Please try something else.", "Name in use", JOptionPane.ERROR_MESSAGE);
                     } else {
@@ -1693,7 +1709,7 @@ public class ClassTest extends javax.swing.JFrame {
             MessageDigest digest;
             try {
                 digest = MessageDigest.getInstance("SHA-256");
-                byte[] hash = digest.digest(a.toString().getBytes(StandardCharsets.UTF_8));
+                byte[] hash = digest.digest(new String(a).getBytes(StandardCharsets.UTF_8));
                 big = new BigInteger(1, hash);
                 return big;
             } catch (NoSuchAlgorithmException ex) {
@@ -1705,12 +1721,12 @@ public class ClassTest extends javax.swing.JFrame {
         return null;
     }
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+
         ResultSet rs;
 
         boolean regNameCorrect = false, passwordCorrect = false;
         String regName = jTextField4.getText().trim();
-        regNameCorrect = validateRegName(regName);
+        regNameCorrect = validateRegName(regName, 0);
         char[] password = jPasswordField2.getPassword();
         char[] passwordConfirm = jPasswordField3.getPassword();
         BigInteger big = validatePassword(password, passwordConfirm);
@@ -1731,6 +1747,29 @@ public class ClassTest extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton10ActionPerformed
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        String regName = jTextField5.getText().trim();
+        char[] password = jPasswordField4.getPassword();
+        char[] passwordConfirm = jPasswordField5.getPassword();
+        boolean regNameCorrect = validateRegName(regName, 1);
+        boolean passwordCorrect = false;
+        BigInteger big = validatePassword(password, passwordConfirm);
+        if (big != null) {
+            passwordCorrect = true;
+        }
+        String subject = (String) jComboBox3.getSelectedItem();
+        if (regNameCorrect && passwordCorrect) {
+            try {
+                stmt.executeUpdate("insert into teacher_auth values (\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
+                JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                showSQLException("Error on creating user record");
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
+
     private boolean checkValidCharsUsed(String a) {
         char tempChar;
         for (int i = 0; i < a.length(); i++) {
@@ -1750,7 +1789,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void showSQLException(String a) {
-        
+
     }
 
     private void logout() {
