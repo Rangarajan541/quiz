@@ -1,19 +1,31 @@
 package classtest;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 import javax.swing.*;
 import java.security.*;
+import java.text.SimpleDateFormat;
+import javax.swing.table.DefaultTableModel;
 
 public class ClassTest extends javax.swing.JFrame {
 
     private Connection con;
     private Statement stmt;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
-    private String SUBJECT = null;
-    private int PRESENTUSERTYPE = -1;
+    private String SUBJECT = null, loginName;
+    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300;
+    private java.util.Timer wakeUpTimer;
+    private java.util.TimerTask wakeUpTimerTask;
 
     public ClassTest() {
         initComponents();
@@ -25,6 +37,68 @@ public class ClassTest extends javax.swing.JFrame {
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
         }
+
+        WindowAdapter onCloseListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                logout();
+                System.exit(0);
+            }
+        };
+        MouseListener wakeUpListenerMouse = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                wakeUpSeconds = 300;
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                wakeUpSeconds = 300;
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                wakeUpSeconds = 300;
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                wakeUpSeconds = 300;
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                wakeUpSeconds = 300;
+            }
+        };
+        KeyListener wakeUpListenerKey = new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                wakeUpSeconds = 300;
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                wakeUpSeconds = 300;
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                wakeUpSeconds = 300;
+            }
+        };
+
+        FocusListener wakeUpListenerFocus = new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                wakeUpSeconds = 300;
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                wakeUpSeconds = 300;
+            }
+        };
         redirectPage.setTitle("Welcome");
         redirectPage.setSize(386, 382);
         redirectPage.setResizable(false);
@@ -48,6 +122,13 @@ public class ClassTest extends javax.swing.JFrame {
         loginPage.setResizable(false);
         loginPage.setLocationRelativeTo(null);
         loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        studentPanelPage.setTitle("Login");
+        studentPanelPage.setSize(445, 485);
+        studentPanelPage.setResizable(false);
+        studentPanelPage.setLocationRelativeTo(null);
+        studentPanelPage.addWindowListener(onCloseListener);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -60,6 +141,8 @@ public class ClassTest extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -116,6 +199,7 @@ public class ClassTest extends javax.swing.JFrame {
         jButton19 = new javax.swing.JButton();
         jLabel34 = new javax.swing.JLabel();
         jTextField12 = new javax.swing.JTextField();
+        jLabel35 = new javax.swing.JLabel();
         jMenuBar5 = new javax.swing.JMenuBar();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -247,26 +331,33 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuItem33 = new javax.swing.JMenuItem();
         jMenuItem34 = new javax.swing.JMenuItem();
 
-        jLabel8.setFont(new java.awt.Font("Bebas Neue", 0, 36)); // NOI18N
-        jLabel8.setText("Online Quiz");
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel8.setText("Online");
 
         jLabel9.setText("I am a:");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Student", "Teacher" }));
 
-        jButton8.setText("New User");
+        jButton8.setText("Register");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
 
-        jButton9.setText("Existing User");
+        jButton9.setText("Proceed to Login");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
             }
         });
+
+        jLabel36.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel36.setText("Test");
+
+        jLabel37.setText("New?");
 
         jMenu1.setText("Nav");
 
@@ -286,37 +377,43 @@ public class ClassTest extends javax.swing.JFrame {
         redirectPage.getContentPane().setLayout(redirectPageLayout);
         redirectPageLayout.setHorizontalGroup(
             redirectPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(redirectPageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, redirectPageLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addGap(51, 51, 51)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(121, 121, 121))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, redirectPageLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addGap(74, 74, Short.MAX_VALUE)
+                .addGroup(redirectPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, redirectPageLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, redirectPageLayout.createSequentialGroup()
+                        .addGroup(redirectPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(redirectPageLayout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(46, 46, 46)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37))
+                        .addGap(104, 104, 104))))
         );
         redirectPageLayout.setVerticalGroup(
             redirectPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(redirectPageLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(34, 34, 34)
                 .addGroup(redirectPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(redirectPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jLabel37)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(redirectPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         jLabel10.setText("Full Name:");
@@ -325,7 +422,9 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel12.setText("Confirm Password:");
 
-        jLabel13.setText("STUDENT REGISTRATION PAGE");
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(240, 0, 0));
+        jLabel13.setText("STUDENT REGISTRATION FORM");
 
         jButton10.setText("Register");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -361,31 +460,30 @@ public class ClassTest extends javax.swing.JFrame {
         studentRegisterPageLayout.setHorizontalGroup(
             studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentRegisterPageLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPasswordField3)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField4)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
-                .addContainerGap(133, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addGap(113, 113, 113))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
                         .addComponent(jButton10)
-                        .addGap(154, 154, 154))))
+                        .addGap(154, 154, 154))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
+                        .addGroup(studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPasswordField3)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel11)
+                            .addComponent(jTextField4)
+                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
+                        .addGap(97, 97, 97))))
         );
         studentRegisterPageLayout.setVerticalGroup(
             studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addComponent(jLabel13)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -397,7 +495,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton10)
                 .addGap(25, 25, 25))
         );
@@ -408,7 +506,9 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel16.setText("Confirm Password:");
 
-        jLabel17.setText("TEACHER REGISTRATION PAGE");
+        jLabel17.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(240, 0, 0));
+        jLabel17.setText("TEACHER REGISTRATION FORM");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatics Practices", "Economics", "Business Studies", "Accountancy" }));
 
@@ -447,33 +547,33 @@ public class ClassTest extends javax.swing.JFrame {
         teacherRegisterPage.getContentPane().setLayout(teacherRegisterPageLayout);
         teacherRegisterPageLayout.setHorizontalGroup(
             teacherRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, teacherRegisterPageLayout.createSequentialGroup()
+                .addGap(0, 66, Short.MAX_VALUE)
+                .addComponent(jLabel17)
+                .addGap(62, 62, 62))
             .addGroup(teacherRegisterPageLayout.createSequentialGroup()
+                .addGap(145, 145, 145)
                 .addGroup(teacherRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(teacherRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel18)
+                        .addComponent(jPasswordField5)
+                        .addComponent(jLabel16)
+                        .addComponent(jLabel15)
+                        .addComponent(jTextField5)
+                        .addComponent(jPasswordField4)
+                        .addComponent(jLabel14)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(teacherRegisterPageLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(jLabel17))
-                    .addGroup(teacherRegisterPageLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addGroup(teacherRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel18)
-                            .addComponent(jPasswordField5)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel15)
-                            .addComponent(jTextField5)
-                            .addComponent(jPasswordField4, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(jLabel14)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(teacherRegisterPageLayout.createSequentialGroup()
-                        .addGap(143, 143, 143)
+                        .addGap(66, 66, 66)
                         .addComponent(jButton11)))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         teacherRegisterPageLayout.setVerticalGroup(
             teacherRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(teacherRegisterPageLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -491,7 +591,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton11)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -500,8 +600,9 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("LOGIN PAGE");
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(240, 0, 0));
+        jLabel1.setText("LOGIN");
 
         jLabel2.setText("Name:");
 
@@ -564,19 +665,18 @@ public class ClassTest extends javax.swing.JFrame {
                                 .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(loginPageLayout.createSequentialGroup()
                         .addGap(151, 151, 151)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(loginPageLayout.createSequentialGroup()
+                        .addGap(153, 153, 153)
+                        .addComponent(jLabel1)))
                 .addContainerGap(125, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPageLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
         );
         loginPageLayout.setVerticalGroup(
             loginPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPageLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -593,9 +693,19 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatics Practices", "Economics", "Business Studies", "Accountancy" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Informatics Practices", "Economics", "Business Studies", "Accountancy" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Go");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Select Subject:");
 
@@ -605,17 +715,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Test ", "Status"
+                "Test ", "Status", "Subject"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -630,11 +740,18 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel34.setText("You currently have ");
 
-        jTextField12.setText("jTextField12");
+        jTextField12.setEditable(false);
+
+        jLabel35.setText("pending tests.");
 
         jMenu5.setText("Nav");
 
         jMenuItem10.setText("Sign Out");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem10);
 
         jMenuItem9.setText("Exit");
@@ -667,21 +784,22 @@ public class ClassTest extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(studentPanelPageLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentPanelPageLayout.createSequentialGroup()
                                 .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentPanelPageLayout.createSequentialGroup()
-                                        .addComponent(jLabel34)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentPanelPageLayout.createSequentialGroup()
-                                        .addGap(128, 128, 128)
                                         .addComponent(jButton3)
                                         .addGap(31, 31, 31)
-                                        .addComponent(jButton19)))
+                                        .addComponent(jButton19))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentPanelPageLayout.createSequentialGroup()
+                                        .addComponent(jLabel34)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel35)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(34, 34, 34))))
         );
@@ -698,11 +816,12 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel35))
                 .addGap(18, 18, 18)
                 .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
@@ -1811,12 +1930,12 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         ResultSet rs;
-        String loginName = jTextField1.getText().trim();
+        loginName = jTextField1.getText().trim();
         char[] loginPassword = jPasswordField1.getPassword();
         boolean loginSuccess = false;
         try {
             if (jRadioButton9.isSelected()) {
-                PRESENTUSERTYPE=TYPE_STUDENT;
+                PRESENTUSERTYPE = TYPE_STUDENT;
                 rs = stmt.executeQuery("select * from student_auth where name=\"" + loginName + "\";");
                 if (rs.next()) {
                     String digest = rs.getString("password");
@@ -1829,7 +1948,7 @@ public class ClassTest extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "That account doesn't exist. Please register.", "Invalid details", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (jRadioButton10.isSelected()) {
-                PRESENTUSERTYPE=TYPE_TEACHER;
+                PRESENTUSERTYPE = TYPE_TEACHER;
                 rs = stmt.executeQuery("select * from teacher_auth where name=\"" + loginName + "\";");
                 if (rs.next()) {
                     int privilege = rs.getInt("status");
@@ -1848,10 +1967,25 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
             if (loginSuccess) {
+                logActivity(loginName, "User logged in");
+                wakeUpSeconds = 300;
+                wakeUpTimer = new java.util.Timer();
+                wakeUpTimerTask = new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        decreaseWakeUpTimer();
+                    }
+                };
+                wakeUpTimer.scheduleAtFixedRate(wakeUpTimerTask, 1000, 1000);
                 loginPage.dispose();
                 if (isUserStudent()) {
+                    stmt.executeUpdate("update student_auth set onlinestatus=1 where name=\"" + loginName + "\";");
+                    jLabel5.setText("Welcome, " + loginName);
                     studentPanelPage.setVisible(true);
+                    updateStudentTestList();
                 } else {
+                    stmt.executeUpdate("update teacher_auth set onlinestatus=1 where name=\"" + loginName + "\";");
+                    jLabel20.setText("Welcome, " + loginName);
                     teacherPanelPage.setVisible(true);
                 }
             }
@@ -1861,6 +1995,68 @@ public class ClassTest extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+    private void decreaseWakeUpTimer() {
+        System.out.println("dec");
+        if (wakeUpSeconds == 1) {
+            logout();
+            JOptionPane.showMessageDialog(loginPage, "You have been inactive for the past few minutes and hence have been logged out for security concerns.", "Inactivity Detection", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            wakeUpSeconds--;
+        }
+    }
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        updateStudentTestList();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        updateStudentTestList();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        logout();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+    private void logActivity(String username, String event) {
+        java.util.Date datetime = new java.util.Date();
+        SimpleDateFormat format = null;
+        try {
+            format = new SimpleDateFormat("yyyyMMddHHmmss");
+            stmt.executeUpdate("insert into activitylog values (\"" + username + "\", \"" + event + "\",\"" + format.format(new java.util.Date()) + "\");");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Failed Activity logging");
+        }
+    }
+
+    private void updateStudentTestList() {
+        ResultSet rs;
+        String selectedSubject = null;
+        try {
+            rs = stmt.executeQuery("select count(*) from testlist");
+            if (rs.next()) {
+                jTextField12.setText(Integer.toString(rs.getInt(1)));
+            }
+            if (jComboBox1.getSelectedIndex() == 0) {
+                rs = stmt.executeQuery("select * from testlist");
+            } else {
+                selectedSubject = (String) (jComboBox1.getSelectedItem());
+                rs = stmt.executeQuery("select * from testlist where subject=\"" + selectedSubject + "\";");
+            }
+            DefaultTableModel studentTestTableModel = (DefaultTableModel) (jTable1.getModel());
+            studentTestTableModel.setRowCount(0);
+            while (rs.next()) {
+                String testName = rs.getString("description");
+                String status = (rs.getInt("status") != 0 ? "Active" : "Locked");
+                String subject = rs.getString("subject");
+                studentTestTableModel.addRow(new Object[]{testName, status, subject});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Error while fetching student test list");
+        }
+    }
 
     private boolean checkValidCharsUsed(String a) {
         char tempChar;
@@ -1903,11 +2099,40 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void logout() {
-
+        try {
+            if (isUserStudent()) {
+                stmt.executeUpdate("update student_auth set onlinestatus=0 where username=\"" + loginName + "\";");
+            } else if (isUserTeacher()) {
+                stmt.executeUpdate("update teacher_auth set onlinestatus=0 where username=\"" + loginName + "\";");
+            }
+            disposeAllFrames();
+            loginPage.setVisible(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Error occured while signing user out");
+        }
+        wakeUpTimer.cancel();
     }
 
     private void showException(String a) {
 
+    }
+
+    private void disposeAllFrames() {
+        adminPage.dispose();
+        adminResetPassPage.dispose();
+        loginPage.dispose();
+        questionUploadPage.dispose();
+        redirectPage.dispose();
+        studentFinishTestPage.dispose();
+        studentPanelPage.dispose();
+        studentPreviousResultsPage.dispose();
+        studentQuestionPage.dispose();
+        studentRegisterPage.dispose();
+        teacherPanelPage.dispose();
+        teacherQuestionPage.dispose();
+        teacherRegisterPage.dispose();
+        teacherTestReportPage.dispose();
     }
 
     public static void main(String args[]) {
@@ -1921,16 +2146,21 @@ public class ClassTest extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClassTest.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClassTest.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClassTest.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClassTest.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -2003,6 +2233,9 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
