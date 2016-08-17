@@ -106,7 +106,7 @@ public class ClassTest extends javax.swing.JFrame {
         redirectPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         studentRegisterPage.setTitle("Student Registration");
-        studentRegisterPage.setSize(398, 388);
+        studentRegisterPage.setSize(405, 388);
         studentRegisterPage.setResizable(false);
         studentRegisterPage.setLocationRelativeTo(null);
         studentRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,7 +124,7 @@ public class ClassTest extends javax.swing.JFrame {
         loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         studentPanelPage.setTitle("Login");
-        studentPanelPage.setSize(445, 485);
+        studentPanelPage.setSize(650, 485);
         studentPanelPage.setResizable(false);
         studentPanelPage.setLocationRelativeTo(null);
         studentPanelPage.addWindowListener(onCloseListener);
@@ -460,23 +460,26 @@ public class ClassTest extends javax.swing.JFrame {
         studentRegisterPageLayout.setHorizontalGroup(
             studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentRegisterPageLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(13, 13, 13)
                 .addGroup(studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
+                    .addGroup(studentRegisterPageLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
+                                .addComponent(jButton10)
+                                .addGap(154, 154, 154))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
+                                .addGroup(studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPasswordField3)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jTextField4)
+                                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10))
+                                .addGap(97, 97, 97))))
+                    .addGroup(studentRegisterPageLayout.createSequentialGroup()
                         .addComponent(jLabel13)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
-                        .addComponent(jButton10)
-                        .addGap(154, 154, 154))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentRegisterPageLayout.createSequentialGroup()
-                        .addGroup(studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPasswordField3)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11)
-                            .addComponent(jTextField4)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
-                        .addGap(97, 97, 97))))
+                        .addGap(0, 19, Short.MAX_VALUE))))
         );
         studentRegisterPageLayout.setVerticalGroup(
             studentRegisterPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -715,17 +718,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Test ", "Status", "Subject"
+                "Test ID", "Description", "Status", "Subject"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -735,6 +738,11 @@ public class ClassTest extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("Take Test!");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton19.setText("See Previous Results");
 
@@ -784,7 +792,7 @@ public class ClassTest extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(studentPanelPageLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1888,8 +1896,12 @@ public class ClassTest extends javax.swing.JFrame {
         }
         if (regNameCorrect && passwordCorrect) {
             try {
+                /*System.out.println("create database studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), correctanswers varchar(2500), wronganswers varchar(2500), datetaken timestamp);");
+                 System.exit(0);*/
                 stmt.executeUpdate("insert into student_auth values(\"" + regName + "\",\"" + big + "\",0);");
+                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), correctanswers varchar(2500), wronganswers varchar(2500), datetaken timestamp);");
                 JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                logActivity(regName, "student registered");
                 studentRegisterPage.dispose();
                 loginPage.setVisible(true);
                 jRadioButton9.setSelected(true);
@@ -1898,7 +1910,8 @@ public class ClassTest extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
-
+        jPasswordField2.setText(null);
+        jPasswordField3.setText(null);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -1917,6 +1930,7 @@ public class ClassTest extends javax.swing.JFrame {
             try {
                 stmt.executeUpdate("insert into teacher_auth values (\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
                 JOptionPane.showMessageDialog(this, "Your request has been submitted. Please have a system administrator review your request.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                logActivity(regName, "Teacher application submitted");
                 teacherRegisterPage.dispose();
                 loginPage.setVisible(true);
                 jRadioButton10.setSelected(true);
@@ -1925,6 +1939,8 @@ public class ClassTest extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
+        jPasswordField4.setText(null);
+        jPasswordField5.setText(null);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1993,10 +2009,10 @@ public class ClassTest extends javax.swing.JFrame {
             ex.printStackTrace();
             showSQLException("Error while fetching login results");
         }
-
+        jTextField1.setText(null);
+        jPasswordField1.setText(null);
     }//GEN-LAST:event_jButton1ActionPerformed
     private void decreaseWakeUpTimer() {
-        System.out.println("dec");
         if (wakeUpSeconds == 1) {
             logout();
             JOptionPane.showMessageDialog(loginPage, "You have been inactive for the past few minutes and hence have been logged out for security concerns.", "Inactivity Detection", JOptionPane.INFORMATION_MESSAGE);
@@ -2018,6 +2034,25 @@ public class ClassTest extends javax.swing.JFrame {
         // TODO add your handling code here:
         logout();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).equals("Locked")) {
+                JOptionPane.showMessageDialog(studentPanelPage, "That test is locked.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+            } else if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).equals("Taken")) {
+                JOptionPane.showMessageDialog(studentPanelPage, "You've already taken this test.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+            } else {
+                int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
+                System.out.println(answer);
+            }
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(studentPanelPage, "You need to select a test.", "No test selected", JOptionPane.WARNING_MESSAGE);
+
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void logActivity(String username, String event) {
         java.util.Date datetime = new java.util.Date();
         SimpleDateFormat format = null;
@@ -2032,25 +2067,38 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void updateStudentTestList() {
         ResultSet rs;
-        String selectedSubject = null;
+        String selectedSubject = null, statusRep = "Error";
         try {
-            rs = stmt.executeQuery("select count(*) from testlist");
+            rs = stmt.executeQuery("select count(*) from testlist where status=1");
             if (rs.next()) {
                 jTextField12.setText(Integer.toString(rs.getInt(1)));
             }
             if (jComboBox1.getSelectedIndex() == 0) {
-                rs = stmt.executeQuery("select * from testlist");
+                rs = stmt.executeQuery("select * from testlist order by status desc");
             } else {
                 selectedSubject = (String) (jComboBox1.getSelectedItem());
-                rs = stmt.executeQuery("select * from testlist where subject=\"" + selectedSubject + "\";");
+                rs = stmt.executeQuery("select * from testlist where subject=\"" + selectedSubject + "\" order by status desc;");
             }
             DefaultTableModel studentTestTableModel = (DefaultTableModel) (jTable1.getModel());
             studentTestTableModel.setRowCount(0);
             while (rs.next()) {
+                String testid = rs.getString("testid");
                 String testName = rs.getString("description");
-                String status = (rs.getInt("status") != 0 ? "Active" : "Locked");
+                int statusNumber = rs.getInt("status");
+                switch (statusNumber) {
+                    case 0:
+                        statusRep = "Locked";
+                        break;
+                    case 1:
+                        statusRep = "Active";
+                        break;
+                }
+                rs = stmt.executeQuery("select * from studenthistorydatabase_" + loginName + " where testid=\"" + testid + "\";");
+                if (rs.next()) {
+                    statusRep = "Taken";
+                }
                 String subject = rs.getString("subject");
-                studentTestTableModel.addRow(new Object[]{testName, status, subject});
+                studentTestTableModel.addRow(new Object[]{testid, testName, statusRep, subject});
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -2101,9 +2149,9 @@ public class ClassTest extends javax.swing.JFrame {
     private void logout() {
         try {
             if (isUserStudent()) {
-                stmt.executeUpdate("update student_auth set onlinestatus=0 where username=\"" + loginName + "\";");
+                stmt.executeUpdate("update student_auth set onlinestatus=0 where name=\"" + loginName + "\";");
             } else if (isUserTeacher()) {
-                stmt.executeUpdate("update teacher_auth set onlinestatus=0 where username=\"" + loginName + "\";");
+                stmt.executeUpdate("update teacher_auth set onlinestatus=0 where name=\"" + loginName + "\";");
             }
             disposeAllFrames();
             loginPage.setVisible(true);
@@ -2112,6 +2160,7 @@ public class ClassTest extends javax.swing.JFrame {
             showSQLException("Error occured while signing user out");
         }
         wakeUpTimer.cancel();
+        logActivity(loginName, "User logged out");
     }
 
     private void showException(String a) {
