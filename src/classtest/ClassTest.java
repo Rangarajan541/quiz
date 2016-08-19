@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class ClassTest extends javax.swing.JFrame {
 
     private Connection con;
-    private Statement stmt;
+    private Statement stmt, stmt2;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
     private String SUBJECT = null, loginName;
     private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300;
@@ -34,6 +34,7 @@ public class ClassTest extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "open");
             stmt = con.createStatement();
+            stmt2 = con.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
         }
@@ -128,6 +129,12 @@ public class ClassTest extends javax.swing.JFrame {
         studentPanelPage.setResizable(false);
         studentPanelPage.setLocationRelativeTo(null);
         studentPanelPage.addWindowListener(onCloseListener);
+
+        studentQuestionPage.setTitle("Online Test In Progress - Do not close");
+        studentQuestionPage.setSize(442, 528);
+        studentQuestionPage.setResizable(false);
+        studentQuestionPage.setLocationRelativeTo(null);
+        studentQuestionPage.addWindowListener(onCloseListener);
 
     }
 
@@ -225,6 +232,15 @@ public class ClassTest extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jButton17 = new javax.swing.JButton();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jTextField13 = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        jTextField14 = new javax.swing.JTextField();
         jMenuBar7 = new javax.swing.JMenuBar();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem14 = new javax.swing.JMenuItem();
@@ -275,6 +291,7 @@ public class ClassTest extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel45 = new javax.swing.JLabel();
         jMenuBar9 = new javax.swing.JMenuBar();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem20 = new javax.swing.JMenuItem();
@@ -903,6 +920,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
@@ -930,7 +948,27 @@ public class ClassTest extends javax.swing.JFrame {
 
         jButton6.setText("Flag question for later");
 
+        jTextField2.setEditable(false);
+
         jButton17.setText("Finish Test");
+
+        jLabel38.setText("Test Description and Subject");
+
+        jLabel39.setText("Marks per question:");
+
+        jLabel40.setText("Question #:");
+
+        jLabel41.setText("Total Answered:");
+
+        jLabel42.setText("Total Flagged:");
+
+        jLabel43.setText("Total Unanswered:");
+
+        jTextField13.setEditable(false);
+
+        jLabel44.setText("of");
+
+        jTextField14.setEditable(false);
 
         jMenu7.setText("Nav");
 
@@ -966,51 +1004,79 @@ public class ClassTest extends javax.swing.JFrame {
         studentQuestionPage.getContentPane().setLayout(studentQuestionPageLayout);
         studentQuestionPageLayout.setHorizontalGroup(
             studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
+            .addGroup(studentQuestionPageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
+                        .addComponent(jRadioButton1)
+                        .addGap(40, 40, 40)
+                        .addComponent(jRadioButton2)
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(jRadioButton3)
+                        .addGap(40, 40, 40)
+                        .addComponent(jRadioButton4))
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel38)
+                            .addComponent(jLabel41)
                             .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
-                                .addGap(40, 40, 40)
-                                .addComponent(jRadioButton2))
-                            .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                                .addComponent(jButton5)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton6)))
-                        .addGap(18, 18, 18)
+                                .addComponent(jLabel40)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel44)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jRadioButton3)
-                                .addGap(40, 40, 40)
-                                .addComponent(jRadioButton4))
-                            .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(jLabel42)
+                            .addComponent(jLabel39)
+                            .addComponent(jLabel43))
+                        .addGap(47, 47, 47)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(studentQuestionPageLayout.createSequentialGroup()
+                .addGap(173, 173, 173)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(174, 174, 174))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         studentQuestionPageLayout.setVerticalGroup(
             studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(jLabel39))
+                .addGap(13, 13, 13)
+                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel40)
+                    .addComponent(jLabel42)
+                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel44)
+                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel41)
+                    .addComponent(jLabel43))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
@@ -1253,7 +1319,12 @@ public class ClassTest extends javax.swing.JFrame {
         );
 
         jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
+        jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
+        jTextArea2.setText("Enter Question here");
+        jTextArea2.setToolTipText("");
+        jTextArea2.setWrapStyleWord(true);
         jScrollPane3.setViewportView(jTextArea2);
 
         buttonGroup1.add(jRadioButton5);
@@ -1283,6 +1354,8 @@ public class ClassTest extends javax.swing.JFrame {
 
         jCheckBox1.setText("Make this a reserve Question");
 
+        jLabel45.setText("Choose correct Answer:");
+
         jMenu9.setText("Nav");
 
         jMenuItem20.setText("Back");
@@ -1311,14 +1384,6 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, questionUploadPageLayout.createSequentialGroup()
-                        .addComponent(jRadioButton5)
-                        .addGap(41, 41, 41)
-                        .addComponent(jRadioButton6)
-                        .addGap(34, 34, 34)
-                        .addComponent(jRadioButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jRadioButton8))
                     .addGroup(questionUploadPageLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1329,26 +1394,39 @@ public class ClassTest extends javax.swing.JFrame {
                         .addGap(159, 159, 159)
                         .addComponent(jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton22)))
+                        .addComponent(jButton22))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, questionUploadPageLayout.createSequentialGroup()
+                        .addComponent(jRadioButton5)
+                        .addGap(41, 41, 41)
+                        .addComponent(jRadioButton6)
+                        .addGap(34, 34, 34)
+                        .addComponent(jRadioButton7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRadioButton8))
+                    .addGroup(questionUploadPageLayout.createSequentialGroup()
+                        .addComponent(jLabel45)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         questionUploadPageLayout.setVerticalGroup(
             questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, questionUploadPageLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(11, Short.MAX_VALUE)
                 .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton5)
                     .addComponent(jRadioButton6)
                     .addComponent(jRadioButton7)
                     .addComponent(jRadioButton8))
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
                     .addComponent(jButton22))
@@ -1899,7 +1977,7 @@ public class ClassTest extends javax.swing.JFrame {
                 /*System.out.println("create database studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), correctanswers varchar(2500), wronganswers varchar(2500), datetaken timestamp);");
                  System.exit(0);*/
                 stmt.executeUpdate("insert into student_auth values(\"" + regName + "\",\"" + big + "\",0);");
-                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), correctanswers varchar(2500), wronganswers varchar(2500), datetaken timestamp);");
+                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), correctanswers varchar(2500), wronganswers varchar(2500), aborted int(1), datetaken timestamp);");
                 JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 logActivity(regName, "student registered");
                 studentRegisterPage.dispose();
@@ -2037,7 +2115,10 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        ResultSet rs;
+        int totalQuestions=0, marks = 0;
         try {
+            String testid = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).equals("Locked")) {
                 JOptionPane.showMessageDialog(studentPanelPage, "That test is locked.", "Access Denied", JOptionPane.ERROR_MESSAGE);
             } else if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).equals("Taken")) {
@@ -2045,9 +2126,28 @@ public class ClassTest extends javax.swing.JFrame {
             } else {
                 int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
                 System.out.println(answer);
+                if (answer == 0) {
+                    stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + " values (\"" + testid + "\",0,null,null,now(),0);");
+                    studentPanelPage.dispose();
+                    jLabel38.setText((String) jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+                    rs = stmt.executeQuery("select points from testlist where testid=\"" + testid + "\";");
+                    if (rs.next()) {
+                        marks = rs.getInt(1);
+                    }
+                    jLabel39.setText("Marks per Question: " + marks);
+                    studentQuestionPage.setVisible(true);
+                    rs = stmt.executeQuery("select count(*) from testquestions_" + testid);
+                    if (rs.next()) {
+                        totalQuestions = rs.getInt(1);
+                    }
+                    jTextField14.setText(Integer.toString(totalQuestions));
+                }
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(studentPanelPage, "You need to select a test.", "No test selected", JOptionPane.WARNING_MESSAGE);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
 
         }
 
@@ -2066,12 +2166,14 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void updateStudentTestList() {
-        ResultSet rs;
+        ResultSet rs, rs2;
+        int pendingTotal = 0;
         String selectedSubject = null, statusRep = "Error";
+        String subject = null;
         try {
             rs = stmt.executeQuery("select count(*) from testlist where status=1");
             if (rs.next()) {
-                jTextField12.setText(Integer.toString(rs.getInt(1)));
+                pendingTotal = rs.getInt(1);
             }
             if (jComboBox1.getSelectedIndex() == 0) {
                 rs = stmt.executeQuery("select * from testlist order by status desc");
@@ -2093,12 +2195,18 @@ public class ClassTest extends javax.swing.JFrame {
                         statusRep = "Active";
                         break;
                 }
-                rs = stmt.executeQuery("select * from studenthistorydatabase_" + loginName + " where testid=\"" + testid + "\";");
-                if (rs.next()) {
+                rs2 = stmt2.executeQuery("select * from studenthistorydatabase_" + loginName + " where testid=\"" + testid + "\";");
+                if (rs2.next()) {
                     statusRep = "Taken";
+                    pendingTotal--;
                 }
-                String subject = rs.getString("subject");
+
+                rs2 = stmt2.executeQuery("select * from testlist where testid=\"" + testid + "\";");
+                if (rs2.next()) {
+                    subject = rs2.getString("subject");
+                }
                 studentTestTableModel.addRow(new Object[]{testid, testName, statusRep, subject});
+                jTextField12.setText(Integer.toString(pendingTotal));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -2285,7 +2393,15 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2396,6 +2512,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
