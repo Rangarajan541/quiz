@@ -15,15 +15,20 @@ import java.util.*;
 import javax.swing.*;
 import java.security.*;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class ClassTest extends javax.swing.JFrame {
 
+    private String currentTestID = null;
+    private ArrayList<String> questionList = new ArrayList<String>();
+    private ArrayList<String> questionListMod = new ArrayList<String>();
     private Connection con;
     private Statement stmt, stmt2;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
     private String SUBJECT = null, loginName;
-    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300;
+    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0;
     private java.util.Timer wakeUpTimer;
     private java.util.TimerTask wakeUpTimerTask;
 
@@ -927,6 +932,11 @@ public class ClassTest extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Option A");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Option B");
@@ -938,13 +948,33 @@ public class ClassTest extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("Option C");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton4);
         jRadioButton4.setText("Option D");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Next");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Previous");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Flag question for later");
 
@@ -1007,23 +1037,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
                     .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
-                        .addGap(40, 40, 40)
-                        .addComponent(jRadioButton2)
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jRadioButton3)
-                        .addGap(40, 40, 40)
-                        .addComponent(jRadioButton4))
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel38)
@@ -1041,7 +1055,27 @@ public class ClassTest extends javax.swing.JFrame {
                             .addComponent(jLabel42)
                             .addComponent(jLabel39)
                             .addComponent(jLabel43))
-                        .addGap(47, 47, 47)))
+                        .addGap(47, 47, 47))
+                    .addGroup(studentQuestionPageLayout.createSequentialGroup()
+                        .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jButton5))
+                        .addGap(18, 18, 18)
+                        .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(studentQuestionPageLayout.createSequentialGroup()
+                                .addComponent(jButton6)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton4))
+                            .addGroup(studentQuestionPageLayout.createSequentialGroup()
+                                .addComponent(jRadioButton2)
+                                .addGap(68, 68, 68)
+                                .addComponent(jRadioButton3)))
+                        .addGap(18, 18, 18)
+                        .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                            .addGroup(studentQuestionPageLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jRadioButton4)))))
                 .addContainerGap())
             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                 .addGap(173, 173, 173)
@@ -1066,7 +1100,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel41)
                     .addComponent(jLabel43))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1076,13 +1110,14 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton4))
-                .addGap(18, 18, 18)
-                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton17))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton5)
+                        .addComponent(jButton6)
+                        .addComponent(jButton17))
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -1768,6 +1803,7 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
+        //updateAnswer("b");
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
@@ -2116,7 +2152,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         ResultSet rs;
-        int totalQuestions=0, marks = 0;
+        int totalQuestions = 0, marks = 0;
         try {
             String testid = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).equals("Locked")) {
@@ -2129,6 +2165,7 @@ public class ClassTest extends javax.swing.JFrame {
                 if (answer == 0) {
                     stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + " values (\"" + testid + "\",0,null,null,now(),0);");
                     studentPanelPage.dispose();
+                    currentTestID = testid;
                     jLabel38.setText((String) jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
                     rs = stmt.executeQuery("select points from testlist where testid=\"" + testid + "\";");
                     if (rs.next()) {
@@ -2141,6 +2178,8 @@ public class ClassTest extends javax.swing.JFrame {
                         totalQuestions = rs.getInt(1);
                     }
                     jTextField14.setText(Integer.toString(totalQuestions));
+                    currentTestID = testid;
+                    initiateTest(testid);
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -2152,6 +2191,118 @@ public class ClassTest extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+        updateAnswer("a");
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        // TODO add your handling code here:
+        updateAnswer("c");
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        // TODO add your handling code here:
+        updateAnswer("d");
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here: 
+        if (Integer.parseInt(jTextField13.getText()) == Integer.parseInt(jTextField14.getText())) {
+            return;
+        }
+        buttonGroup1.clearSelection();
+        curQuesInd++;
+        setNextQuestion(curQuesInd);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        if (Integer.parseInt(jTextField13.getText()) == 1) {
+            return;
+        }
+        System.out.println("PREV");
+        curQuesInd--;
+        setNextQuestion(curQuesInd);
+    }//GEN-LAST:event_jButton5ActionPerformed
+    private void updateAnswer(String answer) {
+        ResultSet rs;
+        String separator = "==InternalSeparator==";
+        try {
+            String questionLine = questionListMod.get(curQuesInd);
+            String temp[] = questionLine.split(separator);
+            int dataIndex = Integer.parseInt(temp[1]);
+            String answersData = "";
+            System.out.println("select answer from testquestions_" + currentTestID + " where sno=" + dataIndex + ";");
+            rs = stmt.executeQuery("select answer from testquestions_" + currentTestID + " where sno=" + dataIndex + ";");
+            if (rs.next()) {
+                if (answer.equals(rs.getString(1))) {
+                    rs = stmt.executeQuery("select correctanswers from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+                    if (rs.next()) {
+                        answersData = rs.getString(1);
+                        if (answersData == null) {
+                            answersData = "";
+                        }
+                    }
+                    if (!answersData.contains(temp[1])) {
+                        answersData = answersData + "," + temp[1];
+                        stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set correctanswers=\"" + answersData + "\" where testid=\"" + currentTestID + "\";");
+                    }
+                } else {
+                    rs = stmt.executeQuery("select wronganswers from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+                    if (rs.next()) {
+                        answersData = rs.getString(1);
+                        if (answersData == null) {
+                            answersData = "";
+                        }
+                    }
+                    System.out.println(answersData + temp[1]);
+                    if (!answersData.contains(temp[1])) {
+                        answersData = answersData + "," + temp[1];
+                        stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set wronganswers=\"" + answersData + "\" where testid=\"" + currentTestID + "\";");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            showSQLException("Error occured while updating answer");
+            ex.printStackTrace();
+        }
+    }
+
+    private void initiateTest(String testid) {
+        ResultSet rs;
+        String separator = "==InternalSeparator==";
+        try {
+            rs = stmt.executeQuery("select * from testquestions_" + testid + ";");
+            while (rs.next()) {
+                questionList.add(Integer.toString(rs.getInt("sno")) + separator + rs.getString("question") + separator + rs.getString("answer") + separator + Integer.toString(rs.getInt("reserve")));
+            }
+            Collections.shuffle(questionList);
+            int i = 1;
+            for (String temp : questionList) {
+                temp = Integer.toString(i) + separator + temp;
+                questionListMod.add(temp);
+                i++;
+            }
+            questionList.get(0);
+            curQuesInd = 0;
+            setNextQuestion(curQuesInd);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Error occured whilie initiating test");
+        }
+    }
+
+    private void setNextQuestion(int i) {
+        System.out.println(i);
+        String separator = "==InternalSeparator==";
+        String questionLine = questionListMod.get(i);
+        String[] tempTokens = questionLine.split(separator);
+        jTextArea1.setText(tempTokens[2]);
+        jTextField13.setText(tempTokens[0]);
+
+    }
 
     private void logActivity(String username, String event) {
         java.util.Date datetime = new java.util.Date();
