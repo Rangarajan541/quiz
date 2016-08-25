@@ -2231,7 +2231,7 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(studentPanelPage, "You've already taken this test.", "Access Denied", JOptionPane.ERROR_MESSAGE);
             } else {
                 int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
-                System.out.println(answer);
+                //System.out.println(answer);
                 if (answer == 0) {
                     stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
                     studentPanelPage.dispose();
@@ -2355,7 +2355,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         } catch (SQLException ex) {
             try {
-                System.out.println("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + "  varchar(1);");
+                //System.out.println("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + "  varchar(1);");
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
                 updateAnswer(answer);
                 return;
@@ -2399,7 +2399,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void setNextQuestion(int i) {
-        System.out.println(i);
+       // System.out.println(i);
         String separator = "==InternalSeparator==";
         String questionLine = questionListMod.get(i);
         String[] tempTokens = questionLine.split(separator);
