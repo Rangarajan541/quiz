@@ -46,29 +46,31 @@ public class ClassTest extends javax.swing.JFrame {
         WindowAdapter onCloseListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                logout();
-                System.exit(0);
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? You will be automatically logged out.", "Exit confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    logout();
+                    System.exit(0);
+                }
             }
         };
         WindowAdapter abortTestListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int result=JOptionPane.showConfirmDialog(studentQuestionPage,"Are you sure you want to abort test? You will not be able to re-take this test.","Abort confirmation",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-                if (result==JOptionPane.YES_OPTION){
-                    try{
-                        stmt.executeUpdate("update studenthistorydatabase_"+loginName+" set aborted=1 where testid=\""+currentTestID+"\";");
+                int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to abort test? You will not be able to re-take this test.", "Abort confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    try {
+                        stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set aborted=1 where testid=\"" + currentTestID + "\";");
                         studentQuestionPage.dispose();
                         updateStudentTestList();
                         studentPanelPage.setVisible(true);
-                    }
-                    catch (SQLException ex){
+                    } catch (SQLException ex) {
                         ex.printStackTrace();
                         showSQLException("Error occured while aborting");
                     }
                 }
             }
         };
-        
+
         MouseListener wakeUpListenerMouse = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -152,12 +154,14 @@ public class ClassTest extends javax.swing.JFrame {
         studentPanelPage.setResizable(false);
         studentPanelPage.setLocationRelativeTo(null);
         studentPanelPage.addWindowListener(onCloseListener);
+        studentPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         studentQuestionPage.setTitle("Online Test In Progress - Do not close");
         studentQuestionPage.setSize(771, 656);
         studentQuestionPage.setResizable(false);
         studentQuestionPage.setLocationRelativeTo(null);
         studentQuestionPage.addWindowListener(abortTestListener);
+        studentQuestionPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     }
 
@@ -1116,7 +1120,7 @@ public class ClassTest extends javax.swing.JFrame {
         studentQuestionPageLayout.setHorizontalGroup(
             studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1128,7 +1132,7 @@ public class ClassTest extends javax.swing.JFrame {
                             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                                 .addGap(31, 31, 31)
                                 .addComponent(jRadioButton2)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(521, 521, 521))
                             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1138,7 +1142,7 @@ public class ClassTest extends javax.swing.JFrame {
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45))))
+                                .addGap(13, 13, 13))))
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1164,7 +1168,7 @@ public class ClassTest extends javax.swing.JFrame {
                                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1172,13 +1176,13 @@ public class ClassTest extends javax.swing.JFrame {
                                     .addComponent(jLabel46)
                                     .addComponent(jTextField2)
                                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addContainerGap(32, Short.MAX_VALUE))
+                                    .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel48)
-                                .addGap(117, 117, 117))))))
+                                .addGap(85, 85, 85)))))
+                .addGap(23, 23, 23))
         );
         studentQuestionPageLayout.setVerticalGroup(
             studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1228,11 +1232,12 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(29, 29, 29))
         );
 
@@ -2374,7 +2379,9 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
         // TODO add your handling code here:
         DefaultListModel flaggedListModel = (DefaultListModel) jList2.getModel();
-        if(flaggedListModel.removeElement("Question " + Integer.toString(curQuesInd + 1)))totalFlagged--;;
+        if (flaggedListModel.removeElement("Question " + Integer.toString(curQuesInd + 1))) {
+            totalFlagged--;
+        };
         jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton26ActionPerformed
 
