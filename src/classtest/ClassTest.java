@@ -178,7 +178,7 @@ public class ClassTest extends javax.swing.JFrame {
         studentFinishTestPage.setLocationRelativeTo(null);
         studentFinishTestPage.addWindowListener(resultsCloseListener);
         studentFinishTestPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         studentPreviousResultsPage.setTitle("Previous Test Results");
         studentPreviousResultsPage.setSize(438, 363);
         studentPreviousResultsPage.setResizable(false);
@@ -1392,9 +1392,9 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jRadioButton2)
                 .addGap(80, 80, 80)
                 .addComponent(jRadioButton3)
-                .addGap(78, 78, 78)
+                .addGap(39, 39, 39)
                 .addComponent(jRadioButton4)
-                .addGap(22, 22, 22))
+                .addGap(61, 61, 61))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2269,19 +2269,19 @@ public class ClassTest extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jRadioButton6ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+
         if (jComboBox2.getSelectedIndex() == 0) {
             studentRegisterPage.setVisible(true);
         } else if (jComboBox2.getSelectedIndex() == 1) {
@@ -2291,7 +2291,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+
         loginPage.setVisible(true);
         redirectPage.dispose();
         if (jComboBox2.getSelectedIndex() == 0) {
@@ -2302,91 +2302,91 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
+
         redirectPage.setVisible(true);
         studentRegisterPage.dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
+
         redirectPage.setVisible(true);
         teacherRegisterPage.dispose();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
+
         redirectPage.setVisible(true);
         loginPage.dispose();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        // TODO add your handling code here:
+
         studentPreviousResultsPage.dispose();
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem26ActionPerformed
 
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem29ActionPerformed
 
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem32ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // TODO add your handling code here:
+
         System.exit(0);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
+
         System.exit(0);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        // TODO add your handling code here:
+
         System.exit(0);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
-        // TODO add your handling code here:
+
         studentPanelPage.setVisible(true);
         studentFinishTestPage.dispose();
     }//GEN-LAST:event_jMenuItem35ActionPerformed
 
     private void jMenuItem36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem36ActionPerformed
-        // TODO add your handling code here:
+
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem36ActionPerformed
 
     private void jMenuItem37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem37ActionPerformed
-        // TODO add your handling code here:
+
         logout();
     }//GEN-LAST:event_jMenuItem37ActionPerformed
     private boolean validateRegName(String a, int type) {
@@ -2457,10 +2457,8 @@ public class ClassTest extends javax.swing.JFrame {
         }
         if (regNameCorrect && passwordCorrect) {
             try {
-                /*System.out.println("create database studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), correctanswers varchar(2500), wronganswers varchar(2500), datetaken timestamp);");
-                 System.exit(0);*/
                 stmt.executeUpdate("insert into student_auth values(\"" + regName + "\",\"" + big + "\",0);");
-                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), correctanswers varchar(2500), wronganswers varchar(2500), aborted int(1), datetaken timestamp);");
+                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), aborted int(1), datetaken timestamp);");
                 JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 logActivity(regName, "student registered");
                 studentRegisterPage.dispose();
@@ -2476,7 +2474,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+
         String regName = jTextField5.getText().trim();
         char[] password = jPasswordField4.getPassword();
         char[] passwordConfirm = jPasswordField5.getPassword();
@@ -2505,7 +2503,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
         ResultSet rs;
         loginName = jTextField1.getText().trim();
         char[] loginPassword = jPasswordField1.getPassword();
@@ -2582,22 +2580,22 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
         updateStudentTestList();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+
         updateStudentTestList();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        // TODO add your handling code here:
+
         logout();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+
         ResultSet rs;
         totalQuestions = 0;
         int marks = 0;
@@ -2609,7 +2607,7 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(studentPanelPage, "You've already taken this test.", "Access Denied", JOptionPane.ERROR_MESSAGE);
             } else {
                 int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
-                //System.out.println(answer);
+
                 if (answer == 0) {
                     stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
                     studentPanelPage.dispose();
@@ -2703,22 +2701,22 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        // TODO add your handling code here:
+
         abortTest();
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-        // TODO add your handling code here:
+
         abortTest();
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        // TODO add your handling code here:
+
         abortTest();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+
         if (Integer.parseInt(jTextField13.getText()) == 1) {
             JOptionPane.showMessageDialog(studentPanelPage, "You have no more questions before this one. \nYou can do any of the following: \n1) Answer Flagged questions (if any)\n2) Click Next.\n3) Click Finish Test.", "No Previous Questions", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -2754,7 +2752,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+
         if (Integer.parseInt(jTextField13.getText()) == Integer.parseInt(jTextField14.getText())) {
             JOptionPane.showMessageDialog(studentPanelPage, "You have no more questions left. \nYou can do any of the following: \n1) Answer Flagged questions (if any)\n2) See previous questions\n3) Click Finish test.", "Reached end of test", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -2765,27 +2763,27 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        // TODO add your handling code here:
+
         updateAnswer("d");
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        // TODO add your handling code here:
+
         updateAnswer("c");
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        // TODO add your handling code here:
+
         updateAnswer("b");
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
+
         updateAnswer("a");
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
-        // TODO add your handling code here:
+
         DefaultListModel flaggedListModel = (DefaultListModel) jList2.getModel();
         if (flaggedListModel.removeElement("Question " + Integer.toString(curQuesInd + 1))) {
             totalFlagged--;
@@ -2794,7 +2792,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+
         DefaultListModel flagListModel = (DefaultListModel) jList2.getModel();
         if (!flagListModel.contains("Question " + Integer.toString(curQuesInd + 1))) {
             flagListModel.addElement("Question " + Integer.toString(curQuesInd + 1));
@@ -2804,7 +2802,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTable8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable8MouseClicked
-        // TODO add your handling code here:
+
         if (evt.getClickCount() == 2) {
             String selLine = (String) (jTable8.getValueAt(jTable8.getSelectedRow(), 0));
             String selLineTokens[] = selLine.split(" ");
@@ -2814,7 +2812,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable8MouseClicked
 
     private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
-        // TODO add your handling code here:
+
         if (evt.getClickCount() == 2) {
             totalFlagged++;
             String selLine = (String) jList2.getSelectedValue();
@@ -2825,7 +2823,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jList2MouseClicked
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // TODO add your handling code here:
+
         int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to finish? You will not be able to re-take this test.", "Finish Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
             finishTest();
@@ -2833,21 +2831,21 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
-        // TODO add your handling code here:
+
         if (evt.getClickCount() == 2) {
             JOptionPane.showMessageDialog(studentFinishTestPage, jTable3.getValueAt(jTable3.getSelectedRow(), 0), "View Question", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jTable3MouseClicked
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        // TODO add your handling code here:
+
         studentFinishTestPage.dispose();
         studentPanelPage.setVisible(true);
         cleanUpAfterTest();
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        // TODO add your handling code here:
+
         ResultSet rs, rs2;
         DefaultTableModel prevResultsModel = (DefaultTableModel) jTable4.getModel();
         prevResultsModel.setRowCount(0);
@@ -2868,7 +2866,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        // TODO add your handling code here:
+
         studentPreviousResultsPage.dispose();
     }//GEN-LAST:event_jButton20ActionPerformed
     private void cleanUpAfterTest() {
@@ -2920,7 +2918,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         } catch (SQLException ex) {
             try {
-                //System.out.println("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + "  varchar(1);");
+
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
                 updateAnswer(answer);
                 return;
@@ -2971,7 +2969,6 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void setNextQuestion(int i) {
-        // System.out.println(i);
 
         String questionLine = questionListMod.get(i);
         String[] tempTokens = questionLine.split(separator);
@@ -3120,19 +3117,15 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+             if ("Nimbus".equals(info.getName())) {
+             javax.swing.UIManager.setLookAndFeel(info.getClassName());
+             break;
 
-                }
-            }
+             }
+             }*/
+            UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ClassTest.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
