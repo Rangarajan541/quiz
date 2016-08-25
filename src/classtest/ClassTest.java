@@ -22,11 +22,12 @@ public class ClassTest extends javax.swing.JFrame {
     private String currentTestID = null;
     private ArrayList<String> questionList = new ArrayList<String>();
     private ArrayList<String> questionListMod = new ArrayList<String>();
+    private ArrayList<Integer> answeredList = new ArrayList<Integer>();
     private Connection con;
     private Statement stmt, stmt2;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
     private String SUBJECT = null, loginName;
-    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0;
+    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0;
     private java.util.Timer wakeUpTimer;
     private java.util.TimerTask wakeUpTimerTask;
 
@@ -49,6 +50,25 @@ public class ClassTest extends javax.swing.JFrame {
                 System.exit(0);
             }
         };
+        WindowAdapter abortTestListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int result=JOptionPane.showConfirmDialog(studentQuestionPage,"Are you sure you want to abort test? You will not be able to re-take this test.","Abort confirmation",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                if (result==JOptionPane.YES_OPTION){
+                    try{
+                        stmt.executeUpdate("update studenthistorydatabase_"+loginName+" set aborted=1 where testid=\""+currentTestID+"\";");
+                        studentQuestionPage.dispose();
+                        updateStudentTestList();
+                        studentPanelPage.setVisible(true);
+                    }
+                    catch (SQLException ex){
+                        ex.printStackTrace();
+                        showSQLException("Error occured while aborting");
+                    }
+                }
+            }
+        };
+        
         MouseListener wakeUpListenerMouse = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -137,7 +157,7 @@ public class ClassTest extends javax.swing.JFrame {
         studentQuestionPage.setSize(771, 656);
         studentQuestionPage.setResizable(false);
         studentQuestionPage.setLocationRelativeTo(null);
-        studentQuestionPage.addWindowListener(onCloseListener);
+        studentQuestionPage.addWindowListener(abortTestListener);
 
     }
 
@@ -1013,6 +1033,13 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTextField14.setEditable(false);
 
+        jList2.setModel(new DefaultListModel());
+        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList2MouseClicked(evt);
+            }
+        });
         jScrollPane11.setViewportView(jList2);
 
         jLabel46.setText("Flagged (Double click to go to question)");
@@ -1113,7 +1140,7 @@ public class ClassTest extends javax.swing.JFrame {
                                 .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45))))
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                        .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(studentQuestionPageLayout.createSequentialGroup()
                                     .addComponent(jRadioButton3)
@@ -1122,32 +1149,32 @@ public class ClassTest extends javax.swing.JFrame {
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel38)
-                                    .addComponent(jLabel41)
-                                    .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                                        .addComponent(jLabel40)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel44)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(154, 154, 154)
+                                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel41, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, studentQuestionPageLayout.createSequentialGroup()
+                                            .addComponent(jLabel40)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLabel44)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel42)
-                                    .addComponent(jLabel39)
-                                    .addComponent(jLabel43))))
+                                    .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(studentQuestionPageLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel46)
-                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                        .addComponent(jLabel47, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jTextField2)
+                                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addContainerGap(32, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, studentQuestionPageLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                                 .addComponent(jLabel48)
@@ -1200,12 +1227,12 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jRadioButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4)
-                        .addComponent(jButton26)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton17)))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29))
         );
 
@@ -2236,7 +2263,7 @@ public class ClassTest extends javax.swing.JFrame {
                     stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
                     studentPanelPage.dispose();
                     currentTestID = testid;
-                    jLabel38.setText((String) jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+                    jLabel38.setText((String) jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
                     rs = stmt.executeQuery("select points from testlist where testid=\"" + testid + "\";");
                     if (rs.next()) {
                         marks = rs.getInt(1);
@@ -2280,25 +2307,48 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         if (Integer.parseInt(jTextField13.getText()) == 1) {
+            JOptionPane.showMessageDialog(studentPanelPage, "You have no more questions before this one. \nYou can do any of the following: \n1) Answer Flagged questions (if any)\n2) Click Next.\n3) Click Finish Test.", "No Previous Questions", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        System.out.println("PREV");
         curQuesInd--;
         setNextQuestion(curQuesInd);
+        updateQuestionProgress();
     }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+    private void updateQuestionProgress() {
+        ResultSet rs;
         jLabel41.setText("Total Answered: " + totalAnsweredQuestions);
         jLabel43.setText("Total Unanswered: " + Integer.toString(totalQuestions - totalAnsweredQuestions));
+
+        try {
+            rs = stmt.executeQuery("select question_" + getQuestionIndex(curQuesInd) + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+            if (rs.next()) {
+                String ans = rs.getString(1);
+                if (ans.equals("a")) {
+                    jRadioButton1.setSelected(true);
+                } else if (ans.equals("b")) {
+                    jRadioButton2.setSelected(true);
+                } else if (ans.equals("c")) {
+                    jRadioButton3.setSelected(true);
+                } else if (ans.equals("d")) {
+                    jRadioButton4.setSelected(true);
+                } else if (ans.equals("x")) {
+                    buttonGroup1.clearSelection();
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Error occured while checking if already answered to update radio");
+        }
+    }
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
         if (Integer.parseInt(jTextField13.getText()) == Integer.parseInt(jTextField14.getText())) {
             JOptionPane.showMessageDialog(studentPanelPage, "You have no more questions left. \nYou can do any of the following: \n1) Answer Flagged questions (if any)\n2) See previous questions\n3) Click Finish test.", "Reached end of test", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-
-        buttonGroup1.clearSelection();
         curQuesInd++;
         setNextQuestion(curQuesInd);
+        updateQuestionProgress();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
@@ -2313,7 +2363,7 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        //updateAnswer("b");
+        updateAnswer("b");
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -2323,12 +2373,19 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
         // TODO add your handling code here:
+        DefaultListModel flaggedListModel = (DefaultListModel) jList2.getModel();
+        if(flaggedListModel.removeElement("Question " + Integer.toString(curQuesInd + 1)))totalFlagged--;;
+        jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         DefaultListModel flagListModel = (DefaultListModel) jList2.getModel();
-        flagListModel.addElement("Question " + curQuesInd);
+        if (!flagListModel.contains("Question " + Integer.toString(curQuesInd + 1))) {
+            flagListModel.addElement("Question " + Integer.toString(curQuesInd + 1));
+            totalFlagged++;
+        }
+        jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTable8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable8MouseClicked
@@ -2336,13 +2393,38 @@ public class ClassTest extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             String selLine = (String) (jTable8.getValueAt(jTable8.getSelectedRow(), 0));
             String selLineTokens[] = selLine.split(" ");
-            curQuesInd = Integer.parseInt(selLineTokens[1])-1;
+            curQuesInd = Integer.parseInt(selLineTokens[1]) - 1;
             setNextQuestion(curQuesInd);
         }
     }//GEN-LAST:event_jTable8MouseClicked
+
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            totalFlagged++;
+            String selLine = (String) jList2.getSelectedValue();
+            String selLineTokens[] = selLine.split(" ");
+            curQuesInd = Integer.parseInt(selLineTokens[1]) - 1;
+            setNextQuestion(curQuesInd);
+        }
+    }//GEN-LAST:event_jList2MouseClicked
     private void updateAnswer(String answer) {
         ResultSet rs;
-        totalAnsweredQuestions++;
+        boolean alreadyAnswered = false;
+        try {
+            for (Integer x : answeredList) {
+                if (x == curQuesInd) {
+                    alreadyAnswered = true;
+                    break;
+                }
+            }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+        if (!alreadyAnswered) {
+            answeredList.add(curQuesInd);
+            totalAnsweredQuestions++;
+        }
         String separator = "==InternalSeparator==";
         String temp[] = null;
         try {
@@ -2365,6 +2447,13 @@ public class ClassTest extends javax.swing.JFrame {
             showSQLException("Error occured while updating answer");
             ex.printStackTrace();
         }
+    }
+
+    private int getQuestionIndex(int a) {
+        String separator = "==InternalSeparator==";
+        String questionLine = questionListMod.get(a);
+        String questionLineTokens[] = questionLine.split(separator);
+        return Integer.parseInt(questionLineTokens[1]);
     }
 
     private void initiateTest(String testid) {
@@ -2399,7 +2488,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void setNextQuestion(int i) {
-       // System.out.println(i);
+        // System.out.println(i);
         String separator = "==InternalSeparator==";
         String questionLine = questionListMod.get(i);
         String[] tempTokens = questionLine.split(separator);
