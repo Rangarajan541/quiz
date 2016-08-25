@@ -20,9 +20,9 @@ import javax.swing.table.DefaultTableModel;
 public class ClassTest extends javax.swing.JFrame {
 
     private String currentTestID = null;
-    private ArrayList<String> questionList = new ArrayList<String>();
-    private ArrayList<String> questionListMod = new ArrayList<String>();
-    private ArrayList<Integer> answeredList = new ArrayList<Integer>();
+    private ArrayList<String> questionList = new ArrayList<>();
+    private ArrayList<String> questionListMod = new ArrayList<>();
+    private ArrayList<Integer> answeredList = new ArrayList<>();
     private Connection con;
     private Statement stmt, stmt2;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
@@ -42,6 +42,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt = con.createStatement();
             stmt2 = con.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
+            showSQLException("Error occured while registering sql driver");
             ex.printStackTrace();
         }
 
@@ -65,18 +66,7 @@ public class ClassTest extends javax.swing.JFrame {
         WindowAdapter abortTestListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to abort test? You will not be able to re-take this test.", "Abort confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (result == JOptionPane.YES_OPTION) {
-                    try {
-                        stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set aborted=1 where testid=\"" + currentTestID + "\";");
-                        studentQuestionPage.dispose();
-                        updateStudentTestList();
-                        studentPanelPage.setVisible(true);
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                        showSQLException("Error occured while aborting");
-                    }
-                }
+                abortTest();
             }
         };
 
@@ -135,54 +125,54 @@ public class ClassTest extends javax.swing.JFrame {
             }
         };
         redirectPage.setTitle("Welcome");
-        redirectPage.setSize(436, 402);
+        redirectPage.pack();
         redirectPage.setResizable(false);
         redirectPage.setLocationRelativeTo(null);
         redirectPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         studentRegisterPage.setTitle("Student Registration");
-        studentRegisterPage.setSize(425, 348);
+        studentRegisterPage.pack();
         studentRegisterPage.setResizable(false);
         studentRegisterPage.setLocationRelativeTo(null);
         studentRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         teacherRegisterPage.setTitle("Teacher Registration");
-        teacherRegisterPage.setSize(401, 455);
+        teacherRegisterPage.pack();
         teacherRegisterPage.setResizable(false);
         teacherRegisterPage.setLocationRelativeTo(null);
         teacherRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         loginPage.setTitle("Login");
-        loginPage.setSize(352, 406);
         loginPage.setResizable(false);
+        loginPage.pack();
         loginPage.setLocationRelativeTo(null);
         loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         studentPanelPage.setTitle("Student Home");
-        studentPanelPage.setSize(617, 453);
         studentPanelPage.setResizable(false);
+        studentPanelPage.pack();
         studentPanelPage.setLocationRelativeTo(null);
         studentPanelPage.addWindowListener(onCloseListener);
         studentPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         studentQuestionPage.setTitle("Online Test In Progress - Do not close");
-        studentQuestionPage.setSize(799, 651);
         studentQuestionPage.setResizable(false);
+        studentQuestionPage.pack();
         studentQuestionPage.setLocationRelativeTo(null);
         studentQuestionPage.addWindowListener(abortTestListener);
         studentQuestionPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         studentFinishTestPage.setTitle("Test Results");
-        studentFinishTestPage.setSize(419, 556);
         studentFinishTestPage.setResizable(false);
+        studentFinishTestPage.pack();
         studentFinishTestPage.setLocationRelativeTo(null);
         studentFinishTestPage.addWindowListener(resultsCloseListener);
         studentFinishTestPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         studentPreviousResultsPage.setTitle("Previous Test Results");
-        studentPreviousResultsPage.setSize(438, 363);
         studentPreviousResultsPage.setResizable(false);
-        studentPreviousResultsPage.setLocationRelativeTo(null);
+        studentPreviousResultsPage.setLocationRelativeTo(studentPanelPage);
+        studentPreviousResultsPage.pack();
         studentPreviousResultsPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
@@ -193,7 +183,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         redirectPage = new javax.swing.JFrame();
         jPanel9 = new javax.swing.JPanel();
-        jLabel36 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -275,8 +265,8 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuBar6 = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         studentQuestionPage = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
         jTextField2 = new javax.swing.JTextField();
@@ -313,8 +303,8 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuBar7 = new javax.swing.JMenuBar();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem14 = new javax.swing.JMenuItem();
-        jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         studentFinishTestPage = new javax.swing.JFrame();
         jPanel7 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -332,8 +322,8 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuBar14 = new javax.swing.JMenuBar();
         jMenu14 = new javax.swing.JMenu();
         jMenuItem35 = new javax.swing.JMenuItem();
-        jMenuItem36 = new javax.swing.JMenuItem();
         jMenuItem37 = new javax.swing.JMenuItem();
+        jMenuItem36 = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
         teacherPanelPage = new javax.swing.JFrame();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -421,35 +411,39 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuItem33 = new javax.swing.JMenuItem();
         jMenuItem34 = new javax.swing.JMenuItem();
 
+        redirectPage.setSize(new java.awt.Dimension(434, 361));
+
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel36.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
-        jLabel36.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel36.setText("Test");
+        jLabel51.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
+        jLabel51.setForeground(new java.awt.Color(0, 110, 223));
+        jLabel51.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel51.setText("MAHATMA CBSE");
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel8.setText("Online");
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(220, 0, 0));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("ONLINE TEST SYSTEM");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(96, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -491,12 +485,12 @@ public class ClassTest extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
+                .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
@@ -998,9 +992,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(159, 159, 159))
+                    .addComponent(jButton3)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel34)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1136,11 +1128,21 @@ public class ClassTest extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem11);
 
-        jMenuItem12.setText("Exit");
-        jMenu6.add(jMenuItem12);
-
         jMenuItem13.setText("Sign Out");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem13);
+
+        jMenuItem12.setText("Exit");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem12);
 
         jMenuBar6.add(jMenu6);
 
@@ -1163,7 +1165,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        studentQuestionPage.setSize(new java.awt.Dimension(781, 598));
+        studentQuestionPage.setSize(new java.awt.Dimension(0, 0));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -1217,26 +1219,25 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField2)
-                            .addComponent(jLabel46)
-                            .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jLabel48)))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField2)
+                    .addComponent(jLabel46)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel48)
+                .addGap(82, 82, 82))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addContainerGap()
                 .addComponent(jLabel48)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel47)
@@ -1338,8 +1339,9 @@ public class ClassTest extends javax.swing.JFrame {
         });
 
         jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        jTextArea1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea1);
 
         buttonGroup1.add(jRadioButton1);
@@ -1385,49 +1387,51 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButton1)
-                .addGap(81, 81, 81)
-                .addComponent(jRadioButton2)
-                .addGap(80, 80, 80)
-                .addComponent(jRadioButton3)
-                .addGap(39, 39, 39)
-                .addComponent(jRadioButton4)
-                .addGap(61, 61, 61))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jRadioButton3)
+                        .addGap(86, 86, 86)
+                        .addComponent(jRadioButton4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jRadioButton1)
+                .addGap(78, 78, 78)
+                .addComponent(jRadioButton2)
+                .addGap(316, 316, 316))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton4)
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -1452,7 +1456,7 @@ public class ClassTest extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1466,14 +1470,6 @@ public class ClassTest extends javax.swing.JFrame {
         });
         jMenu7.add(jMenuItem14);
 
-        jMenuItem15.setText("Exit");
-        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem15ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem15);
-
         jMenuItem16.setText("Sign Out");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1481,6 +1477,14 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
         jMenu7.add(jMenuItem16);
+
+        jMenuItem15.setText("Exit");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem15);
 
         jMenuBar7.add(jMenu7);
 
@@ -1494,9 +1498,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(studentQuestionPageLayout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1567,12 +1569,9 @@ public class ClassTest extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addGap(161, 161, 161)
-                                        .addComponent(jLabel21))
-                                    .addComponent(jLabel24))
-                                .addGap(155, 155, 155))))
+                                .addGap(161, 161, 161)
+                                .addComponent(jLabel21))
+                            .addComponent(jLabel24)))
                     .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -1642,8 +1641,8 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1661,14 +1660,6 @@ public class ClassTest extends javax.swing.JFrame {
         });
         jMenu14.add(jMenuItem35);
 
-        jMenuItem36.setText("Exit");
-        jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem36ActionPerformed(evt);
-            }
-        });
-        jMenu14.add(jMenuItem36);
-
         jMenuItem37.setText("Sign Out");
         jMenuItem37.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1676,6 +1667,14 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
         jMenu14.add(jMenuItem37);
+
+        jMenuItem36.setText("Exit");
+        jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem36ActionPerformed(evt);
+            }
+        });
+        jMenu14.add(jMenuItem36);
 
         jMenuBar14.add(jMenu14);
 
@@ -2702,12 +2701,19 @@ public class ClassTest extends javax.swing.JFrame {
     }
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
 
-        abortTest();
+        if (!abortTest()) {
+            return;
+        }
+        logout();
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
 
-        abortTest();
+        if (!abortTest()) {
+            return;
+        }
+        logout();
+        System.exit(0);
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
@@ -2723,13 +2729,12 @@ public class ClassTest extends javax.swing.JFrame {
         }
         curQuesInd--;
         setNextQuestion(curQuesInd);
-        updateQuestionProgress();
+
     }//GEN-LAST:event_jButton5ActionPerformed
     private void updateQuestionProgress() {
         ResultSet rs;
         jLabel41.setText("Total Answered: " + totalAnsweredQuestions);
         jLabel43.setText("Total Unanswered: " + Integer.toString(totalQuestions - totalAnsweredQuestions));
-
         try {
             rs = stmt.executeQuery("select question_" + getQuestionIndex(curQuesInd) + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
             if (rs.next()) {
@@ -2759,7 +2764,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         curQuesInd++;
         setNextQuestion(curQuesInd);
-        updateQuestionProgress();
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
@@ -2869,6 +2874,16 @@ public class ClassTest extends javax.swing.JFrame {
 
         studentPreviousResultsPage.dispose();
     }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        // TODO add your handling code here:
+        logout();
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
     private void cleanUpAfterTest() {
         updateStudentTestList();
         testTimerTask.cancel();
@@ -2974,6 +2989,7 @@ public class ClassTest extends javax.swing.JFrame {
         String[] tempTokens = questionLine.split(separator);
         jTextArea1.setText(tempTokens[2]);
         jTextField13.setText(tempTokens[0]);
+        updateQuestionProgress();
 
     }
 
@@ -3070,8 +3086,21 @@ public class ClassTest extends javax.swing.JFrame {
         return false;
     }
 
-    private void abortTest() {
-
+    private boolean abortTest() {
+        int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to abort test? You will not be able to re-take this test.", "Abort confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set aborted=1 where testid=\"" + currentTestID + "\";");
+                studentQuestionPage.dispose();
+                cleanUpAfterTest();
+                studentPanelPage.setVisible(true);
+                return true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                showSQLException("Error occured while aborting");
+            }
+        }
+        return false;
     }
 
     private void showSQLException(String a) {
@@ -3212,7 +3241,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -3229,6 +3257,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
