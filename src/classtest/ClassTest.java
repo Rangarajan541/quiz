@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -32,12 +33,13 @@ public class ClassTest extends javax.swing.JFrame {
     private ArrayList<Integer> answeredList = new ArrayList<>();
     private Connection con;
     private Statement stmt, stmt2;
-    private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
+    private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0, totalCheatSeconds = 30, totalAllowedCheats = 5;
     private String SUBJECT = null, loginName;
-    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0;
+    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0;
     private java.util.Timer wakeUpTimer;
     private java.util.TimerTask wakeUpTimerTask;
     private java.util.TimerTask testTimerTask;
+    private java.util.TimerTask antiCheatTask;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false;
 
@@ -132,6 +134,19 @@ public class ClassTest extends javax.swing.JFrame {
                 resetWakeUpTimer();
             }
         };
+        WindowFocusListener antiCheatListener = new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                resetCheatMeasures();
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                preventCheating();
+            }
+
+        };
+
         redirectPage.setTitle("Welcome");
         redirectPage.pack();
         redirectPage.setLocationRelativeTo(null);
@@ -141,7 +156,6 @@ public class ClassTest extends javax.swing.JFrame {
         studentRegisterPage.setTitle("Student Registration");
         studentRegisterPage.pack();
         studentRegisterPage.setLocationRelativeTo(null);
-
         studentRegisterPage.setResizable(false);
         studentRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -169,6 +183,7 @@ public class ClassTest extends javax.swing.JFrame {
         studentQuestionPage.pack();
         studentQuestionPage.setLocationRelativeTo(null);
         studentQuestionPage.addWindowListener(abortTestListener);
+        studentQuestionPage.addWindowFocusListener(antiCheatListener);
         studentQuestionPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         studentFinishTestPage.setTitle("Test Results");
@@ -209,6 +224,12 @@ public class ClassTest extends javax.swing.JFrame {
         teacherQuestionPage.setLocationRelativeTo(teacherPanelPage);
         teacherQuestionPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        antiCheatFrame.setTitle("Anti Cheat System");
+        antiCheatFrame.setResizable(false);
+        antiCheatFrame.pack();
+        antiCheatFrame.setLocationRelativeTo(null);
+        antiCheatFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
         allWindowList.add(adminPage);
         allWindowList.add(adminResetPassPage);
         allWindowList.add(editQuestionBridge);
@@ -230,6 +251,44 @@ public class ClassTest extends javax.swing.JFrame {
             x.addFocusListener(wakeUpListenerFocus);
             x.addKeyListener(wakeUpListenerKey);
             x.addMouseListener(wakeUpListenerMouse);
+        }
+    }
+
+    private void resetCheatMeasures() {
+        try {
+            antiCheatTask.cancel();
+        } catch (NullPointerException ex) {
+
+        }
+        antiCheatFrame.dispose();
+        acSeconds = totalCheatSeconds;
+
+    }
+
+    private void preventCheating() {
+        if (acCount == (totalAllowedCheats)) {
+            antiCheatFrame.dispose();
+            antiCheatTask.cancel();
+            finishTest();
+            JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
+        } else {
+            acCount++;
+            antiCheatFrame.setVisible(true);
+            jTextArea4.setText("Please go back to test window or test will lock within:\n\n" + acSeconds + " Seconds.\n\nThis is warning " + acCount + " of " + totalAllowedCheats);
+            antiCheatTask = new java.util.TimerTask() {
+                public void run() {
+                    if (acSeconds == 1) {
+                        antiCheatFrame.dispose();
+                        antiCheatTask.cancel();
+                        finishTest();
+                        JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        acSeconds--;
+                        jTextArea4.setText("Please go back to test window or test will lock within:\n\n" + acSeconds + " Seconds.\n\nThis is warning " + acCount + " of " + totalAllowedCheats);
+                    }
+                }
+            };
+            wakeUpTimer.scheduleAtFixedRate(antiCheatTask, 1000, 1000);
         }
     }
 
@@ -359,6 +418,7 @@ public class ClassTest extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jButton4 = new javax.swing.JButton();
+        jLabel69 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton17 = new javax.swing.JButton();
         jMenuBar7 = new javax.swing.JMenuBar();
@@ -522,6 +582,11 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuItem34 = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        antiCheatFrame = new javax.swing.JFrame();
+        jPanel22 = new javax.swing.JPanel();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        jTextArea4 = new javax.swing.JTextArea();
+        jButton36 = new javax.swing.JButton();
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -1279,6 +1344,15 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        studentQuestionPage.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                studentQuestionPageFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                studentQuestionPageFocusLost(evt);
+            }
+        });
+
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField2.setEditable(false);
@@ -1495,6 +1569,8 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
+        jLabel69.setText("Warning: Keep mouse cursor within this window at all times and do not switch tabs.");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -1525,19 +1601,25 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel69)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel69)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton4)
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton26, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2889,6 +2971,67 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        antiCheatFrame.setTitle("Anti Cheat System");
+        antiCheatFrame.setAlwaysOnTop(true);
+
+        jPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jTextArea4.setEditable(false);
+        jTextArea4.setColumns(20);
+        jTextArea4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jTextArea4.setForeground(new java.awt.Color(255, 0, 0));
+        jTextArea4.setLineWrap(true);
+        jTextArea4.setRows(5);
+        jTextArea4.setWrapStyleWord(true);
+        jScrollPane14.setViewportView(jTextArea4);
+
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jButton36.setText("OK");
+        jButton36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton36ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout antiCheatFrameLayout = new javax.swing.GroupLayout(antiCheatFrame.getContentPane());
+        antiCheatFrame.getContentPane().setLayout(antiCheatFrameLayout);
+        antiCheatFrameLayout.setHorizontalGroup(
+            antiCheatFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(antiCheatFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(antiCheatFrameLayout.createSequentialGroup()
+                .addGap(202, 202, 202)
+                .addComponent(jButton36)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        antiCheatFrameLayout.setVerticalGroup(
+            antiCheatFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(antiCheatFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton36)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
         setEnabled(false);
@@ -3311,7 +3454,7 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             testTimerTask.cancel();
         } catch (NullPointerException ex) {
-
+            acCount = 0;
         }
         isTestInProgress = false;
         studentQuestionPage.dispose();
@@ -3561,6 +3704,10 @@ public class ClassTest extends javax.swing.JFrame {
             if (val == JFileChooser.APPROVE_OPTION) {
                 createTestFrame();
                 f = jFileChooser1.getSelectedFile();
+                if (!f.getCanonicalPath().endsWith(".txt")) {
+                    JOptionPane.showMessageDialog(teacherQuestionPage, "That file is not accepted. Please use only standard text (.txt) files.", "Invalid File", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } else {
                 return;
             }
@@ -3673,6 +3820,11 @@ public class ClassTest extends javax.swing.JFrame {
 
         ResultSet rs;
         String testid = jTextField15.getText().trim();
+        if (jTextField16.getText().trim().length() == 0 || jTextField17.getText().trim().length() == 0 || jTextField18.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(editQuestionPage, "Please fill all fields at the top", "Empty Details", JOptionPane.ERROR_MESSAGE);
+            return;
+
+        }
         try {
             stmt.executeUpdate("update testlist set description=\"" + jTextField16.getText().trim() + "\" where testid=\"" + testid + "\";");
             stmt.executeUpdate("update testlist set points=\"" + jTextField17.getText().trim() + "\" where testid=\"" + jTextField15.getText().trim() + "\";");
@@ -3852,8 +4004,22 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
 
-        JOptionPane.showMessageDialog(teacherQuestionPage, "If you have a standard text (.txt) file with the questions and answer separated in the following manner:\n\nQuestion;-;Answer\nQuestion;-;Answer\nQuestion;-;Answer\n\n, You can select it to automatically upload questions for this test.\n\nIt is important for each question to begin in a new line, and that the answer for the question is in the same line, separated by ;-;", "Using source files", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(teacherQuestionPage, "If you have a standard text (.txt) file with the questions and answer separated in the following manner:\n\nQuestion;-;Answer\nQuestion;-;Answer\nQuestion;-;Answer\n\nYou can select it to automatically upload questions for this test.\n\nIt is important for each question to begin in a new line, and that the answer for the question is in the same line, separated by ;-;\nAll Standard escape sequences like \\n \\t apply.", "Using source files", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton29ActionPerformed
+
+    private void studentQuestionPageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_studentQuestionPageFocusLost
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_studentQuestionPageFocusLost
+
+    private void studentQuestionPageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_studentQuestionPageFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_studentQuestionPageFocusGained
+
+    private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
+        // TODO add your handling code here:
+        antiCheatFrame.dispose();
+    }//GEN-LAST:event_jButton36ActionPerformed
     private String generateTestID() {
         ResultSet rs;
         String result = null;
@@ -4058,14 +4224,16 @@ public class ClassTest extends javax.swing.JFrame {
                 }
                 studentTestTableModel.addRow(new Object[]{testid, testName, statusRep, subject});
                 int pendingTotal = 0;
-                try {
-                    for (int i = 0; i < jTable1.getRowCount(); i++) {
-                        if (((String) jTable2.getValueAt(i, 2)).equals("Active")) {
+
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+                    try {
+                        if (((String) (jTable2.getValueAt(i, 2))).trim().equals("Active")) {
                             pendingTotal++;
                         }
-                    }
-                } catch (NullPointerException ex) {
 
+                    } catch (NullPointerException ex) {
+                        continue;
+                    }
                 }
                 jTextField12.setText(Integer.toString(pendingTotal));
             }
@@ -4246,6 +4414,7 @@ public class ClassTest extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame adminPage;
     private javax.swing.JFrame adminResetPassPage;
+    private javax.swing.JFrame antiCheatFrame;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JFrame editQuestionBridge;
@@ -4279,6 +4448,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton35;
+    private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -4356,6 +4526,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -4442,6 +4613,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -4473,6 +4645,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -4494,6 +4667,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
