@@ -41,7 +41,7 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask testTimerTask;
     private java.util.TimerTask antiCheatTask;
     private final String separator = "==InternalSeparator==";
-    private boolean isTestInProgress = false;
+    private boolean isTestInProgress = false, canCheat=true;
 
     public ClassTest() {
         initComponents();
@@ -591,11 +591,11 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel51.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(0, 110, 223));
+        jLabel51.setForeground(new java.awt.Color(0, 80, 223));
         jLabel51.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel51.setText("MAHATMA CBSE");
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(220, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("ONLINE TEST SYSTEM");
@@ -3454,8 +3454,9 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             testTimerTask.cancel();
         } catch (NullPointerException ex) {
-            acCount = 0;
+
         }
+        acCount = 0;
         isTestInProgress = false;
         studentQuestionPage.dispose();
         studentFinishTestPage.setVisible(true);
@@ -3563,9 +3564,11 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
-        if (Integer.parseInt(jTextField13.getText()) == Integer.parseInt(jTextField14.getText())) {
+        
+        if (Integer.parseInt(jTextField13.getText()) == Integer.parseInt(jTextField14.getText())) {            
+            canCheat=false;
             JOptionPane.showMessageDialog(studentPanelPage, "You have no more questions left. \nYou can do any of the following: \n1) Answer Flagged questions (if any)\n2) See previous questions\n3) Click Finish test.", "Reached end of test", JOptionPane.INFORMATION_MESSAGE);
+            canCheat=true;
             return;
         }
         curQuesInd++;
@@ -3917,7 +3920,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
         // TODO add your handling code here:
         DefaultTableModel editQuestionsModel = (DefaultTableModel) jTable9.getModel();
-        for (int i = 0; i < jTable9.getRowCount(); i++) {
+        for (int i = jTable9.getRowCount()-1; i >=0; i--) {
             if (jTable9.getValueAt(i, 0) == null) {
                 editQuestionsModel.removeRow(i);
             }
@@ -4227,7 +4230,8 @@ public class ClassTest extends javax.swing.JFrame {
 
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
                     try {
-                        if (((String) (jTable2.getValueAt(i, 2))).trim().equals("Active")) {
+                        String x = (String) jTable1.getValueAt(i, 2);
+                        if (x.equals("Active")) {
                             pendingTotal++;
                         }
 
