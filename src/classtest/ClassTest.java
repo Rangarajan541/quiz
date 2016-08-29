@@ -12,6 +12,7 @@ import java.awt.event.WindowFocusListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -543,9 +544,16 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel74 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
+        jTextField21 = new javax.swing.JTextField();
+        jTextField22 = new javax.swing.JTextField();
+        jTextField23 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField20 = new javax.swing.JTextField();
+        jLabel69 = new javax.swing.JLabel();
+        jTextField24 = new javax.swing.JTextField();
         jMenuBar10 = new javax.swing.JMenuBar();
         jMenu10 = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
@@ -2620,6 +2628,8 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGap(7, 7, 7))
         );
 
+        jPanel23.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -2639,6 +2649,8 @@ public class ClassTest extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable5.setToolTipText("");
+        jTable5.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane7.setViewportView(jTable5);
 
         jLabel72.setText("Class Average:");
@@ -2648,25 +2660,47 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel74.setText("Lowest score:");
 
         jButton7.setText("Save to printable csv file");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton22.setText("OK");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
+
+        jTextField21.setEditable(false);
+
+        jTextField22.setEditable(false);
+
+        jTextField23.setEditable(false);
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel23Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel72)
-                                    .addComponent(jLabel73)
-                                    .addComponent(jLabel74))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(jLabel73)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel23Layout.createSequentialGroup()
+                                .addComponent(jLabel72)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(100, 100, 100)
+                        .addComponent(jLabel74)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton22)
@@ -2680,15 +2714,20 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel72)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel72)
+                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel73)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel74)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton22, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel73)
+                    .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel74)
+                    .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2697,6 +2736,14 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel45.setText("Test ID:");
 
         jLabel71.setText("Test Description:");
+
+        jTextField3.setEditable(false);
+
+        jTextField20.setEditable(false);
+
+        jLabel69.setText("Test Subject:");
+
+        jTextField24.setEditable(false);
 
         jMenu10.setText("Nav");
 
@@ -2733,8 +2780,14 @@ public class ClassTest extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel45)
-                                    .addComponent(jLabel71))))
-                        .addGap(0, 11, Short.MAX_VALUE)))
+                                    .addComponent(jLabel71)
+                                    .addComponent(jLabel69))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField3)
+                                    .addComponent(jTextField20)
+                                    .addComponent(jTextField24))))
+                        .addGap(11, 11, 11)))
                 .addContainerGap())
         );
         teacherTestReportPageLayout.setVerticalGroup(
@@ -2743,12 +2796,20 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel45)
-                .addGap(14, 14, 14)
-                .addComponent(jLabel71)
+                .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel45)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel71)
+                    .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
+                .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel69)
+                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jLabel28.setText("Activity Log:");
@@ -3994,8 +4055,102 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
+        updateTestReport();
         teacherTestReportPage.setVisible(true);
+
     }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        // TODO add your handling code here:
+        teacherTestReportPage.dispose();
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        String defName = jTextField3.getText().trim() + "_" + jTextField20.getText().trim() + ".csv";
+        jFileChooser1.setSelectedFile(new File(defName));
+        int ans = jFileChooser1.showSaveDialog(teacherTestReportPage);
+        FileWriter fw = null;
+        if (ans == JFileChooser.APPROVE_OPTION) {
+            try {
+                File f = jFileChooser1.getSelectedFile();
+                System.out.println(f.getCanonicalPath());
+                if (!(f.getCanonicalPath().endsWith(".csv"))) {
+                    f = new File(f.getCanonicalPath() + ".csv");
+                }
+                fw = new FileWriter(f);
+                fw.write("Test Report" + System.getProperty("line.separator"));
+                fw.write("Test Subject," + jTextField24.getText().trim() + System.getProperty("line.separator"));
+                fw.write("Test Description," + jTextField20.getText().trim() + System.getProperty("line.separator"));
+                for (int i = 0; i < jTable5.getRowCount(); i++) {
+                    fw.write((String) jTable5.getValueAt(i, 0) + "," + Integer.toString((Integer) jTable5.getValueAt(i, 1)) + System.getProperty("line.separator"));
+                }
+                fw.write("Class Average," + jTextField21.getText() + System.getProperty("line.separator"));
+                fw.write("Highest Score," + jTextField22.getText() + System.getProperty("line.separator"));
+                fw.write("Lowest Score," + jTextField23.getText() + System.getProperty("line.separator"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                showSQLException("Error while saving file");
+            } finally {
+                try {
+                    fw.close();
+                } catch (NullPointerException e1) {
+
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                    showSQLException("IOException occured while closing FileWriter");
+                } catch (Exception e3) {
+                    e3.printStackTrace();
+                    showSQLException("Unknown Exception occured while closing FileWriter");
+                }
+            }
+        }
+
+    }//GEN-LAST:event_jButton7ActionPerformed
+    private void updateTestReport() {
+        ResultSet rs, rs2;
+        int totalMarks = 0;
+        String testid = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
+        String desc = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 1);
+        jTextField3.setText(testid);
+        jTextField20.setText(desc);
+        DefaultTableModel testReportModel = (DefaultTableModel) jTable5.getModel();
+        testReportModel.setRowCount(0);
+        try {
+            rs = stmt.executeQuery("select subject from teacher_auth where name=\"" + loginName + "\";");
+            if (rs.next()) {
+                jTextField24.setText(rs.getString(1));
+            }
+            rs = stmt.executeQuery("select name from student_auth;");
+            while (rs.next()) {
+                System.out.println("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
+                rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
+                if (rs2.next()) {
+                    testReportModel.addRow(new Object[]{rs.getString(1), rs2.getInt(1)});
+                    break;
+                }
+            }
+            int i = 0, highest = 0, lowest = 0;
+            for (i = 0; i < jTable5.getRowCount(); i++) {
+                int curMark = (Integer) jTable5.getValueAt(i, 1);
+                totalMarks += curMark;
+                if (curMark < lowest) {
+                    lowest = curMark;
+                }
+                if (curMark > highest) {
+                    highest = curMark;
+                }
+            }
+            jTextField21.setText(Double.toString(totalMarks / (i)));
+            jTextField22.setText(Integer.toString(lowest));
+            jTextField23.setText(Integer.toString(highest));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Error occured while updating test report");
+        }
+
+    }
+
     private String generateTestID() {
         ResultSet rs;
         String result = null;
@@ -4506,6 +4661,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
@@ -4654,6 +4810,12 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField20;
+    private javax.swing.JTextField jTextField21;
+    private javax.swing.JTextField jTextField22;
+    private javax.swing.JTextField jTextField23;
+    private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
