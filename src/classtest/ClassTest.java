@@ -237,7 +237,6 @@ public class ClassTest extends javax.swing.JFrame {
         allWindowList.add(editQuestionBridge);
         allWindowList.add(editQuestionPage);
         allWindowList.add(loginPage);
-        allWindowList.add(questionUploadPage);
         allWindowList.add(redirectPage);
         allWindowList.add(studentFinishTestPage);
         allWindowList.add(studentPanelPage);
@@ -248,7 +247,7 @@ public class ClassTest extends javax.swing.JFrame {
         allWindowList.add(teacherQuestionPage);
         allWindowList.add(teacherRegisterPage);
         allWindowList.add(teacherTestReportPage);
-        
+
         for (JFrame x : allWindowList) {
             x.addFocusListener(wakeUpListenerFocus);
             x.addKeyListener(wakeUpListenerKey);
@@ -259,6 +258,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void resetCheatMeasures() {
         try {
             antiCheatTask.cancel();
+            System.out.println("Cancelled");
         } catch (NullPointerException ex) {
 
         }
@@ -271,6 +271,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (acCount == (totalAllowedCheats)) {
             antiCheatFrame.dispose();
             antiCheatTask.cancel();
+            System.out.println("Cancelled");
             finishTest();
             JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -282,6 +283,7 @@ public class ClassTest extends javax.swing.JFrame {
                     if (acSeconds == 1) {
                         antiCheatFrame.dispose();
                         antiCheatTask.cancel();
+                        System.out.println("Cancelled");
                         finishTest();
                         JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
                     } else {
@@ -526,27 +528,19 @@ public class ClassTest extends javax.swing.JFrame {
         jTextArea3 = new javax.swing.JTextArea();
         jButton32 = new javax.swing.JButton();
         jLabel67 = new javax.swing.JLabel();
-        questionUploadPage = new javax.swing.JFrame();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jRadioButton7 = new javax.swing.JRadioButton();
-        jRadioButton8 = new javax.swing.JRadioButton();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
-        jButton22 = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jLabel45 = new javax.swing.JLabel();
-        jMenuBar9 = new javax.swing.JMenuBar();
-        jMenu9 = new javax.swing.JMenu();
-        jMenuItem20 = new javax.swing.JMenuItem();
-        jMenuItem21 = new javax.swing.JMenuItem();
-        jMenuItem22 = new javax.swing.JMenuItem();
         teacherTestReportPage = new javax.swing.JFrame();
+        jPanel23 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
+        jLabel72 = new javax.swing.JLabel();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jButton22 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
         jMenuBar10 = new javax.swing.JMenuBar();
         jMenu10 = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
@@ -1173,15 +1167,17 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel34)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel35)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton19)
+                        .addComponent(jLabel35)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -1393,6 +1389,7 @@ public class ClassTest extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable8.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable8MouseClicked(evt);
@@ -1690,7 +1687,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1793,6 +1790,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTextField7.setEditable(false);
         jTextField7.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jButton18.setText("OK");
         jButton18.addActionListener(new java.awt.event.ActionListener() {
@@ -1805,6 +1803,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTextField6.setEditable(false);
         jTextField6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1958,6 +1957,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
         jTable2.setToolTipText("");
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane4.setViewportView(jTable2);
 
         jButton12.setText("Lock Test");
@@ -2390,6 +2390,7 @@ public class ClassTest extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable9.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable9MouseClicked(evt);
@@ -2558,7 +2559,7 @@ public class ClassTest extends javax.swing.JFrame {
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane13)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel20Layout.setVerticalGroup(
@@ -2576,6 +2577,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
+        jLabel67.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel67.setText("TEST ID");
 
         javax.swing.GroupLayout editQuestionBridgeLayout = new javax.swing.GroupLayout(editQuestionBridge.getContentPane());
@@ -2590,12 +2592,11 @@ public class ClassTest extends javax.swing.JFrame {
                     .addGroup(editQuestionBridgeLayout.createSequentialGroup()
                         .addGap(261, 261, 261)
                         .addComponent(jButton32)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(editQuestionBridgeLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editQuestionBridgeLayout.createSequentialGroup()
-                .addGap(0, 231, Short.MAX_VALUE)
-                .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(222, 222, 222))
         );
         editQuestionBridgeLayout.setVerticalGroup(
             editQuestionBridgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2607,121 +2608,6 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton32)
                 .addGap(7, 7, 7))
-        );
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jTextArea2.setText("Enter Question here");
-        jTextArea2.setToolTipText("");
-        jTextArea2.setWrapStyleWord(true);
-        jScrollPane3.setViewportView(jTextArea2);
-
-        buttonGroup1.add(jRadioButton5);
-        jRadioButton5.setText("Option A");
-
-        buttonGroup1.add(jRadioButton6);
-        jRadioButton6.setText("Option B");
-        jRadioButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton6ActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jRadioButton7);
-        jRadioButton7.setText("Option C");
-
-        buttonGroup1.add(jRadioButton8);
-        jRadioButton8.setText("Option D");
-
-        jLabel7.setText("You are now creating question:");
-
-        jTextField3.setEditable(false);
-
-        jButton7.setText("Next");
-
-        jButton22.setText("Done");
-
-        jCheckBox1.setText("Make this a reserve Question");
-
-        jLabel45.setText("Choose correct Answer:");
-
-        jMenu9.setText("Nav");
-
-        jMenuItem20.setText("Back");
-        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem20ActionPerformed(evt);
-            }
-        });
-        jMenu9.add(jMenuItem20);
-
-        jMenuItem21.setText("Exit");
-        jMenu9.add(jMenuItem21);
-
-        jMenuItem22.setText("Sign Out");
-        jMenu9.add(jMenuItem22);
-
-        jMenuBar9.add(jMenu9);
-
-        questionUploadPage.setJMenuBar(jMenuBar9);
-
-        javax.swing.GroupLayout questionUploadPageLayout = new javax.swing.GroupLayout(questionUploadPage.getContentPane());
-        questionUploadPage.getContentPane().setLayout(questionUploadPageLayout);
-        questionUploadPageLayout.setHorizontalGroup(
-            questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(questionUploadPageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addGroup(questionUploadPageLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1))
-                    .addGroup(questionUploadPageLayout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton22))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, questionUploadPageLayout.createSequentialGroup()
-                        .addComponent(jRadioButton5)
-                        .addGap(41, 41, 41)
-                        .addComponent(jRadioButton6)
-                        .addGap(34, 34, 34)
-                        .addComponent(jRadioButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jRadioButton8))
-                    .addGroup(questionUploadPageLayout.createSequentialGroup()
-                        .addComponent(jLabel45)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        questionUploadPageLayout.setVerticalGroup(
-            questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, questionUploadPageLayout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
-                .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jLabel45)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton5)
-                    .addComponent(jRadioButton6)
-                    .addComponent(jRadioButton7)
-                    .addComponent(jRadioButton8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(questionUploadPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton22))
-                .addContainerGap())
         );
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
@@ -2744,6 +2630,65 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
         jScrollPane7.setViewportView(jTable5);
+
+        jLabel72.setText("Class Average:");
+
+        jLabel73.setText("Highest score:");
+
+        jLabel74.setText("Lowest score:");
+
+        jButton7.setText("Save to printable text file");
+
+        jButton22.setText("OK");
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel23Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel23Layout.createSequentialGroup()
+                                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel72)
+                                    .addComponent(jLabel73)
+                                    .addComponent(jLabel74))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton22)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton7)))
+                .addContainerGap())
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel72)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel73)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel74)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton22)))
+        );
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("TEST REPORT");
+
+        jLabel45.setText("Test ID:");
+
+        jLabel69.setText("Test Subject:");
+
+        jLabel71.setText("Test Description:");
 
         jMenu10.setText("Nav");
 
@@ -2769,17 +2714,36 @@ public class ClassTest extends javax.swing.JFrame {
         teacherTestReportPage.getContentPane().setLayout(teacherTestReportPageLayout);
         teacherTestReportPageLayout.setHorizontalGroup(
             teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, teacherTestReportPageLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(teacherTestReportPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(teacherTestReportPageLayout.createSequentialGroup()
+                        .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(teacherTestReportPageLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel69)
+                                    .addComponent(jLabel45)
+                                    .addComponent(jLabel71))))
+                        .addGap(0, 11, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         teacherTestReportPageLayout.setVerticalGroup(
             teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(teacherTestReportPageLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, teacherTestReportPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel69)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel71)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jLabel28.setText("Activity Log:");
@@ -3532,7 +3496,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
+        jLabel70.setText(null);
         if (Integer.parseInt(jTextField13.getText()) == 1) {
             jLabel70.setText("You have no more questions before this one");
             return;
@@ -3568,7 +3532,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        jLabel70.setText(null);
         if (Integer.parseInt(jTextField13.getText()) == Integer.parseInt(jTextField14.getText())) {
             canCheat = false;
             jLabel70.setText("You have no more questions left.\tClick Finish test.");
@@ -3601,7 +3565,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
-
+        jLabel70.setText("Question Unflagged");
         DefaultListModel flaggedListModel = (DefaultListModel) jList2.getModel();
         if (flaggedListModel.removeElement("Question " + Integer.toString(curQuesInd + 1))) {
             totalFlagged--;
@@ -3610,7 +3574,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-
+        jLabel70.setText("Question Flagged");
         DefaultListModel flagListModel = (DefaultListModel) jList2.getModel();
         if (!flagListModel.contains("Question " + Integer.toString(curQuesInd + 1))) {
             flagListModel.addElement("Question " + Integer.toString(curQuesInd + 1));
@@ -3641,12 +3605,12 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jList2MouseClicked
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        canCheat=false;
+        canCheat = false;
         int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to finish? You will not be able to re-take this test.", "Finish Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
             finishTest();
         }
-        canCheat=true;
+        canCheat = true;
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
@@ -3898,7 +3862,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton32ActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-        // TODO add your handling code here:
+
         DefaultTableModel editQuestionModel = (DefaultTableModel) jTable9.getModel();
         int ind = jTable9.getSelectedRow();
         if (ind == -1) {
@@ -3909,7 +3873,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        // TODO add your handling code here:
+
         if (jTable9.getSelectedRow() != -1) {
 
             int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Are you sure you want to delete Question " + Integer.toString(jTable9.getSelectedRow() + 1) + "? The only way to add it back would be to insert it again", "Delete Question Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -3923,7 +3887,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton34ActionPerformed
 
     private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
-        // TODO add your handling code here:
+
         DefaultTableModel editQuestionsModel = (DefaultTableModel) jTable9.getModel();
         for (int i = jTable9.getRowCount() - 1; i >= 0; i--) {
             if (jTable9.getValueAt(i, 0) == null) {
@@ -3933,23 +3897,23 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton35ActionPerformed
 
     private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
-        // TODO add your handling code here:
+
         updateTeacherTestList();
     }//GEN-LAST:event_jButton30ActionPerformed
 
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
-        // TODO add your handling code here:
+
         logout();
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
-        // TODO add your handling code here:
+
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        // TODO add your handling code here:
+
         int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Save Changes before closing?", "Close confirmation", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (ans == JOptionPane.YES_OPTION) {
             jButton31.doClick();
@@ -3961,7 +3925,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void jMenuItem38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem38ActionPerformed
-        // TODO add your handling code here:
+
         int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Changes will not be saved. Are you sure?", "Exit confirmation", JOptionPane.YES_NO_OPTION);
         if (ans == JOptionPane.YES_OPTION) {
             logout();
@@ -3969,7 +3933,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem38ActionPerformed
 
     private void jMenuItem39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem39ActionPerformed
-        // TODO add your handling code here:
+
         int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Changes will not be saved. Are you sure?", "Exit confirmation", JOptionPane.YES_NO_OPTION);
         if (ans == JOptionPane.YES_OPTION) {
             logout();
@@ -3977,14 +3941,6 @@ public class ClassTest extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jMenuItem39ActionPerformed
-
-    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-
-    }//GEN-LAST:event_jMenuItem20ActionPerformed
-
-    private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
-
-    }//GEN-LAST:event_jRadioButton6ActionPerformed
     private String createTestFrame() {
         String testid = generateTestID();
         ResultSet rs;
@@ -4016,17 +3972,19 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton29ActionPerformed
 
     private void studentQuestionPageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_studentQuestionPageFocusLost
-        // TODO add your handling code here:
+
 
     }//GEN-LAST:event_studentQuestionPageFocusLost
 
     private void studentQuestionPageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_studentQuestionPageFocusGained
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_studentQuestionPageFocusGained
 
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
-        // TODO add your handling code here:
+
         antiCheatFrame.dispose();
+        studentQuestionPage.setAlwaysOnTop(true);
+        studentQuestionPage.setAlwaysOnTop(false);
     }//GEN-LAST:event_jButton36ActionPerformed
     private String generateTestID() {
         ResultSet rs;
@@ -4097,6 +4055,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void updateAnswer(String answer) {
         ResultSet rs;
         boolean alreadyAnswered = false;
+
         jTable8.setValueAt("Yes", curQuesInd, 1);
         try {
             for (Integer x : answeredList) {
@@ -4119,7 +4078,7 @@ public class ClassTest extends javax.swing.JFrame {
             int dataIndex = Integer.parseInt(temp[1]);
             rs = stmt.executeQuery("select question_" + temp[1] + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
             stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set question_" + temp[1] + " = \"" + answer + "\" where testid=\"" + currentTestID + "\";");
-
+            jLabel70.setText("Answer saved");
         } catch (SQLException ex) {
             try {
 
@@ -4132,6 +4091,7 @@ public class ClassTest extends javax.swing.JFrame {
             showSQLException("Error occured while updating answer");
             ex.printStackTrace();
         }
+
     }
 
     private int getQuestionIndex(int a) {
@@ -4466,7 +4426,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
@@ -4537,8 +4496,13 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList2;
@@ -4556,7 +4520,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar10;
     private javax.swing.JMenuBar jMenuBar11;
@@ -4571,7 +4534,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar6;
     private javax.swing.JMenuBar jMenuBar7;
     private javax.swing.JMenuBar jMenuBar8;
-    private javax.swing.JMenuBar jMenuBar9;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
@@ -4584,9 +4546,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem20;
-    private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
@@ -4625,6 +4584,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -4646,10 +4606,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
@@ -4658,7 +4614,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
@@ -4676,7 +4631,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTable jTable8;
     private javax.swing.JTable jTable9;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextField jTextField1;
@@ -4691,7 +4645,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -4699,7 +4652,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JFrame loginPage;
-    private javax.swing.JFrame questionUploadPage;
     private javax.swing.JFrame redirectPage;
     private javax.swing.JFrame studentFinishTestPage;
     private javax.swing.JFrame studentPanelPage;
