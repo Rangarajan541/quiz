@@ -265,7 +265,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void resetCheatMeasures() {
         try {
             antiCheatTask.cancel();
-            System.out.println("Cancelled");
+
         } catch (NullPointerException ex) {
 
         }
@@ -278,7 +278,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (acCount == (totalAllowedCheats)) {
             antiCheatFrame.dispose();
             antiCheatTask.cancel();
-            System.out.println("Cancelled");
+
             finishTest();
             JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -290,7 +290,7 @@ public class ClassTest extends javax.swing.JFrame {
                     if (acSeconds == 1) {
                         antiCheatFrame.dispose();
                         antiCheatTask.cancel();
-                        System.out.println("Cancelled");
+
                         finishTest();
                         JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
                     } else {
@@ -4074,7 +4074,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (ans == JFileChooser.APPROVE_OPTION) {
             try {
                 File f = jFileChooser1.getSelectedFile();
-                System.out.println(f.getCanonicalPath());
+
                 if (!(f.getCanonicalPath().endsWith(".csv"))) {
                     f = new File(f.getCanonicalPath() + ".csv");
                 }
@@ -4123,7 +4123,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
             rs = stmt.executeQuery("select name from student_auth;");
             while (rs.next()) {
-                System.out.println("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
+
                 rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     testReportModel.addRow(new Object[]{rs.getString(1), rs2.getInt(1)});
@@ -4431,7 +4431,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void showSQLException(String a) {
-        System.out.println(a);
+
         logError(a);
     }
 
