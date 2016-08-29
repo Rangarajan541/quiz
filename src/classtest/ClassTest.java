@@ -557,8 +557,8 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuBar10 = new javax.swing.JMenuBar();
         jMenu10 = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
-        jMenuItem24 = new javax.swing.JMenuItem();
         jMenuItem25 = new javax.swing.JMenuItem();
+        jMenuItem24 = new javax.swing.JMenuItem();
         adminPage = new javax.swing.JFrame();
         jLabel28 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -2755,11 +2755,21 @@ public class ClassTest extends javax.swing.JFrame {
         });
         jMenu10.add(jMenuItem23);
 
-        jMenuItem24.setText("Exit");
-        jMenu10.add(jMenuItem24);
-
         jMenuItem25.setText("Sign Out");
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
         jMenu10.add(jMenuItem25);
+
+        jMenuItem24.setText("Exit");
+        jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem24ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem24);
 
         jMenuBar10.add(jMenu10);
 
@@ -3151,7 +3161,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
-
+        teacherTestReportPage.dispose();
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
@@ -4107,6 +4117,17 @@ public class ClassTest extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
+        // TODO add your handling code here:
+        logout();
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem24ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+            // TODO add your handling code here:
+        logout();
+    }//GEN-LAST:event_jMenuItem25ActionPerformed
     private void updateTestReport() {
         ResultSet rs, rs2;
         int totalMarks = 0;
