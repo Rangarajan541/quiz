@@ -232,6 +232,12 @@ public class ClassTest extends javax.swing.JFrame {
         antiCheatFrame.setLocationRelativeTo(null);
         antiCheatFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
+        teacherTestReportPage.setTitle("Test Report");
+        teacherTestReportPage.setResizable(false);
+        teacherTestReportPage.pack();
+        teacherTestReportPage.setLocationRelativeTo(teacherPanelPage);
+        teacherTestReportPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         allWindowList.add(adminPage);
         allWindowList.add(adminResetPassPage);
         allWindowList.add(editQuestionBridge);
@@ -539,7 +545,6 @@ public class ClassTest extends javax.swing.JFrame {
         jButton22 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
-        jLabel69 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
         jMenuBar10 = new javax.swing.JMenuBar();
         jMenu10 = new javax.swing.JMenu();
@@ -1982,6 +1987,11 @@ public class ClassTest extends javax.swing.JFrame {
         });
 
         jButton16.setText("Report");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
 
         jButton23.setText("System Admin ");
 
@@ -2637,7 +2647,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel74.setText("Lowest score:");
 
-        jButton7.setText("Save to printable text file");
+        jButton7.setText("Save to printable csv file");
 
         jButton22.setText("OK");
 
@@ -2675,18 +2685,16 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jLabel73)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel74)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton22)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton22, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("TEST REPORT");
 
         jLabel45.setText("Test ID:");
-
-        jLabel69.setText("Test Subject:");
 
         jLabel71.setText("Test Description:");
 
@@ -2724,7 +2732,6 @@ public class ClassTest extends javax.swing.JFrame {
                             .addGroup(teacherTestReportPageLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel69)
                                     .addComponent(jLabel45)
                                     .addComponent(jLabel71))))
                         .addGap(0, 11, Short.MAX_VALUE)))
@@ -2737,13 +2744,11 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel45)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel69)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(14, 14, 14)
                 .addComponent(jLabel71)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
 
         jLabel28.setText("Activity Log:");
@@ -3986,6 +3991,11 @@ public class ClassTest extends javax.swing.JFrame {
         studentQuestionPage.setAlwaysOnTop(true);
         studentQuestionPage.setAlwaysOnTop(false);
     }//GEN-LAST:event_jButton36ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // TODO add your handling code here:
+        teacherTestReportPage.setVisible(true);
+    }//GEN-LAST:event_jButton16ActionPerformed
     private String generateTestID() {
         ResultSet rs;
         String result = null;
@@ -4496,7 +4506,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
