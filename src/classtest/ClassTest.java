@@ -245,6 +245,12 @@ public class ClassTest extends javax.swing.JFrame {
         logPage.setLocationRelativeTo(teacherPanelPage);
         logPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        adminPage.setTitle("Administrator settings");
+        adminPage.setResizable(false);
+        adminPage.pack();
+        adminPage.setLocationRelativeTo(teacherPanelPage);
+        adminPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         allWindowList.add(logPage);
         allWindowList.add(adminPage);
         allWindowList.add(editQuestionBridge);
@@ -4405,6 +4411,7 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
         // TODO add your handling code here:
+        updateSearchList();
         updatePendingList();
         adminPage.setVisible(true);
     }//GEN-LAST:event_jButton39ActionPerformed
@@ -4416,6 +4423,10 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton42ActionPerformed
         // TODO add your handling code here:
+        if (jTable11.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(adminPage, "You need to selecte a user", "No User selected", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
         try {
             stmt.executeUpdate("update teacher_auth set status=1 where name=\"" + name + "\"");
@@ -4441,11 +4452,9 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             BigInteger finalPass = validatePassword(jPasswordField6.getPassword(), jPasswordField7.getPassword(), true);
             if (finalPass != null) {
-                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase();
-                stmt.executeUpdate("update " + type + "_auth set password=\"" + type + "\" where name=\"" + name + "\"");
+                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
+                stmt.executeUpdate("update " + type + "_auth set password=\"" + finalPass + "\" where name=\"" + name + "\"");
                 JOptionPane.showMessageDialog(adminPage, "Password reset successfully", "Action successful", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(adminPage, "Your passwords do not match", "Action insuccessful", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -4457,13 +4466,17 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
         // TODO add your handling code here:
         ResultSet rs;
+        if (jTable7.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String name = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
-        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete \nUser " + name + " ?", "Confirm Deletion", JOptionPane.QUESTION_MESSAGE);
+        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete \nUser " + name + " ?", "Confirm Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
         if (ans == JOptionPane.YES_OPTION) {
             try {
 
-                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase();
+                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
                 if (type.equals("teacher")) {
                     stmt.executeUpdate("delete from teacher_auth where name =\"" + name + "\";");
                 } else if (type.equals("student")) {
@@ -4476,6 +4489,7 @@ public class ClassTest extends javax.swing.JFrame {
                 showSQLException("Error occured while deleting user");
             }
         }
+        updateSearchList();
     }//GEN-LAST:event_jButton41ActionPerformed
 
     private void jButton45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton45ActionPerformed
@@ -4485,6 +4499,10 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton43ActionPerformed
         // TODO add your handling code here:
+        if (jTable11.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(adminPage, "You need to selecte a user", "No User selected", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
         try {
             stmt.executeUpdate("delete from teacher_auth where name=\"" + name + "\"");
