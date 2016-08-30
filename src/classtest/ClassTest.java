@@ -3519,14 +3519,18 @@ public class ClassTest extends javax.swing.JFrame {
             passwordsMatch = true;
         }
         if (passwordsMatch) {
-            MessageDigest digest;
-            try {
-                digest = MessageDigest.getInstance("SHA-256");
-                byte[] hash = digest.digest(new String(a).getBytes(StandardCharsets.UTF_8));
-                big = new BigInteger(1, hash);
-                return big;
-            } catch (NoSuchAlgorithmException ex) {
-                showSQLException("Problem importing Java Security libraries. SHA256 NOT FOUND.");
+            if (a.length >= 8) {
+                MessageDigest digest;
+                try {
+                    digest = MessageDigest.getInstance("SHA-256");
+                    byte[] hash = digest.digest(new String(a).getBytes(StandardCharsets.UTF_8));
+                    big = new BigInteger(1, hash);
+                    return big;
+                } catch (NoSuchAlgorithmException ex) {
+                    showSQLException("Problem importing Java Security libraries. SHA256 NOT FOUND.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Your password must be at least 8 characters long.", "Password too short", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Your passwords do not match.", "Password mismatch", JOptionPane.ERROR_MESSAGE);
@@ -4524,12 +4528,14 @@ public class ClassTest extends javax.swing.JFrame {
             return;
         }
         int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete this application?", "Confirm delete action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
-        try {
-            stmt.executeUpdate("delete from teacher_auth where name=\"" + name + "\"");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            showSQLException("Error while deleting teacher");
+        if (ans == JOptionPane.YES_OPTION) {
+            String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
+            try {
+                stmt.executeUpdate("delete from teacher_auth where name=\"" + name + "\"");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                showSQLException("Error while deleting teacher");
+            }
         }
         updatePendingList();
     }//GEN-LAST:event_jButton43ActionPerformed
