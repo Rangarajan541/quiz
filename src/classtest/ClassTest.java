@@ -614,8 +614,8 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuBar13 = new javax.swing.JMenuBar();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem32 = new javax.swing.JMenuItem();
-        jMenuItem33 = new javax.swing.JMenuItem();
         jMenuItem34 = new javax.swing.JMenuItem();
+        jMenuItem33 = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         antiCheatFrame = new javax.swing.JFrame();
@@ -3220,6 +3220,11 @@ public class ClassTest extends javax.swing.JFrame {
         );
 
         jButton25.setText("OK");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
 
         jMenu13.setText("Nav");
 
@@ -3231,11 +3236,21 @@ public class ClassTest extends javax.swing.JFrame {
         });
         jMenu13.add(jMenuItem32);
 
-        jMenuItem33.setText("Exit");
-        jMenu13.add(jMenuItem33);
-
         jMenuItem34.setText("Sign Out");
+        jMenuItem34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem34ActionPerformed(evt);
+            }
+        });
         jMenu13.add(jMenuItem34);
+
+        jMenuItem33.setText("Exit");
+        jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem33ActionPerformed(evt);
+            }
+        });
+        jMenu13.add(jMenuItem33);
 
         jMenuBar13.add(jMenu13);
 
@@ -3423,7 +3438,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem29ActionPerformed
 
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
-
+        adminPage.dispose();
     }//GEN-LAST:event_jMenuItem32ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -4314,14 +4329,14 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
+
         updateTestReport();
         teacherTestReportPage.setVisible(true);
 
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        // TODO add your handling code here:
+
         teacherTestReportPage.dispose();
     }//GEN-LAST:event_jButton22ActionPerformed
 
@@ -4369,24 +4384,24 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-        // TODO add your handling code here:
+
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem24ActionPerformed
 
     private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
-        // TODO add your handling code here:
+
         logout();
     }//GEN-LAST:event_jMenuItem25ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        // TODO add your handling code here:
+
         updateLogs();
         logPage.setVisible(true);
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        // TODO add your handling code here:
+
         try {
             stmt.executeUpdate("delete from activitylog");
         } catch (SQLException ex) {
@@ -4399,7 +4414,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
-        // TODO add your handling code here:
+
         try {
             stmt.executeUpdate("delete from errorlog");
         } catch (SQLException ex) {
@@ -4410,40 +4425,43 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton37ActionPerformed
 
     private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
-        // TODO add your handling code here:
+
         updateSearchList();
         updatePendingList();
         adminPage.setVisible(true);
     }//GEN-LAST:event_jButton39ActionPerformed
 
     private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
-        // TODO add your handling code here:
+
         logPage.dispose();
     }//GEN-LAST:event_jButton40ActionPerformed
 
     private void jButton42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton42ActionPerformed
-        // TODO add your handling code here:
+
         if (jTable11.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(adminPage, "You need to selecte a user", "No User selected", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
             return;
         }
         String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
-        try {
-            stmt.executeUpdate("update teacher_auth set status=1 where name=\"" + name + "\"");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            showSQLException("Error while approving teacher");
+        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure that you want to grant teacher priveleges to " + name + "?\nWarning: User will be able to reset passwords and test settings. Caution advised.", "Confirm grant privileges", JOptionPane.WARNING_MESSAGE);
+        if (ans == JOptionPane.YES_OPTION) {
+            try {
+                stmt.executeUpdate("update teacher_auth set status=1 where name=\"" + name + "\"");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                showSQLException("Error while approving teacher");
+            }
         }
         updatePendingList();
     }//GEN-LAST:event_jButton42ActionPerformed
 
     private void jButton44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton44ActionPerformed
-        // TODO add your handling code here:
+
         updateSearchList();
     }//GEN-LAST:event_jButton44ActionPerformed
 
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
-        // TODO add your handling code here:
+
         if (jTable7.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(adminPage, "Please select a user", "No user selected", JOptionPane.ERROR_MESSAGE);
             return;
@@ -4460,11 +4478,13 @@ public class ClassTest extends javax.swing.JFrame {
             ex.printStackTrace();
             showSQLException("Error while resetting pass");
         }
+        jPasswordField6.setText(null);
+        jPasswordField7.setText(null);
 
     }//GEN-LAST:event_jButton38ActionPerformed
 
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
-        // TODO add your handling code here:
+
         ResultSet rs;
         if (jTable7.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
@@ -4493,16 +4513,17 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton41ActionPerformed
 
     private void jButton45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton45ActionPerformed
-        // TODO add your handling code here:
+
         updatePendingList();
     }//GEN-LAST:event_jButton45ActionPerformed
 
     private void jButton43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton43ActionPerformed
-        // TODO add your handling code here:
+
         if (jTable11.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(adminPage, "You need to selecte a user", "No User selected", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete this application?", "Confirm delete action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
         try {
             stmt.executeUpdate("delete from teacher_auth where name=\"" + name + "\"");
@@ -4512,6 +4533,23 @@ public class ClassTest extends javax.swing.JFrame {
         }
         updatePendingList();
     }//GEN-LAST:event_jButton43ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+
+        adminPage.dispose();
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
+
+        logout();
+
+    }//GEN-LAST:event_jMenuItem34ActionPerformed
+
+    private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
+
+        logout();
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem33ActionPerformed
     private void updatePendingList() {
         ResultSet rs;
         try {
