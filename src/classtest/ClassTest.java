@@ -49,7 +49,7 @@ public class ClassTest extends javax.swing.JFrame {
         redirectPage.setVisible(true);
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "mysql");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "open");
             stmt = con.createStatement();
             stmt2 = con.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -4647,7 +4647,7 @@ public class ClassTest extends javax.swing.JFrame {
         DefaultTableModel testReportModel = (DefaultTableModel) jTable5.getModel();
         testReportModel.setRowCount(0);
         try {
-            rs = stmt.executeQuery("select subject from teacher_auth where name=\"" + loginName + "\";");
+            rs = stmt.executeQuery("select subject from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
                 jTextField24.setText(rs.getString(1));
             }
@@ -4657,23 +4657,19 @@ public class ClassTest extends javax.swing.JFrame {
                 rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     testReportModel.addRow(new Object[]{rs.getString(1), rs2.getInt(1)});
-                    break;
+                    continue;
                 }
             }
-            int i = 0, highest = 0, lowest = 0;
+            int i = 0, highest = 0, lowest = (Integer)jTable5.getValueAt(0,1);
             for (i = 0; i < jTable5.getRowCount(); i++) {
                 int curMark = (Integer) jTable5.getValueAt(i, 1);
                 totalMarks += curMark;
-                if (curMark < lowest) {
-                    lowest = curMark;
-                }
-                if (curMark > highest) {
-                    highest = curMark;
-                }
+                lowest = Math.min(lowest, curMark);
+                highest = Math.max(highest, curMark);
             }
             jTextField21.setText(Double.toString(totalMarks / (i)));
-            jTextField22.setText(Integer.toString(lowest));
-            jTextField23.setText(Integer.toString(highest));
+            jTextField23.setText(Integer.toString(lowest));
+            jTextField22.setText(Integer.toString(highest));
         } catch (SQLException ex) {
             ex.printStackTrace();
             showSQLException("Error occured while updating test report");
