@@ -36,7 +36,7 @@ public class ClassTest extends javax.swing.JFrame {
     private Statement stmt, stmt2;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0, totalCheatSeconds = 30, totalAllowedCheats = 5;
     private String SUBJECT = null, loginName;
-    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0;
+    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
     private java.util.Timer wakeUpTimer;
     private java.util.TimerTask wakeUpTimerTask;
     private java.util.TimerTask testTimerTask;
@@ -49,7 +49,7 @@ public class ClassTest extends javax.swing.JFrame {
         redirectPage.setVisible(true);
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "open");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "mysql");
             stmt = con.createStatement();
             stmt2 = con.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -311,6 +311,8 @@ public class ClassTest extends javax.swing.JFrame {
                     }
                 }
             };
+            issuedWarnings++;
+            logActivity(loginName, "Student issued cheat warnings.");
             wakeUpTimer.scheduleAtFixedRate(antiCheatTask, 1000, 1000);
         }
     }
@@ -457,6 +459,7 @@ public class ClassTest extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         jLabel49 = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
+        jLabel76 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
         jButton18 = new javax.swing.JButton();
@@ -1791,6 +1794,8 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel50.setText("Wrong Answers:");
 
+        jLabel76.setText("Issued cheat warnings:");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -1806,8 +1811,13 @@ public class ClassTest extends javax.swing.JFrame {
                                 .addGap(161, 161, 161)
                                 .addComponent(jLabel21))
                             .addComponent(jLabel24)))
-                    .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel76, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -1820,7 +1830,9 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel49)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel49)
+                    .addComponent(jLabel76))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jLabel50)
                 .addContainerGap())
@@ -3555,7 +3567,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (regNameCorrect && passwordCorrect) {
             try {
                 stmt.executeUpdate("insert into student_auth values(\"" + regName + "\",\"" + big + "\",0);");
-                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), aborted int(1), datetaken timestamp);");
+                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), aborted int(1), cheatwarnings int (2),datetaken timestamp);");
                 JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 logActivity(regName, "student registered");
                 studentRegisterPage.dispose();
@@ -3752,6 +3764,7 @@ public class ClassTest extends javax.swing.JFrame {
                     jTextField14.setText(Integer.toString(totalQuestions));
                     currentTestID = testid;
                     initiateTest(testid);
+                    issuedWarnings = 0;
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -3792,25 +3805,33 @@ public class ClassTest extends javax.swing.JFrame {
                 String xTokens[] = x.split(separator);
                 int index = Integer.parseInt(xTokens[0]);
                 String question = xTokens[1];
-                rs = stmt.executeQuery("select question_" + index + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
-                if (rs.next()) {
-                    String selectedAnswer = rs.getString(1);
-                    if (selectedAnswer.equals("x")) {
-                        selectedAnswer = "Not Attempted";
+                String selectedAnswer = "x";
+                try {
+                    rs = stmt.executeQuery("select question_" + index + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+                    if (rs.next()) {
+                        selectedAnswer = rs.getString(1);
                     }
-                    String correctAnswer = finalAnswersList.get(index - 1);
-                    resultsModel.addRow(new Object[]{question, correctAnswer, selectedAnswer});
-                    if (correctAnswer.equals(selectedAnswer)) {
-                        correctAnswers++;
-                    } else {
-                        wrongAnswers++;
-                    }
+                } catch (SQLException ex) {
+                    selectedAnswer = "x";
                 }
+                if (selectedAnswer.equals("x")) {
+                    selectedAnswer = "Not Attempted";
+                }
+                String correctAnswer = finalAnswersList.get(index - 1);
+                resultsModel.addRow(new Object[]{question, correctAnswer, selectedAnswer});
+                if (correctAnswer.equals(selectedAnswer)) {
+                    correctAnswers++;
+                } else {
+                    wrongAnswers++;
+                }
+
             }
             jLabel49.setText("Correct Answers: " + correctAnswers);
             jLabel50.setText("Wrong Answers: " + wrongAnswers);
+            jLabel76.setText("Issued cheat warnings: " + issuedWarnings);
             jTextField6.setText(Integer.toString(correctAnswers * marks));
             stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set marksearned=" + Integer.toString(correctAnswers * marks) + " where testid=\"" + currentTestID + "\";");
+            stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set cheatwarnings=" + Integer.toString(issuedWarnings) + " where testid=\"" + currentTestID + "\";");
             logActivity(loginName, "User Finished Test");
             jTextField7.setText(Integer.toString(questionList.size() * marks));
         } catch (SQLException ex) {
@@ -5187,6 +5208,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList2;
