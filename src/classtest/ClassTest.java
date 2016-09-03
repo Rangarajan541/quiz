@@ -671,7 +671,6 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField11 = new javax.swing.JTextField();
         jTextField25 = new javax.swing.JTextField();
         jTextField26 = new javax.swing.JTextField();
-        jButton25 = new javax.swing.JButton();
         jButton47 = new javax.swing.JButton();
         jLabel80 = new javax.swing.JLabel();
         jMenuBar13 = new javax.swing.JMenuBar();
@@ -3322,8 +3321,6 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel79.setText("Specify wake up timer seconds:");
 
-        jButton25.setText("Back up database");
-
         jButton47.setText("SAVE");
         jButton47.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3352,7 +3349,6 @@ public class ClassTest extends javax.swing.JFrame {
                             .addComponent(jTextField11)
                             .addComponent(jTextField25)
                             .addComponent(jTextField26, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)))
-                    .addComponent(jButton25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -3376,8 +3372,6 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton47)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton25)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton23)
                 .addContainerGap())
         );
@@ -5515,7 +5509,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
-    private javax.swing.JButton jButton25;
     private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton27;
     private javax.swing.JButton jButton28;
