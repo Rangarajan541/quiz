@@ -526,7 +526,6 @@ public class ClassTest extends javax.swing.JFrame {
         teacherPanelPage = new javax.swing.JFrame();
         jPanel15 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        jButton15 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -541,6 +540,7 @@ public class ClassTest extends javax.swing.JFrame {
         jComboBox4 = new javax.swing.JComboBox();
         jButton30 = new javax.swing.JButton();
         jButton39 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
         jMenuBar8 = new javax.swing.JMenuBar();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem19 = new javax.swing.JMenuItem();
@@ -640,8 +640,6 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuBar12 = new javax.swing.JMenuBar();
         jMenu12 = new javax.swing.JMenu();
         jMenuItem29 = new javax.swing.JMenuItem();
-        jMenuItem30 = new javax.swing.JMenuItem();
-        jMenuItem31 = new javax.swing.JMenuItem();
         adminPage = new javax.swing.JFrame();
         jPanel25 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
@@ -703,6 +701,9 @@ public class ClassTest extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel83 = new javax.swing.JLabel();
         jTextField28 = new javax.swing.JTextField();
+        jMenuBar16 = new javax.swing.JMenuBar();
+        jMenu16 = new javax.swing.JMenu();
+        jMenuItem40 = new javax.swing.JMenuItem();
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -2032,34 +2033,21 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setText("Welcome,");
 
-        jButton15.setText("Create Test");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jButton15)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(jLabel20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(jButton15)
-                .addContainerGap())
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -2149,6 +2137,13 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
+        jButton15.setText("Create Test");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
@@ -2156,7 +2151,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4)
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2168,18 +2163,20 @@ public class ClassTest extends javax.swing.JFrame {
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27)
                             .addGroup(jPanel16Layout.createSequentialGroup()
+                                .addComponent(jButton15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton27)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton16))
-                            .addComponent(jLabel27))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton16)))
+                        .addGap(0, 288, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
@@ -2193,16 +2190,17 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jButton30))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton12)
                     .addComponent(jButton13)
                     .addComponent(jButton14)
                     .addComponent(jButton16)
-                    .addComponent(jButton27))
-                .addGap(18, 18, 18)
+                    .addComponent(jButton27)
+                    .addComponent(jButton15))
+                .addGap(13, 13, 13)
                 .addComponent(jLabel27)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton39)
                 .addContainerGap())
         );
@@ -2243,9 +2241,9 @@ public class ClassTest extends javax.swing.JFrame {
         teacherPanelPageLayout.setVerticalGroup(
             teacherPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(teacherPanelPageLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -3065,12 +3063,6 @@ public class ClassTest extends javax.swing.JFrame {
         });
         jMenu12.add(jMenuItem29);
 
-        jMenuItem30.setText("Exit");
-        jMenu12.add(jMenuItem30);
-
-        jMenuItem31.setText("Sign Out");
-        jMenu12.add(jMenuItem31);
-
         jMenuBar12.add(jMenu12);
 
         logPage.setJMenuBar(jMenuBar12);
@@ -3102,6 +3094,12 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel29.setText("Search for user:");
 
+        jTextField10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField10KeyPressed(evt);
+            }
+        });
+
         jTable7.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -3125,6 +3123,11 @@ public class ClassTest extends javax.swing.JFrame {
         jScrollPane9.setViewportView(jTable7);
 
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Teacher", "Student" }));
+        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox5ActionPerformed(evt);
+            }
+        });
 
         jPanel26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -3617,6 +3620,20 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
+        jMenu16.setText("Nav");
+
+        jMenuItem40.setText("Back");
+        jMenuItem40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem40ActionPerformed(evt);
+            }
+        });
+        jMenu16.add(jMenuItem40);
+
+        jMenuBar16.add(jMenu16);
+
+        userHistoryPage.setJMenuBar(jMenuBar16);
+
         javax.swing.GroupLayout userHistoryPageLayout = new javax.swing.GroupLayout(userHistoryPage.getContentPane());
         userHistoryPage.getContentPane().setLayout(userHistoryPageLayout);
         userHistoryPageLayout.setHorizontalGroup(
@@ -3728,7 +3745,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem26ActionPerformed
 
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
-
+        logPage.dispose();
     }//GEN-LAST:event_jMenuItem29ActionPerformed
 
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
@@ -4863,7 +4880,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton47ActionPerformed
 
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
-        // TODO add your handling code here:
+        
 
         if (jTable7.getSelectedRow() != -1) {
             if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
@@ -4879,7 +4896,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton46ActionPerformed
 
     private void jButton50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton50ActionPerformed
-        // TODO add your handling code here:
+        
         if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
             updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
         } else {
@@ -4888,7 +4905,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton50ActionPerformed
 
     private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
-        // TODO add your handling code here:
+        
         String name = jTextField28.getText().trim();
         if (jTable12.getSelectedRow() != -1) {
             String testid = (String) jTable12.getValueAt(jTable12.getSelectedRow(), 0);
@@ -4911,7 +4928,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton48ActionPerformed
 
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
-        // TODO add your handling code here:
+        
         try {
             stmt.executeUpdate("delete from activitylog where username=\"" + jTextField28.getText().trim() + "\";");
         } catch (SQLException ex) {
@@ -4921,6 +4938,21 @@ public class ClassTest extends javax.swing.JFrame {
             updateUserHistoryTable(jTextField28.getText().trim(), TYPE_TEACHER);
         }
     }//GEN-LAST:event_jButton49ActionPerformed
+
+    private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
+        
+        userHistoryPage.dispose();
+    }//GEN-LAST:event_jMenuItem40ActionPerformed
+
+    private void jTextField10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField10KeyPressed
+        
+        updateSearchList();
+    }//GEN-LAST:event_jTextField10KeyPressed
+
+    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+        
+        updateSearchList();
+    }//GEN-LAST:event_jComboBox5ActionPerformed
     private void updateUserHistoryTable(String name, int userType) {
         jTextField28.setText(name);
         String query = jTextField27.getText().trim();
@@ -5613,6 +5645,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu13;
     private javax.swing.JMenu jMenu14;
     private javax.swing.JMenu jMenu15;
+    private javax.swing.JMenu jMenu16;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -5627,6 +5660,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar13;
     private javax.swing.JMenuBar jMenuBar14;
     private javax.swing.JMenuBar jMenuBar15;
+    private javax.swing.JMenuBar jMenuBar16;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuBar jMenuBar4;
@@ -5654,8 +5688,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem30;
-    private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem32;
     private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem34;
@@ -5665,6 +5697,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem38;
     private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem40;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
