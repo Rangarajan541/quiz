@@ -4874,7 +4874,6 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton47ActionPerformed
 
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
-        
 
         if (jTable7.getSelectedRow() != -1) {
             if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
@@ -4890,7 +4889,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton46ActionPerformed
 
     private void jButton50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton50ActionPerformed
-        
+
         if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
             updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
         } else {
@@ -4899,7 +4898,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton50ActionPerformed
 
     private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
-        
+
         String name = jTextField28.getText().trim();
         if (jTable12.getSelectedRow() != -1) {
             String testid = (String) jTable12.getValueAt(jTable12.getSelectedRow(), 0);
@@ -4922,7 +4921,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton48ActionPerformed
 
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
-        
+
         try {
             stmt.executeUpdate("delete from activitylog where username=\"" + jTextField28.getText().trim() + "\";");
         } catch (SQLException ex) {
@@ -4934,17 +4933,17 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton49ActionPerformed
 
     private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
-        
+
         userHistoryPage.dispose();
     }//GEN-LAST:event_jMenuItem40ActionPerformed
 
     private void jTextField10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField10KeyPressed
-        
+
         updateSearchList();
     }//GEN-LAST:event_jTextField10KeyPressed
 
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        
+
         updateSearchList();
     }//GEN-LAST:event_jComboBox5ActionPerformed
     private void updateUserHistoryTable(String name, int userType) {
