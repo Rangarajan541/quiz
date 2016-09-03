@@ -3518,13 +3518,13 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable13.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Activity", "Time"
             }
         ));
         jScrollPane17.setViewportView(jTable13);
@@ -4837,32 +4837,53 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
         // TODO add your handling code here:
-        updateStudentHistoryTable((String)jTable7.getValueAt(jTable7.getSelectedRow(),0));
+
+        if (jTable7.getSelectedRow() != -1) {
+            if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
+                updateStudentHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
+            } else {
+                updateStudentHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
+            }
+            studentHistoryPage.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(adminPage, "You need to select a user.", "No user selected", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton46ActionPerformed
-    private void updateStudentHistoryTable(String studentName) {
+    private void updateStudentHistoryTable(String name, int userType) {
         String query = jTextField27.getText().trim();
         ResultSet rs;
         try {
-            DefaultTableModel studentHistoryModel = (DefaultTableModel) jTable12.getModel();
-            rs = stmt.executeQuery("select * from studenthistorydatabase_" + studentName + ";");
-            while (rs.next()) {
-                String testid = rs.getString(1);
-                int marksearned = rs.getInt(2);
-                int aborted = rs.getInt(3);
-                String abortedRep = "Not aborted";
-                switch (aborted) {
-                    case 1: {
-                        abortedRep = "Aborted";
+            if (userType == TYPE_STUDENT) {
+                DefaultTableModel studentHistoryModel = (DefaultTableModel) jTable12.getModel();
+                studentHistoryModel.setRowCount(0);
+                rs = stmt.executeQuery("select * from studenthistorydatabase_" + name + ";");
+                while (rs.next()) {
+                    String testid = rs.getString("testid");
+                    int marksearned = rs.getInt("marksearned");
+                    int aborted = rs.getInt("aborted");
+                    String abortedRep = "Not aborted";
+                    switch (aborted) {
+                        case 1: {
+                            abortedRep = "Aborted";
+                        }
+                        break;
+                        case 2: {
+                            abortedRep = "Inactive";
+                        }
+                        break;
                     }
-                    break;
-                    case 2: {
-                        abortedRep = "Inactive";
-                    }
-                    break;
+                    int cheats = rs.getInt("cheatwarnings");
+                    String date = rs.getString("datetaken");
+                    studentHistoryModel.addRow(new Object[]{testid, marksearned, abortedRep, cheats, date});
                 }
-                int cheats = rs.getInt(4);
-                String date = rs.getString(5);
-                studentHistoryModel.addRow(new Object[]{testid, marksearned, abortedRep, cheats, date});
+            }
+            DefaultTableModel userLogModel = (DefaultTableModel) jTable13.getModel();
+            userLogModel.setRowCount(0);
+            rs = stmt.executeQuery("select * from activitylog where username=\"" + name + "\";");
+            while (rs.next()) {
+                String activity = rs.getString("activity");
+                String time = rs.getString("time");
+                userLogModel.addRow(new Object[]{activity, time});
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
