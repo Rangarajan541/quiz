@@ -4038,7 +4038,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JFrame" name="studentHistoryPage">
+    <Container class="javax.swing.JFrame" name="userHistoryPage">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -4094,9 +4094,13 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel81" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jTextField27" min="-2" pref="460" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jButton50" pref="128" max="32767" attributes="0"/>
+                                      <Component id="jTextField27" min="-2" pref="266" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel83" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextField28" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jButton50" pref="156" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jSeparator2" max="32767" attributes="0"/>
                                   <Component id="jScrollPane17" alignment="0" max="32767" attributes="0"/>
@@ -4120,6 +4124,8 @@
                           <Component id="jLabel81" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField27" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton50" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel83" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField28" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane16" min="-2" pref="177" max="-2" attributes="0"/>
@@ -4194,11 +4200,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Enable retest"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton48ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton49">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Clear log for this user"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton49ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField27">
             </Component>
@@ -4206,8 +4218,21 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Search"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton50ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator2">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel83">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="by"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField28">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

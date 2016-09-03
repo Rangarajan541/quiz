@@ -253,11 +253,11 @@ public class ClassTest extends javax.swing.JFrame {
         adminPage.setLocationRelativeTo(teacherPanelPage);
         adminPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        studentHistoryPage.setTitle("Student history");
-        studentHistoryPage.setResizable(false);
-        studentHistoryPage.pack();
-        studentHistoryPage.setLocationRelativeTo(adminPage);
-        studentHistoryPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        userHistoryPage.setTitle("Student history");
+        userHistoryPage.setResizable(false);
+        userHistoryPage.pack();
+        userHistoryPage.setLocationRelativeTo(adminPage);
+        userHistoryPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         allWindowList.add(logPage);
         allWindowList.add(adminPage);
@@ -274,7 +274,7 @@ public class ClassTest extends javax.swing.JFrame {
         allWindowList.add(teacherQuestionPage);
         allWindowList.add(teacherRegisterPage);
         allWindowList.add(teacherTestReportPage);
-        allWindowList.add(studentHistoryPage);
+        allWindowList.add(userHistoryPage);
 
         for (JFrame x : allWindowList) {
             x.addFocusListener(wakeUpListenerFocus);
@@ -688,7 +688,7 @@ public class ClassTest extends javax.swing.JFrame {
         jScrollPane14 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
         jButton36 = new javax.swing.JButton();
-        studentHistoryPage = new javax.swing.JFrame();
+        userHistoryPage = new javax.swing.JFrame();
         jPanel28 = new javax.swing.JPanel();
         jScrollPane16 = new javax.swing.JScrollPane();
         jTable12 = new javax.swing.JTable();
@@ -701,6 +701,8 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField27 = new javax.swing.JTextField();
         jButton50 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel83 = new javax.swing.JLabel();
+        jTextField28 = new javax.swing.JTextField();
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -3530,10 +3532,29 @@ public class ClassTest extends javax.swing.JFrame {
         jScrollPane17.setViewportView(jTable13);
 
         jButton48.setText("Enable retest");
+        jButton48.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton48ActionPerformed(evt);
+            }
+        });
 
         jButton49.setText("Clear log for this user");
+        jButton49.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton49ActionPerformed(evt);
+            }
+        });
 
         jButton50.setText("Search");
+        jButton50.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton50ActionPerformed(evt);
+            }
+        });
+
+        jLabel83.setText("by");
+
+        jTextField28.setEditable(false);
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
@@ -3556,9 +3577,13 @@ public class ClassTest extends javax.swing.JFrame {
                             .addGroup(jPanel28Layout.createSequentialGroup()
                                 .addComponent(jLabel81)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton50, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
+                                .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel83)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton50, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
                             .addComponent(jSeparator2)
                             .addComponent(jScrollPane17)
                             .addComponent(jScrollPane16, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -3574,7 +3599,9 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel81)
                     .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton50))
+                    .addComponent(jButton50)
+                    .addComponent(jLabel83)
+                    .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -3590,18 +3617,18 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
-        javax.swing.GroupLayout studentHistoryPageLayout = new javax.swing.GroupLayout(studentHistoryPage.getContentPane());
-        studentHistoryPage.getContentPane().setLayout(studentHistoryPageLayout);
-        studentHistoryPageLayout.setHorizontalGroup(
-            studentHistoryPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(studentHistoryPageLayout.createSequentialGroup()
+        javax.swing.GroupLayout userHistoryPageLayout = new javax.swing.GroupLayout(userHistoryPage.getContentPane());
+        userHistoryPage.getContentPane().setLayout(userHistoryPageLayout);
+        userHistoryPageLayout.setHorizontalGroup(
+            userHistoryPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userHistoryPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        studentHistoryPageLayout.setVerticalGroup(
-            studentHistoryPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(studentHistoryPageLayout.createSequentialGroup()
+        userHistoryPageLayout.setVerticalGroup(
+            userHistoryPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userHistoryPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -4840,23 +4867,71 @@ public class ClassTest extends javax.swing.JFrame {
 
         if (jTable7.getSelectedRow() != -1) {
             if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
-                updateStudentHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
+                updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
             } else {
-                updateStudentHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
+                updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
             }
-            studentHistoryPage.setVisible(true);
+            userHistoryPage.setVisible(true);
+
         } else {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user.", "No user selected", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton46ActionPerformed
-    private void updateStudentHistoryTable(String name, int userType) {
+
+    private void jButton50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton50ActionPerformed
+        // TODO add your handling code here:
+        if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
+            updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
+        } else {
+            updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
+        }
+    }//GEN-LAST:event_jButton50ActionPerformed
+
+    private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
+        // TODO add your handling code here:
+        String name = jTextField28.getText().trim();
+        if (jTable12.getSelectedRow() != -1) {
+            String testid = (String) jTable12.getValueAt(jTable12.getSelectedRow(), 0);
+            if (testid != null) {
+                int ans = JOptionPane.showConfirmDialog(userHistoryPage, "Are you sure you want to enable a re-test? for\n\nTEST ID: " + testid + "\n\nYou cannot undo this action.", "Confirm action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (ans == JOptionPane.YES_OPTION) {
+                    try {
+                        stmt.executeUpdate("delete from studenthistorydatabase_" + name + " where testid=\"" + testid + "\";");
+                        updateUserHistoryTable(name, TYPE_STUDENT);
+                        JOptionPane.showMessageDialog(userHistoryPage, "Re-test enabled.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        showSQLException("Error occured while enabling retest");
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(userHistoryPage, "You need to select a test.", "No test selected", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton48ActionPerformed
+
+    private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
+        // TODO add your handling code here:
+        try {
+            stmt.executeUpdate("delete from activitylog where username=\"" + jTextField28.getText().trim() + "\";");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showSQLException("Error occured while deleting log for particular user.");
+        } finally {
+            updateUserHistoryTable(jTextField28.getText().trim(), TYPE_TEACHER);
+        }
+    }//GEN-LAST:event_jButton49ActionPerformed
+    private void updateUserHistoryTable(String name, int userType) {
+        jTextField28.setText(name);
         String query = jTextField27.getText().trim();
         ResultSet rs;
+        DefaultTableModel studentHistoryModel = (DefaultTableModel) jTable12.getModel();
+        studentHistoryModel.setRowCount(0);
+        DefaultTableModel userLogModel = (DefaultTableModel) jTable13.getModel();
+        userLogModel.setRowCount(0);
         try {
             if (userType == TYPE_STUDENT) {
-                DefaultTableModel studentHistoryModel = (DefaultTableModel) jTable12.getModel();
-                studentHistoryModel.setRowCount(0);
-                rs = stmt.executeQuery("select * from studenthistorydatabase_" + name + ";");
+                rs = stmt.executeQuery("select * from studenthistorydatabase_" + name + " where testid like \"%" + jTextField27.getText().trim() + "%\";");
                 while (rs.next()) {
                     String testid = rs.getString("testid");
                     int marksearned = rs.getInt("marksearned");
@@ -4877,8 +4952,6 @@ public class ClassTest extends javax.swing.JFrame {
                     studentHistoryModel.addRow(new Object[]{testid, marksearned, abortedRep, cheats, date});
                 }
             }
-            DefaultTableModel userLogModel = (DefaultTableModel) jTable13.getModel();
-            userLogModel.setRowCount(0);
             rs = stmt.executeQuery("select * from activitylog where username=\"" + name + "\";");
             while (rs.next()) {
                 String activity = rs.getString("activity");
@@ -5530,6 +5603,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
@@ -5691,6 +5765,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
+    private javax.swing.JTextField jTextField28;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
@@ -5702,7 +5777,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JFrame loginPage;
     private javax.swing.JFrame redirectPage;
     private javax.swing.JFrame studentFinishTestPage;
-    private javax.swing.JFrame studentHistoryPage;
     private javax.swing.JFrame studentPanelPage;
     private javax.swing.JFrame studentPreviousResultsPage;
     private javax.swing.JFrame studentQuestionPage;
@@ -5711,5 +5785,6 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JFrame teacherQuestionPage;
     private javax.swing.JFrame teacherRegisterPage;
     private javax.swing.JFrame teacherTestReportPage;
+    private javax.swing.JFrame userHistoryPage;
     // End of variables declaration//GEN-END:variables
 }
