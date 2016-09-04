@@ -55,8 +55,8 @@ public class ClassTest extends javax.swing.JFrame {
             stmt = con.createStatement();
             stmt2 = con.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
-            showException("Error occured while registering sql driver");
-            ex.printStackTrace();
+            showException("Error occured while registering sql driver", ex);
+
         }
         fetchSystemParameters();
         WindowAdapter onCloseListener = new WindowAdapter() {
@@ -324,8 +324,8 @@ public class ClassTest extends javax.swing.JFrame {
                 jTextField26.setText(Integer.toString(savedWakeUpSetting));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while loading parameters");
+
+            showException("Error occured while loading parameters", ex);
         }
     }
 
@@ -339,8 +339,8 @@ public class ClassTest extends javax.swing.JFrame {
         } catch (NullPointerException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(adminPage, "Fields cannot be empty.\nSet value to 0 to disable the setting.", "Invalid parameters", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while updating parameters");
+
+            showException("Error occured while updating parameters", ex);
         } finally {
             fetchSystemParameters();
         }
@@ -692,7 +692,7 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel51.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel51.setText("MAHATMA CBSE");
 
-        jLabel8.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(220, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("ONLINE TEST SYSTEM");
@@ -1545,17 +1545,15 @@ public class ClassTest extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
-                    .addComponent(jLabel46)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField2)
+                        .addComponent(jLabel46)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel48))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel48)
-                .addGap(82, 82, 82))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3700,8 +3698,8 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("update testlist set status=0 where testid=\"" + x + "\";");
             JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was locked.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while locking test " + x);
+
+            showException("Error occured while locking test " + x, ex);
         }
         updateTeacherTestList();
 
@@ -3825,7 +3823,7 @@ public class ClassTest extends javax.swing.JFrame {
                         return true;
                     }
                 } catch (SQLException ex) {
-                    showException("Error while checking for redundancy on registration.");
+                    showException("Error while checking for redundancy on registration.", ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Name must contain atleast 4 characters.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
@@ -3853,7 +3851,7 @@ public class ClassTest extends javax.swing.JFrame {
                     big = new BigInteger(1, hash);
                     return big;
                 } catch (NoSuchAlgorithmException ex) {
-                    showException("Problem importing Java Security libraries. SHA256 NOT FOUND.");
+                    showException("Problem importing Java Security libraries. SHA256 NOT FOUND.", ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Your password must be at least 8 characters long.", "Password too short", JOptionPane.ERROR_MESSAGE);
@@ -3887,8 +3885,8 @@ public class ClassTest extends javax.swing.JFrame {
                 loginPage.setVisible(true);
                 jRadioButton9.setSelected(true);
             } catch (SQLException ex) {
-                showException("Error on creating user record");
-                ex.printStackTrace();
+                showException("Error on creating user record", ex);
+
             }
         }
         jPasswordField2.setText(null);
@@ -3916,8 +3914,8 @@ public class ClassTest extends javax.swing.JFrame {
                 loginPage.setVisible(true);
                 jRadioButton10.setSelected(true);
             } catch (SQLException ex) {
-                showException("Error on creating user record");
-                ex.printStackTrace();
+                showException("Error on creating user record", ex);
+
             }
         }
         jPasswordField4.setText(null);
@@ -3925,7 +3923,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        fetchSystemParameters();
         ResultSet rs;
         loginName = jTextField1.getText().trim();
         char[] loginPassword = jPasswordField1.getPassword();
@@ -3991,25 +3989,21 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error while fetching login results");
+
+            showException("Error while fetching login results", ex);
         }
         jTextField1.setText(null);
         jPasswordField1.setText(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void decreaseWakeUpTimer() {
-        if (wakeUpSeconds == 30) {
-            JOptionPane.showMessageDialog(null, "You will be signed out due to inactivity in a few seconds. Click OK to cancel.", "Inactivity detection system", JOptionPane.WARNING_MESSAGE);
-            resetWakeUpTimer();
-        }
         if (wakeUpSeconds == 1) {
             if (isTestInProgress) {
                 try {
                     stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set aborted=2 where testid=\"" + currentTestID + "\";");
                 } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    showException("Error occured while aborting test due to inactivity");
+
+                    showException("Error occured while aborting test due to inactivity", ex);
                 }
             }
             logout();
@@ -4103,7 +4097,7 @@ public class ClassTest extends javax.swing.JFrame {
         } catch (ArrayIndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(studentPanelPage, "You need to select a test.", "No test selected", JOptionPane.WARNING_MESSAGE);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -4164,8 +4158,8 @@ public class ClassTest extends javax.swing.JFrame {
             logActivity(loginName, "User Finished Test");
             jTextField7.setText(Integer.toString(questionList.size() * marks));
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while displaying results");
+
+            showException("Error occured while displaying results", ex);
         }
     }
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
@@ -4223,8 +4217,8 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-            /*ex.printStackTrace();
-             showException("Error occured while checking if already answered to update radio");*/
+            /*
+             showException("Error occured while checking if already answered to update radio",ex);*/
         }
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -4345,8 +4339,8 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while displaying previous resuts");
+
+            showException("Error occured while displaying previous resuts", ex);
         }
         studentPreviousResultsPage.setVisible(true);
     }//GEN-LAST:event_jButton19ActionPerformed
@@ -4424,8 +4418,8 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("update testlist set status=1 where testid=\"" + x + "\";");
             JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was unlocked.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while unlocking test " + x);
+
+            showException("Error occured while unlocking test " + x, ex);
         }
         updateTeacherTestList();
 
@@ -4442,8 +4436,8 @@ public class ClassTest extends javax.swing.JFrame {
                     stmt.executeUpdate("drop table testquestions_" + x);
                     JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was deleted.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    showException("Error occured while deleting test " + x);
+
+                    showException("Error occured while deleting test " + x, ex);
                 }
                 updateTeacherTestList();
             }
@@ -4479,8 +4473,8 @@ public class ClassTest extends javax.swing.JFrame {
                 editQuestionsModel.addRow(new Object[]{question, answer});
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while updating edit question list");
+
+            showException("Error occured while updating edit question list", ex);
         }
     }
     private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
@@ -4542,8 +4536,8 @@ public class ClassTest extends javax.swing.JFrame {
             updateTeacherTestList();
             cleanUpAfterCreation();
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while updating edits to database");
+
+            showException("Error occured while updating edits to database", ex);
         }
     }//GEN-LAST:event_jButton31ActionPerformed
 
@@ -4664,8 +4658,8 @@ public class ClassTest extends javax.swing.JFrame {
                 jTextField18.setText(Integer.toString(rs.getInt("seconds") / 60));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while creating testqsns table");
+
+            showException("Error occured while creating testqsns table", ex);
         }
         return testid;
     }
@@ -4734,18 +4728,18 @@ public class ClassTest extends javax.swing.JFrame {
                 fw.write("Highest Score," + jTextField22.getText() + System.getProperty("line.separator"));
                 fw.write("Lowest Score," + jTextField23.getText() + System.getProperty("line.separator"));
             } catch (IOException ex) {
-                ex.printStackTrace();
-                showException("Error while saving file");
+
+                showException("Error while saving file", ex);
             } finally {
                 try {
                     fw.close();
                 } catch (NullPointerException e1) {
                 } catch (IOException e2) {
                     e2.printStackTrace();
-                    showException("IOException occured while closing FileWriter");
+                    showException("IOException occured while closing FileWriter", e2);
                 } catch (Exception e3) {
                     e3.printStackTrace();
-                    showException("Unknown Exception occured while closing FileWriter");
+                    showException("Unknown Exception occured while closing FileWriter", e3);
                 }
             }
         }
@@ -4774,8 +4768,8 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             stmt.executeUpdate("delete from activitylog");
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("error while clearing activity log");
+
+            showException("error while clearing activity log", ex);
         }
         updateLogs();
 
@@ -4786,8 +4780,8 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             stmt.executeUpdate("delete from errorlog");
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("error while clearing error log");
+
+            showException("error while clearing error log", ex);
         }
         updateLogs();
     }//GEN-LAST:event_jButton37ActionPerformed
@@ -4816,8 +4810,8 @@ public class ClassTest extends javax.swing.JFrame {
             try {
                 stmt.executeUpdate("update teacher_auth set status=1 where name=\"" + name + "\"");
             } catch (SQLException ex) {
-                ex.printStackTrace();
-                showException("Error while approving teacher");
+
+                showException("Error while approving teacher", ex);
             }
         }
         updatePendingList();
@@ -4843,8 +4837,8 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(adminPage, "Password reset successfully", "Action successful", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error while resetting pass");
+
+            showException("Error while resetting pass", ex);
         }
         jPasswordField6.setText(null);
         jPasswordField7.setText(null);
@@ -4871,8 +4865,8 @@ public class ClassTest extends javax.swing.JFrame {
                 }
                 JOptionPane.showMessageDialog(adminPage, "User " + name + " was successfully removed from the database.", "User deleted", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
-                ex.printStackTrace();
-                showException("Error occured while deleting user");
+
+                showException("Error occured while deleting user", ex);
             }
         }
         updateSearchList();
@@ -4895,8 +4889,8 @@ public class ClassTest extends javax.swing.JFrame {
             try {
                 stmt.executeUpdate("delete from teacher_auth where name=\"" + name + "\"");
             } catch (SQLException ex) {
-                ex.printStackTrace();
-                showException("Error while deleting teacher");
+
+                showException("Error while deleting teacher", ex);
             }
         }
         updatePendingList();
@@ -4955,8 +4949,8 @@ public class ClassTest extends javax.swing.JFrame {
                         updateUserHistoryTable(name, TYPE_STUDENT);
                         JOptionPane.showMessageDialog(userHistoryPage, "Re-test enabled.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
-                        ex.printStackTrace();
-                        showException("Error occured while enabling retest");
+
+                        showException("Error occured while enabling retest", ex);
                     }
                 }
             }
@@ -4970,8 +4964,8 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             stmt.executeUpdate("delete from activitylog where username=\"" + jTextField28.getText().trim() + "\";");
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while deleting log for particular user.");
+
+            showException("Error occured while deleting log for particular user.", ex);
         } finally {
             updateUserHistoryTable(jTextField28.getText().trim(), TYPE_TEACHER);
         }
@@ -5041,8 +5035,8 @@ public class ClassTest extends javax.swing.JFrame {
                     jTextField7.setText(Integer.toString(totalQuestions * points));
                     studentFinishTestPage.setVisible(true);
                 } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    showException("Error occured while showing sec results");
+
+                    showException("Error occured while showing sec results", ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(studentPanelPage, "You haven't yet taken that test.", "Test not taken", JOptionPane.ERROR_MESSAGE);
@@ -5113,8 +5107,8 @@ public class ClassTest extends javax.swing.JFrame {
                 userLogModel.addRow(new Object[]{activity, time});
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while fetching studenthistorydatabase");
+
+            showException("Error occured while fetching studenthistorydatabase", ex);
         }
     }
 
@@ -5128,8 +5122,8 @@ public class ClassTest extends javax.swing.JFrame {
                 pendingModel.addRow(new Object[]{rs.getString("name"), rs.getString("subject")});
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while updating pending");
+
+            showException("Error occured while updating pending", ex);
         }
     }
 
@@ -5170,8 +5164,8 @@ public class ClassTest extends javax.swing.JFrame {
                 errModelTable.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while updating logs");
+
+            showException("Error occured while updating logs", ex);
         }
     }
 
@@ -5209,8 +5203,8 @@ public class ClassTest extends javax.swing.JFrame {
             jTextField22.setText(Integer.toString(highest));
         } catch (ArrayIndexOutOfBoundsException ex) {
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while updating test report");
+
+            showException("Error occured while updating test report", ex);
         }
     }
 
@@ -5251,8 +5245,8 @@ public class ClassTest extends javax.swing.JFrame {
                 resultNo = Integer.parseInt(tempTokens[1]) + 1;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while generating Test ID");
+
+            showException("Error occured while generating Test ID", ex);
         }
         result += Integer.toString(resultNo);
         return result;
@@ -5267,8 +5261,8 @@ public class ClassTest extends javax.swing.JFrame {
                 subject = rs.getString(1);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while fetching subject from loginName");
+
+            showException("Error occured while fetching subject from loginName", ex);
         }
         return subject;
     }
@@ -5309,7 +5303,7 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
+
         }
         if (!alreadyAnswered) {
             answeredList.add(curQuesInd);
@@ -5329,10 +5323,10 @@ public class ClassTest extends javax.swing.JFrame {
                 updateAnswer(answer);
                 return;
             } catch (SQLException ex1) {
-                showException("Error occured while creating column for answer");
+                showException("Error occured while creating column for answer", ex);
             }
-            showException("Error occured while updating answer");
-            ex.printStackTrace();
+            showException("Error occured while updating answer", ex);
+
         }
     }
 
@@ -5367,8 +5361,8 @@ public class ClassTest extends javax.swing.JFrame {
             curQuesInd = 0;
             setNextQuestion(curQuesInd);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured whilie initiating test");
+
+            showException("Error occured whilie initiating test", ex);
         }
     }
 
@@ -5387,8 +5381,8 @@ public class ClassTest extends javax.swing.JFrame {
             format = new SimpleDateFormat("yyyyMMddHHmmss");
             stmt.executeUpdate("insert into activitylog values (\"" + username + "\", \"" + event + "\",\"" + format.format(new java.util.Date()) + "\");");
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Failed Activity logging");
+
+            showException("Failed Activity logging", ex);
         }
     }
 
@@ -5440,8 +5434,8 @@ public class ClassTest extends javax.swing.JFrame {
                 jTextField12.setText(Integer.toString(pendingTotal));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error while fetching student test list");
+
+            showException("Error while fetching student test list", ex);
         }
     }
 
@@ -5490,16 +5484,21 @@ public class ClassTest extends javax.swing.JFrame {
                 studentPanelPage.setVisible(true);
                 return true;
             } catch (SQLException ex) {
-                ex.printStackTrace();
-                showException("Error occured while aborting");
+
+                showException("Error occured while aborting", ex);
             }
         }
         canCheat = true;
         return false;
     }
 
-    private void showException(String a) {
-        logError(a);
+    private void showException(String a, Exception ex) {
+        StackTraceElement[] list = ex.getStackTrace();
+        String x = "";
+        for (StackTraceElement y : list) {
+            x += y.toString();
+        }
+        logError(a + "     " + x);
         JOptionPane.showMessageDialog(null, "Oops!\n" + a + "\n\nPlease contact system administrator for more details and to resolve issue.", "Internal error occured.", JOptionPane.ERROR_MESSAGE);
     }
 
@@ -5513,8 +5512,8 @@ public class ClassTest extends javax.swing.JFrame {
             disposeAllFrames();
             loginPage.setVisible(true);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while signing user out");
+
+            showException("Error occured while signing user out", ex);
         }
         wakeUpTimer.cancel();
         logActivity(loginName, "User logged out");
@@ -5522,7 +5521,7 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void logError(String a) {
         java.util.Date datetime = new java.util.Date();
-        SimpleDateFormat format = null;
+        SimpleDateFormat format;
         try {
             format = new SimpleDateFormat("yyyyMMddHHmmss");
             try {
@@ -5531,8 +5530,8 @@ public class ClassTest extends javax.swing.JFrame {
                 stmt.executeUpdate("insert into errorlog values (\"" + "SYSTEM" + "\", \"" + a + "\",\"" + format.format(new java.util.Date()) + "\");");
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Failed Error logging");
+
+            showException("Failed Error logging", ex);
         }
     }
 
@@ -5577,8 +5576,8 @@ public class ClassTest extends javax.swing.JFrame {
                 teacherTable.addRow(new Object[]{testid, desc, status, time, noQuestions, allottedTime, marksPQ});
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            showException("Error occured while updating teacher table");
+
+            showException("Error occured while updating teacher table", ex);
         }
     }
 
