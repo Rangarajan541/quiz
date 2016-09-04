@@ -54,11 +54,10 @@ public class ClassTest extends javax.swing.JFrame {
             stmt = con.createStatement();
             stmt2 = con.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
-            showSQLException("Error occured while registering sql driver");
+            showException("Error occured while registering sql driver");
             ex.printStackTrace();
         }
         fetchSystemParameters();
-
         WindowAdapter onCloseListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -82,7 +81,6 @@ public class ClassTest extends javax.swing.JFrame {
                 abortTest();
             }
         };
-
         MouseListener wakeUpListenerMouse = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -125,7 +123,6 @@ public class ClassTest extends javax.swing.JFrame {
                 resetWakeUpTimer();
             }
         };
-
         FocusListener wakeUpListenerFocus = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -149,40 +146,33 @@ public class ClassTest extends javax.swing.JFrame {
                     preventCheating();
                 }
             }
-
         };
-
         redirectPage.setTitle("Welcome");
         redirectPage.pack();
         redirectPage.setLocationRelativeTo(null);
         redirectPage.setResizable(false);
         redirectPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         studentRegisterPage.setTitle("Student Registration");
         studentRegisterPage.pack();
         studentRegisterPage.setLocationRelativeTo(null);
         studentRegisterPage.setResizable(false);
         studentRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         teacherRegisterPage.setTitle("Teacher Registration");
         teacherRegisterPage.pack();
         teacherRegisterPage.setLocationRelativeTo(null);
         teacherRegisterPage.setResizable(false);
         teacherRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         loginPage.setTitle("Login");
         loginPage.setResizable(false);
         loginPage.pack();
         loginPage.setLocationRelativeTo(null);
         loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         studentPanelPage.setTitle("Student Home");
         studentPanelPage.setResizable(false);
         studentPanelPage.pack();
         studentPanelPage.setLocationRelativeTo(null);
         studentPanelPage.addWindowListener(onCloseListener);
         studentPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         studentQuestionPage.setTitle("Online Test In Progress - Do not close");
         studentQuestionPage.setResizable(false);
         studentQuestionPage.pack();
@@ -190,75 +180,63 @@ public class ClassTest extends javax.swing.JFrame {
         studentQuestionPage.addWindowListener(abortTestListener);
         studentQuestionPage.addWindowFocusListener(antiCheatListener);
         studentQuestionPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         studentFinishTestPage.setTitle("Test Results");
         studentFinishTestPage.setResizable(false);
         studentFinishTestPage.pack();
         studentFinishTestPage.setLocationRelativeTo(null);
         studentFinishTestPage.addWindowListener(resultsCloseListener);
         studentFinishTestPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         studentPreviousResultsPage.setTitle("Previous Test Results");
         studentPreviousResultsPage.setResizable(false);
         studentPreviousResultsPage.pack();
         studentPreviousResultsPage.setLocationRelativeTo(studentPanelPage);
         studentPreviousResultsPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         teacherPanelPage.setTitle("Teacher Home");
         teacherPanelPage.setResizable(false);
         teacherPanelPage.pack();
         teacherPanelPage.setLocationRelativeTo(null);
         teacherPanelPage.addWindowListener(onCloseListener);
         teacherPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         editQuestionPage.setTitle("Edit Test");
         editQuestionPage.setResizable(false);
         editQuestionPage.pack();
         editQuestionPage.setLocationRelativeTo(null);
         editQuestionPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         editQuestionBridge.setTitle("Edit question");
         editQuestionBridge.setResizable(false);
         editQuestionBridge.pack();
         editQuestionBridge.setLocationRelativeTo(editQuestionPage);
         editQuestionBridge.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         teacherQuestionPage.setTitle("Create Test");
         teacherQuestionPage.setResizable(false);
         teacherQuestionPage.pack();
         teacherQuestionPage.setLocationRelativeTo(teacherPanelPage);
         teacherQuestionPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         antiCheatFrame.setTitle("Anti Cheat System");
         antiCheatFrame.setResizable(false);
         antiCheatFrame.pack();
         antiCheatFrame.setLocationRelativeTo(null);
         antiCheatFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         teacherTestReportPage.setTitle("Test Report");
         teacherTestReportPage.setResizable(false);
         teacherTestReportPage.pack();
         teacherTestReportPage.setLocationRelativeTo(teacherPanelPage);
         teacherTestReportPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         logPage.setTitle("Administrator settings");
         logPage.setResizable(false);
         logPage.pack();
         logPage.setLocationRelativeTo(teacherPanelPage);
         logPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         adminPage.setTitle("Administrator settings");
         adminPage.setResizable(false);
         adminPage.pack();
         adminPage.setLocationRelativeTo(teacherPanelPage);
         adminPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         userHistoryPage.setTitle("Student history");
         userHistoryPage.setResizable(false);
         userHistoryPage.pack();
         userHistoryPage.setLocationRelativeTo(adminPage);
         userHistoryPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         allWindowList.add(logPage);
         allWindowList.add(adminPage);
         allWindowList.add(editQuestionBridge);
@@ -275,7 +253,6 @@ public class ClassTest extends javax.swing.JFrame {
         allWindowList.add(teacherRegisterPage);
         allWindowList.add(teacherTestReportPage);
         allWindowList.add(userHistoryPage);
-
         for (JFrame x : allWindowList) {
             x.addFocusListener(wakeUpListenerFocus);
             x.addKeyListener(wakeUpListenerKey);
@@ -286,20 +263,16 @@ public class ClassTest extends javax.swing.JFrame {
     private void resetCheatMeasures() {
         try {
             antiCheatTask.cancel();
-
         } catch (NullPointerException ex) {
-
         }
         antiCheatFrame.dispose();
         acSeconds = totalCheatSeconds;
-
     }
 
     private void preventCheating() {
         if (acCount == (totalAllowedCheats)) {
             antiCheatFrame.dispose();
             antiCheatTask.cancel();
-
             finishTest();
             JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -311,7 +284,6 @@ public class ClassTest extends javax.swing.JFrame {
                     if (acSeconds == 1) {
                         antiCheatFrame.dispose();
                         antiCheatTask.cancel();
-
                         finishTest();
                         JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
                     } else {
@@ -348,7 +320,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while loading parameters");
+            showException("Error occured while loading parameters");
         }
     }
 
@@ -363,7 +335,7 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(adminPage, "Fields cannot be empty.\nSet value to 0 to disable the setting.", "Invalid parameters", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while updating parameters");
+            showException("Error occured while updating parameters");
         } finally {
             fetchSystemParameters();
         }
@@ -440,10 +412,12 @@ public class ClassTest extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel84 = new javax.swing.JLabel();
+        jComboBox6 = new javax.swing.JComboBox();
+        jButton51 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
         jTextField12 = new javax.swing.JTextField();
@@ -451,6 +425,7 @@ public class ClassTest extends javax.swing.JFrame {
         jButton19 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton25 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar5 = new javax.swing.JMenuBar();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -1194,10 +1169,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Select Subject:");
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Welcome,");
+        jLabel4.setText("Subject:");
 
         jLabel6.setText("Select Test:");
 
@@ -1222,6 +1194,22 @@ public class ClassTest extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel84.setText("Status:");
+
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Active", "Taken", "Locked" }));
+        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox6ActionPerformed(evt);
+            }
+        });
+
+        jButton51.setText("Go");
+        jButton51.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton51ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -1229,29 +1217,35 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox1, 0, 193, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6))
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel84)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE))
+                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton51, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel84)
+                    .addComponent(jButton51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1326,6 +1320,9 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Welcome,");
+
         jMenu5.setText("Nav");
 
         jMenuItem10.setText("Sign Out");
@@ -1354,15 +1351,21 @@ public class ClassTest extends javax.swing.JFrame {
             studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentPanelPageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(studentPanelPageLayout.createSequentialGroup()
+                        .addGroup(studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         studentPanelPageLayout.setVerticalGroup(
             studentPanelPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(studentPanelPageLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2058,7 +2061,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel20)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -3692,7 +3695,7 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was locked.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while locking test " + x);
+            showException("Error occured while locking test " + x);
         }
         updateTeacherTestList();
 
@@ -3799,6 +3802,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         logout();
     }//GEN-LAST:event_jMenuItem37ActionPerformed
+
     private boolean validateRegName(String a, int type) {
         ResultSet rs;
         if (checkValidCharsUsed(a)) {
@@ -3809,14 +3813,13 @@ public class ClassTest extends javax.swing.JFrame {
                     } else {
                         rs = stmt.executeQuery("select name from teacher_auth where name=\"" + a + "\";");
                     }
-
                     if (rs.next()) {
                         JOptionPane.showMessageDialog(this, "That name is taken. Please try something else.", "Name in use", JOptionPane.ERROR_MESSAGE);
                     } else {
                         return true;
                     }
                 } catch (SQLException ex) {
-                    showSQLException("Error while checking for redundancy on registration.");
+                    showException("Error while checking for redundancy on registration.");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Name must contain atleast 4 characters.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
@@ -3844,7 +3847,7 @@ public class ClassTest extends javax.swing.JFrame {
                     big = new BigInteger(1, hash);
                     return big;
                 } catch (NoSuchAlgorithmException ex) {
-                    showSQLException("Problem importing Java Security libraries. SHA256 NOT FOUND.");
+                    showException("Problem importing Java Security libraries. SHA256 NOT FOUND.");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Your password must be at least 8 characters long.", "Password too short", JOptionPane.ERROR_MESSAGE);
@@ -3857,7 +3860,6 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
         ResultSet rs;
-
         boolean regNameCorrect = false, passwordCorrect = false;
         String regName = jTextField4.getText().trim();
         regNameCorrect = validateRegName(regName, 0);
@@ -3879,7 +3881,7 @@ public class ClassTest extends javax.swing.JFrame {
                 loginPage.setVisible(true);
                 jRadioButton9.setSelected(true);
             } catch (SQLException ex) {
-                showSQLException("Error on creating user record");
+                showException("Error on creating user record");
                 ex.printStackTrace();
             }
         }
@@ -3908,7 +3910,7 @@ public class ClassTest extends javax.swing.JFrame {
                 loginPage.setVisible(true);
                 jRadioButton10.setSelected(true);
             } catch (SQLException ex) {
-                showSQLException("Error on creating user record");
+                showException("Error on creating user record");
                 ex.printStackTrace();
             }
         }
@@ -3983,19 +3985,24 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error while fetching login results");
+            showException("Error while fetching login results");
         }
         jTextField1.setText(null);
         jPasswordField1.setText(null);
     }//GEN-LAST:event_jButton1ActionPerformed
+
     private void decreaseWakeUpTimer() {
+        if (wakeUpSeconds == 30) {
+            JOptionPane.showMessageDialog(null, "You will be signed out due to inactivity in a few seconds. Click OK to cancel.", "Inactivity detection system", JOptionPane.WARNING_MESSAGE);
+            resetWakeUpTimer();
+        }
         if (wakeUpSeconds == 1) {
             if (isTestInProgress) {
                 try {
                     stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set aborted=2 where testid=\"" + currentTestID + "\";");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    showSQLException("Error occured while aborting test due to inactivity");
+                    showException("Error occured while aborting test due to inactivity");
                 }
             }
             logout();
@@ -4032,7 +4039,6 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(studentPanelPage, "You've already taken this test.", "Access Denied", JOptionPane.ERROR_MESSAGE);
             } else {
                 int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
-
                 if (answer == 0) {
                     stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
                     studentPanelPage.dispose();
@@ -4076,17 +4082,15 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(studentPanelPage, "You need to select a test.", "No test selected", JOptionPane.WARNING_MESSAGE);
-
         } catch (SQLException ex) {
             ex.printStackTrace();
-
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
     private void finishTest() {
         try {
             testTimerTask.cancel();
         } catch (NullPointerException ex) {
-
         }
         antiCheatFrame.dispose();
         acCount = 0;
@@ -4141,7 +4145,7 @@ public class ClassTest extends javax.swing.JFrame {
             jTextField7.setText(Integer.toString(questionList.size() * marks));
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while displaying results");
+            showException("Error occured while displaying results");
         }
     }
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
@@ -4176,6 +4180,7 @@ public class ClassTest extends javax.swing.JFrame {
         setNextQuestion(curQuesInd);
 
     }//GEN-LAST:event_jButton5ActionPerformed
+
     private void updateQuestionProgress() {
         ResultSet rs;
         jLabel41.setText("Total Answered: " + totalAnsweredQuestions);
@@ -4199,7 +4204,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             /*ex.printStackTrace();
-             showSQLException("Error occured while checking if already answered to update radio");*/
+             showException("Error occured while checking if already answered to update radio");*/
         }
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -4314,7 +4319,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while displaying previous resuts");
+            showException("Error occured while displaying previous resuts");
         }
         studentPreviousResultsPage.setVisible(true);
     }//GEN-LAST:event_jButton19ActionPerformed
@@ -4393,7 +4398,7 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was unlocked.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while unlocking test " + x);
+            showException("Error occured while unlocking test " + x);
         }
         updateTeacherTestList();
 
@@ -4411,11 +4416,10 @@ public class ClassTest extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was deleted.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    showSQLException("Error occured while deleting test " + x);
+                    showException("Error occured while deleting test " + x);
                 }
                 updateTeacherTestList();
             }
-
         } catch (ArrayIndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test to delete", "No Test Selected", JOptionPane.ERROR_MESSAGE);
         }
@@ -4430,6 +4434,7 @@ public class ClassTest extends javax.swing.JFrame {
         editQuestionPage.setVisible(true);
 
     }//GEN-LAST:event_jButton27ActionPerformed
+
     private void updateQuestionEditList() {
         ResultSet rs;
         try {
@@ -4448,7 +4453,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while updating edit question list");
+            showException("Error occured while updating edit question list");
         }
     }
     private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
@@ -4466,7 +4471,6 @@ public class ClassTest extends javax.swing.JFrame {
         if (jTextField16.getText().trim().length() == 0 || jTextField17.getText().trim().length() == 0 || jTextField18.getText().trim().length() == 0) {
             JOptionPane.showMessageDialog(editQuestionPage, "Please fill all fields at the top", "Empty Details", JOptionPane.ERROR_MESSAGE);
             return;
-
         }
         try {
             stmt.executeUpdate("update testlist set description=\"" + jTextField16.getText().trim() + "\" where testid=\"" + testid + "\";");
@@ -4512,7 +4516,7 @@ public class ClassTest extends javax.swing.JFrame {
             cleanUpAfterCreation();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while updating edits to database");
+            showException("Error occured while updating edits to database");
         }
     }//GEN-LAST:event_jButton31ActionPerformed
 
@@ -4553,7 +4557,6 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
 
         if (jTable9.getSelectedRow() != -1) {
-
             int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Are you sure you want to delete Question " + Integer.toString(jTable9.getSelectedRow() + 1) + "? The only way to add it back would be to insert it again", "Delete Question Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (ans == JOptionPane.YES_OPTION) {
                 DefaultTableModel questionEditModel = (DefaultTableModel) jTable9.getModel();
@@ -4619,6 +4622,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jMenuItem39ActionPerformed
+
     private String createTestFrame() {
         String testid = generateTestID();
         ResultSet rs;
@@ -4634,7 +4638,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while creating testqsns table");
+            showException("Error occured while creating testqsns table");
         }
         return testid;
     }
@@ -4650,7 +4654,6 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton29ActionPerformed
 
     private void studentQuestionPageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_studentQuestionPageFocusLost
-
 
     }//GEN-LAST:event_studentQuestionPageFocusLost
 
@@ -4674,7 +4677,6 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test", "No test selected", JOptionPane.ERROR_MESSAGE);
         }
 
-
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
@@ -4691,7 +4693,6 @@ public class ClassTest extends javax.swing.JFrame {
         if (ans == JFileChooser.APPROVE_OPTION) {
             try {
                 File f = jFileChooser1.getSelectedFile();
-
                 if (!(f.getCanonicalPath().endsWith(".csv"))) {
                     f = new File(f.getCanonicalPath() + ".csv");
                 }
@@ -4707,18 +4708,17 @@ public class ClassTest extends javax.swing.JFrame {
                 fw.write("Lowest Score," + jTextField23.getText() + System.getProperty("line.separator"));
             } catch (IOException ex) {
                 ex.printStackTrace();
-                showSQLException("Error while saving file");
+                showException("Error while saving file");
             } finally {
                 try {
                     fw.close();
                 } catch (NullPointerException e1) {
-
                 } catch (IOException e2) {
                     e2.printStackTrace();
-                    showSQLException("IOException occured while closing FileWriter");
+                    showException("IOException occured while closing FileWriter");
                 } catch (Exception e3) {
                     e3.printStackTrace();
-                    showSQLException("Unknown Exception occured while closing FileWriter");
+                    showException("Unknown Exception occured while closing FileWriter");
                 }
             }
         }
@@ -4748,10 +4748,9 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("delete from activitylog");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("error while clearing activity log");
+            showException("error while clearing activity log");
         }
         updateLogs();
-
 
     }//GEN-LAST:event_jButton24ActionPerformed
 
@@ -4761,7 +4760,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("delete from errorlog");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("error while clearing error log");
+            showException("error while clearing error log");
         }
         updateLogs();
     }//GEN-LAST:event_jButton37ActionPerformed
@@ -4791,7 +4790,7 @@ public class ClassTest extends javax.swing.JFrame {
                 stmt.executeUpdate("update teacher_auth set status=1 where name=\"" + name + "\"");
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                showSQLException("Error while approving teacher");
+                showException("Error while approving teacher");
             }
         }
         updatePendingList();
@@ -4818,7 +4817,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error while resetting pass");
+            showException("Error while resetting pass");
         }
         jPasswordField6.setText(null);
         jPasswordField7.setText(null);
@@ -4834,10 +4833,8 @@ public class ClassTest extends javax.swing.JFrame {
         }
         String name = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
         int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete \nUser " + name + " ?", "Confirm Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
         if (ans == JOptionPane.YES_OPTION) {
             try {
-
                 String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
                 if (type.equals("teacher")) {
                     stmt.executeUpdate("delete from teacher_auth where name =\"" + name + "\";");
@@ -4848,7 +4845,7 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(adminPage, "User " + name + " was successfully removed from the database.", "User deleted", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                showSQLException("Error occured while deleting user");
+                showException("Error occured while deleting user");
             }
         }
         updateSearchList();
@@ -4872,7 +4869,7 @@ public class ClassTest extends javax.swing.JFrame {
                 stmt.executeUpdate("delete from teacher_auth where name=\"" + name + "\"");
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                showSQLException("Error while deleting teacher");
+                showException("Error while deleting teacher");
             }
         }
         updatePendingList();
@@ -4904,7 +4901,6 @@ public class ClassTest extends javax.swing.JFrame {
                 updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
             }
             userHistoryPage.setVisible(true);
-
         } else {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user.", "No user selected", JOptionPane.ERROR_MESSAGE);
         }
@@ -4933,7 +4929,7 @@ public class ClassTest extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(userHistoryPage, "Re-test enabled.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
-                        showSQLException("Error occured while enabling retest");
+                        showException("Error occured while enabling retest");
                     }
                 }
             }
@@ -4948,7 +4944,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("delete from activitylog where username=\"" + jTextField28.getText().trim() + "\";");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while deleting log for particular user.");
+            showException("Error occured while deleting log for particular user.");
         } finally {
             updateUserHistoryTable(jTextField28.getText().trim(), TYPE_TEACHER);
         }
@@ -4960,17 +4956,15 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem40ActionPerformed
 
     private void jTextField10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField10KeyPressed
-
         updateSearchList();
     }//GEN-LAST:event_jTextField10KeyPressed
 
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-
         updateSearchList();
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-        // TODO add your handling code here:
+
         if (jTable1.getSelectedRow() != -1) {
             if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).trim().equals("Taken")) {
                 String testid = ((String) jTable1.getValueAt(jTable1.getSelectedRow(), 0)).trim();
@@ -5018,7 +5012,7 @@ public class ClassTest extends javax.swing.JFrame {
                     studentFinishTestPage.setVisible(true);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    showSQLException("Error occured while showing sec results");
+                    showException("Error occured while showing sec results");
                 }
             } else {
                 JOptionPane.showMessageDialog(studentPanelPage, "You haven't yet taken that test.", "Test not taken", JOptionPane.ERROR_MESSAGE);
@@ -5028,6 +5022,30 @@ public class ClassTest extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton51ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton51ActionPerformed
+
+        updateStudentTestListForStatus();
+    }//GEN-LAST:event_jButton51ActionPerformed
+
+    private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
+
+        updateStudentTestListForStatus();
+    }//GEN-LAST:event_jComboBox6ActionPerformed
+
+    private void updateStudentTestListForStatus() {
+        updateStudentTestList();
+        if (jComboBox6.getSelectedIndex() != 0) {
+            DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
+            String status = (String) jComboBox6.getSelectedItem();
+            for (int i = jTable1.getRowCount() - 1; i >= 0; i--) {
+                if (!(((String) jTable1.getValueAt(i, 2)).equals(status))) {
+                    statusModel.removeRow(i);
+                }
+            }
+        }
+    }
+
     private void updateUserHistoryTable(String name, int userType) {
         jTextField28.setText(name);
         String query = jTextField27.getText().trim();
@@ -5067,7 +5085,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while fetching studenthistorydatabase");
+            showException("Error occured while fetching studenthistorydatabase");
         }
     }
 
@@ -5082,7 +5100,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while updating pending");
+            showException("Error occured while updating pending");
         }
     }
 
@@ -5104,7 +5122,6 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-
         }
     }
 
@@ -5123,10 +5140,9 @@ public class ClassTest extends javax.swing.JFrame {
             while (rs.next()) {
                 errModelTable.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while updating logs");
+            showException("Error occured while updating logs");
         }
     }
 
@@ -5146,7 +5162,6 @@ public class ClassTest extends javax.swing.JFrame {
             }
             rs = stmt.executeQuery("select name from student_auth;");
             while (rs.next()) {
-
                 rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     testReportModel.addRow(new Object[]{rs.getString(1), rs2.getInt(1)});
@@ -5164,12 +5179,10 @@ public class ClassTest extends javax.swing.JFrame {
             jTextField23.setText(Integer.toString(lowest));
             jTextField22.setText(Integer.toString(highest));
         } catch (ArrayIndexOutOfBoundsException ex) {
-
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while updating test report");
+            showException("Error occured while updating test report");
         }
-
     }
 
     private String generateTestID() {
@@ -5196,7 +5209,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while generating Test ID");
+            showException("Error occured while generating Test ID");
         }
         result += Integer.toString(resultNo);
         return result;
@@ -5212,7 +5225,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while fetching subject from loginName");
+            showException("Error occured while fetching subject from loginName");
         }
         return subject;
     }
@@ -5238,14 +5251,12 @@ public class ClassTest extends javax.swing.JFrame {
             totalFlagged = 0;
             testCountdown = 0;
         } catch (NullPointerException ex) {
-
         }
     }
 
     private void updateAnswer(String answer) {
         ResultSet rs;
         boolean alreadyAnswered = false;
-
         jTable8.setValueAt("Yes", curQuesInd, 1);
         try {
             for (Integer x : answeredList) {
@@ -5271,21 +5282,18 @@ public class ClassTest extends javax.swing.JFrame {
             jLabel70.setText("Answer saved");
         } catch (SQLException ex) {
             try {
-
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
                 updateAnswer(answer);
                 return;
             } catch (SQLException ex1) {
-                showSQLException("Error occured while creating column for answer");
+                showException("Error occured while creating column for answer");
             }
-            showSQLException("Error occured while updating answer");
+            showException("Error occured while updating answer");
             ex.printStackTrace();
         }
-
     }
 
     private int getQuestionIndex(int a) {
-
         String questionLine = questionListMod.get(a);
         String questionLineTokens[] = questionLine.split(separator);
         return Integer.parseInt(questionLineTokens[1]);
@@ -5293,7 +5301,6 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void initiateTest(String testid) {
         ResultSet rs;
-
         try {
             logActivity(loginName, "User Started Test");
             rs = stmt.executeQuery("select * from testquestions_" + testid + ";");
@@ -5314,23 +5321,20 @@ public class ClassTest extends javax.swing.JFrame {
             for (int j = 1; j <= listSize; j++) {
                 questionListModel.addRow(new Object[]{"Question " + j, "No"});
             }
-
             curQuesInd = 0;
             setNextQuestion(curQuesInd);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured whilie initiating test");
+            showException("Error occured whilie initiating test");
         }
     }
 
     private void setNextQuestion(int i) {
-
         String questionLine = questionListMod.get(i);
         String[] tempTokens = questionLine.split(separator);
         jTextArea1.setText(tempTokens[2]);
         jTextField13.setText(tempTokens[0]);
         updateQuestionProgress();
-
     }
 
     private void logActivity(String username, String event) {
@@ -5341,7 +5345,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("insert into activitylog values (\"" + username + "\", \"" + event + "\",\"" + format.format(new java.util.Date()) + "\");");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Failed Activity logging");
+            showException("Failed Activity logging");
         }
     }
 
@@ -5350,7 +5354,6 @@ public class ClassTest extends javax.swing.JFrame {
         String selectedSubject = null, statusRep = "Error";
         String subject = null;
         try {
-
             if (jComboBox1.getSelectedIndex() == 0) {
                 rs = stmt.executeQuery("select * from testlist order by status desc");
             } else {
@@ -5375,21 +5378,18 @@ public class ClassTest extends javax.swing.JFrame {
                 if (rs2.next()) {
                     statusRep = "Taken";
                 }
-
                 rs2 = stmt2.executeQuery("select * from testlist where testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     subject = rs2.getString("subject");
                 }
                 studentTestTableModel.addRow(new Object[]{testid, testName, statusRep, subject});
                 int pendingTotal = 0;
-
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
                     try {
                         String x = (String) jTable1.getValueAt(i, 2);
                         if (x.equals("Active")) {
                             pendingTotal++;
                         }
-
                     } catch (NullPointerException ex) {
                         continue;
                     }
@@ -5398,7 +5398,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error while fetching student test list");
+            showException("Error while fetching student test list");
         }
     }
 
@@ -5448,16 +5448,16 @@ public class ClassTest extends javax.swing.JFrame {
                 return true;
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                showSQLException("Error occured while aborting");
+                showException("Error occured while aborting");
             }
         }
         canCheat = true;
         return false;
     }
 
-    private void showSQLException(String a) {
-
+    private void showException(String a) {
         logError(a);
+        JOptionPane.showMessageDialog(null, "Oops!\n" + a + "\n\nPlease contact system administrator for more details and to resolve issue.", "Internal error occured.", JOptionPane.ERROR_MESSAGE);
     }
 
     private void logout() {
@@ -5471,7 +5471,7 @@ public class ClassTest extends javax.swing.JFrame {
             loginPage.setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while signing user out");
+            showException("Error occured while signing user out");
         }
         wakeUpTimer.cancel();
         logActivity(loginName, "User logged out");
@@ -5489,7 +5489,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Failed Error logging");
+            showException("Failed Error logging");
         }
     }
 
@@ -5535,7 +5535,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showSQLException("Error occured while updating teacher table");
+            showException("Error occured while updating teacher table");
         }
     }
 
@@ -5545,11 +5545,9 @@ public class ClassTest extends javax.swing.JFrame {
              if ("Nimbus".equals(info.getName())) {
              javax.swing.UIManager.setLookAndFeel(info.getClassName());
              break;
-
              }
              }*/
             UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
-
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ClassTest.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -5564,7 +5562,6 @@ public class ClassTest extends javax.swing.JFrame {
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ClassTest();
@@ -5625,6 +5622,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton49;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton50;
+    private javax.swing.JButton jButton51;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -5634,6 +5632,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
     private javax.swing.JComboBox jComboBox5;
+    private javax.swing.JComboBox jComboBox6;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -5717,6 +5716,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
