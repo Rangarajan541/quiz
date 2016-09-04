@@ -5394,7 +5394,7 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void logActivity(String username, String event) {
         java.util.Date datetime = new java.util.Date();
-        SimpleDateFormat format = null;
+        SimpleDateFormat format;
         try {
             format = new SimpleDateFormat("yyyyMMddHHmmss");
             stmt.executeUpdate("insert into activitylog values (\"" + username + "\", \"" + event + "\",\"" + format.format(new java.util.Date()) + "\");");
@@ -5406,7 +5406,7 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void updateStudentTestList() {
         ResultSet rs, rs2;
-        String selectedSubject = null, statusRep = "Error";
+        String selectedSubject, statusRep = "Error";
         String subject = null;
         try {
             if (jComboBox1.getSelectedIndex() == 0) {
@@ -5446,7 +5446,6 @@ public class ClassTest extends javax.swing.JFrame {
                             pendingTotal++;
                         }
                     } catch (NullPointerException ex) {
-                        continue;
                     }
                 }
                 jTextField12.setText(Integer.toString(pendingTotal));
@@ -5476,17 +5475,11 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private boolean isUserStudent() {
-        if (PRESENTUSERTYPE == TYPE_STUDENT) {
-            return true;
-        }
-        return false;
+        return PRESENTUSERTYPE == TYPE_STUDENT;
     }
 
     private boolean isUserTeacher() {
-        if (PRESENTUSERTYPE != TYPE_STUDENT) {
-            return true;
-        }
-        return false;
+        return PRESENTUSERTYPE != TYPE_STUDENT;
     }
 
     private boolean abortTest() {
@@ -5608,21 +5601,13 @@ public class ClassTest extends javax.swing.JFrame {
              }
              }*/
             UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ClassTest.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ClassTest();
             }
