@@ -282,6 +282,7 @@ public class ClassTest extends javax.swing.JFrame {
                 antiCheatFrame.setVisible(true);
                 jTextArea4.setText("Please go back to test window or test will lock within:\n\n" + acSeconds + " Seconds.\n\nThis is warning " + acCount + " of " + totalAllowedCheats);
                 antiCheatTask = new java.util.TimerTask() {
+                    @Override
                     public void run() {
                         if (acSeconds == 1) {
                             antiCheatFrame.dispose();
@@ -3835,8 +3836,8 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private BigInteger validatePassword(char[] a, char[] b, boolean check) {
-        BigInteger big = null;
-        boolean passwordsMatch = false;
+        BigInteger big;
+        boolean passwordsMatch;
         if (check) {
             passwordsMatch = Arrays.equals(a, b);
         } else {
@@ -3864,17 +3865,13 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
         ResultSet rs;
-        boolean regNameCorrect = false, passwordCorrect = false;
+        boolean regNameCorrect, passwordCorrect;
         String regName = jTextField4.getText().trim();
         regNameCorrect = validateRegName(regName, 0);
         char[] password = jPasswordField2.getPassword();
         char[] passwordConfirm = jPasswordField3.getPassword();
         BigInteger big = validatePassword(password, passwordConfirm, true);
-        if (big == null) {
-            passwordCorrect = false;
-        } else {
-            passwordCorrect = true;
-        }
+        passwordCorrect = big != null;
         if (regNameCorrect && passwordCorrect) {
             try {
                 stmt.executeUpdate("insert into student_auth values(\"" + regName + "\",\"" + big + "\",0);");
@@ -4036,63 +4033,68 @@ public class ClassTest extends javax.swing.JFrame {
         int marks = 0;
         try {
             String testid = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-            if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).equals("Locked")) {
-                JOptionPane.showMessageDialog(studentPanelPage, "That test is locked.", "Access Denied", JOptionPane.ERROR_MESSAGE);
-            } else if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).equals("Taken")) {
-                JOptionPane.showMessageDialog(studentPanelPage, "You've already taken this test.", "Access Denied", JOptionPane.ERROR_MESSAGE);
-            } else {
-                int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
-                if (answer == 0) {
-                    stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
-                    studentPanelPage.dispose();
-                    currentTestID = testid;
-                    jLabel38.setText((String) jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-                    rs = stmt.executeQuery("select points from testlist where testid=\"" + testid + "\";");
-                    if (rs.next()) {
-                        marks = rs.getInt(1);
-                    }
-                    jLabel39.setText("Marks per Question: " + marks);
-                    studentQuestionPage.setVisible(true);
-                    rs = stmt.executeQuery("select seconds from testlist where testid=\"" + testid + "\";");
-                    if (rs.next()) {
-                        testCountdown = rs.getInt(1);
-                    }
-                    testTimerTask = new java.util.TimerTask() {
-                        public void run() {
-                            if (testCountdown == 1) {
-                                JOptionPane.showMessageDialog(studentQuestionPage, "Oops! Time up!", "Time up", JOptionPane.INFORMATION_MESSAGE);
-                                finishTest();
-                                testTimerTask.cancel();
-                                isTestInProgress = false;
-                            }
-                            if (testCountdown <= 60) {
-                                Color r = new Color(255, 0, 0);
-                                Color b = new Color(0, 0, 0);
-                                if (red) {
-                                    jTextField2.setForeground(r);
-                                    red = false;
-                                } else {
-                                    jTextField2.setForeground(b);
-                                    red = true;
-                                }
-                            }
-                            testCountdown--;
-                            int min = testCountdown / 60;
-                            int sec = testCountdown % 60;
-                            jTextField2.setText(min + ":" + sec);
+            switch ((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)) {
+                case "Locked":
+                    JOptionPane.showMessageDialog(studentPanelPage, "That test is locked.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case "Taken":
+                    JOptionPane.showMessageDialog(studentPanelPage, "You've already taken this test.", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                    break;
+                default:
+                    int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
+                    if (answer == 0) {
+                        stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
+                        studentPanelPage.dispose();
+                        currentTestID = testid;
+                        jLabel38.setText((String) jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+                        rs = stmt.executeQuery("select points from testlist where testid=\"" + testid + "\";");
+                        if (rs.next()) {
+                            marks = rs.getInt(1);
                         }
-                    };
-                    wakeUpTimer.scheduleAtFixedRate(testTimerTask, 1000, 1000);
-                    isTestInProgress = true;
-                    rs = stmt.executeQuery("select count(*) from testquestions_" + testid);
-                    if (rs.next()) {
-                        totalQuestions = rs.getInt(1);
+                        jLabel39.setText("Marks per Question: " + marks);
+                        studentQuestionPage.setVisible(true);
+                        rs = stmt.executeQuery("select seconds from testlist where testid=\"" + testid + "\";");
+                        if (rs.next()) {
+                            testCountdown = rs.getInt(1);
+                        }
+                        testTimerTask = new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                if (testCountdown == 1) {
+                                    JOptionPane.showMessageDialog(studentQuestionPage, "Oops! Time up!", "Time up", JOptionPane.INFORMATION_MESSAGE);
+                                    finishTest();
+                                    testTimerTask.cancel();
+                                    isTestInProgress = false;
+                                }
+                                if (testCountdown <= 60) {
+                                    Color r = new Color(255, 0, 0);
+                                    Color b = new Color(0, 0, 0);
+                                    if (red) {
+                                        jTextField2.setForeground(r);
+                                        red = false;
+                                    } else {
+                                        jTextField2.setForeground(b);
+                                        red = true;
+                                    }
+                                }
+                                testCountdown--;
+                                int min = testCountdown / 60;
+                                int sec = testCountdown % 60;
+                                jTextField2.setText(min + ":" + sec);
+                            }
+                        };
+                        wakeUpTimer.scheduleAtFixedRate(testTimerTask, 1000, 1000);
+                        isTestInProgress = true;
+                        rs = stmt.executeQuery("select count(*) from testquestions_" + testid);
+                        if (rs.next()) {
+                            totalQuestions = rs.getInt(1);
+                        }
+                        jTextField14.setText(Integer.toString(totalQuestions));
+                        currentTestID = testid;
+                        initiateTest(testid);
+                        issuedWarnings = 0;
                     }
-                    jTextField14.setText(Integer.toString(totalQuestions));
-                    currentTestID = testid;
-                    initiateTest(testid);
-                    issuedWarnings = 0;
-                }
+                    break;
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             JOptionPane.showMessageDialog(studentPanelPage, "You need to select a test.", "No test selected", JOptionPane.WARNING_MESSAGE);
@@ -4111,7 +4113,7 @@ public class ClassTest extends javax.swing.JFrame {
         isTestInProgress = false;
         studentQuestionPage.dispose();
         studentFinishTestPage.setVisible(true);
-        ArrayList<String> finalAnswersList = new ArrayList<String>();
+        ArrayList<String> finalAnswersList = new ArrayList<>();
         ResultSet rs;
         int correctAnswers = 0, wrongAnswers = 0, marks = 1;
         try {
@@ -4204,16 +4206,22 @@ public class ClassTest extends javax.swing.JFrame {
             rs = stmt.executeQuery("select question_" + getQuestionIndex(curQuesInd) + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
             if (rs.next()) {
                 String ans = rs.getString(1);
-                if (ans.equals("a")) {
-                    jRadioButton1.setSelected(true);
-                } else if (ans.equals("b")) {
-                    jRadioButton2.setSelected(true);
-                } else if (ans.equals("c")) {
-                    jRadioButton3.setSelected(true);
-                } else if (ans.equals("d")) {
-                    jRadioButton4.setSelected(true);
-                } else if (ans.equals("x")) {
-                    buttonGroup1.clearSelection();
+                switch (ans) {
+                    case "a":
+                        jRadioButton1.setSelected(true);
+                        break;
+                    case "b":
+                        jRadioButton2.setSelected(true);
+                        break;
+                    case "c":
+                        jRadioButton3.setSelected(true);
+                        break;
+                    case "d":
+                        jRadioButton4.setSelected(true);
+                        break;
+                    case "x":
+                        buttonGroup1.clearSelection();
+                        break;
                 }
             }
         } catch (SQLException ex) {
@@ -4259,7 +4267,7 @@ public class ClassTest extends javax.swing.JFrame {
         DefaultListModel flaggedListModel = (DefaultListModel) jList2.getModel();
         if (flaggedListModel.removeElement("Question " + Integer.toString(curQuesInd + 1))) {
             totalFlagged--;
-        };
+        }
         jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton26ActionPerformed
 
@@ -4368,7 +4376,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
 
         try {
-            File f = null;
+            File f;
             int val = jFileChooser1.showOpenDialog(teacherQuestionPage);
             if (val == JFileChooser.APPROVE_OPTION) {
                 createTestFrame();
@@ -4621,8 +4629,6 @@ public class ClassTest extends javax.swing.JFrame {
             jButton31.doClick();
         } else if (ans == JOptionPane.NO_OPTION) {
             editQuestionPage.dispose();
-        } else if (ans == JOptionPane.CANCEL_OPTION) {
-            return;
         }
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
@@ -4732,13 +4738,10 @@ public class ClassTest extends javax.swing.JFrame {
                 showException("Error while saving file", ex);
             } finally {
                 try {
-                    fw.close();
-                } catch (NullPointerException e1) {
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                    showException("IOException occured while closing FileWriter", e2);
+                    if (fw != null) {
+                        fw.close();
+                    }
                 } catch (Exception e3) {
-                    e3.printStackTrace();
                     showException("Unknown Exception occured while closing FileWriter", e3);
                 }
             }
@@ -4857,11 +4860,14 @@ public class ClassTest extends javax.swing.JFrame {
         if (ans == JOptionPane.YES_OPTION) {
             try {
                 String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
-                if (type.equals("teacher")) {
-                    stmt.executeUpdate("delete from teacher_auth where name =\"" + name + "\";");
-                } else if (type.equals("student")) {
-                    stmt.executeUpdate("delete from student_auth where name =\"" + name + "\";");
-                    stmt.executeUpdate("drop table studenthistorydatabase_" + name);
+                switch (type) {
+                    case "teacher":
+                        stmt.executeUpdate("delete from teacher_auth where name =\"" + name + "\";");
+                        break;
+                    case "student":
+                        stmt.executeUpdate("delete from student_auth where name =\"" + name + "\";");
+                        stmt.executeUpdate("drop table studenthistorydatabase_" + name);
+                        break;
                 }
                 JOptionPane.showMessageDialog(adminPage, "User " + name + " was successfully removed from the database.", "User deleted", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
@@ -4995,9 +5001,9 @@ public class ClassTest extends javax.swing.JFrame {
                 try {
                     int correctAnswers = 0, wrongAnswers = 0;
                     rs = stmt.executeQuery("select * from testquestions_" + testid + " order by sno;");
-                    int totalQuestions = 0;
+                    int totalQuestionsLocal = 0;
                     while (rs.next()) {
-                        totalQuestions++;
+                        totalQuestionsLocal++;
                         String question = rs.getString("question");
                         String correctAnswer = rs.getString("answer");
                         String selectedAnswer = "x";
@@ -5032,7 +5038,7 @@ public class ClassTest extends javax.swing.JFrame {
                     jLabel50.setText("Wrong Answers: " + wrongAnswers);
                     jLabel76.setText("Issued cheat warnings: " + cheatWarnings);
                     jTextField6.setText(Integer.toString(correctAnswers * points));
-                    jTextField7.setText(Integer.toString(totalQuestions * points));
+                    jTextField7.setText(Integer.toString(totalQuestionsLocal * points));
                     studentFinishTestPage.setVisible(true);
                 } catch (SQLException ex) {
 
@@ -5128,7 +5134,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void updateSearchList() {
-        ResultSet rs = null;
+        ResultSet rs;
         String name = jTextField10.getText();
         DefaultTableModel searchModel = (DefaultTableModel) jTable7.getModel();
         searchModel.setRowCount(0);
@@ -5188,10 +5194,9 @@ public class ClassTest extends javax.swing.JFrame {
                 rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     testReportModel.addRow(new Object[]{rs.getString(1), rs2.getInt(1)});
-                    continue;
                 }
             }
-            int i = 0, highest = 0, lowest = (Integer) jTable5.getValueAt(0, 1);
+            int i, highest = 0, lowest = (Integer) jTable5.getValueAt(0, 1);
             for (i = 0; i < jTable5.getRowCount(); i++) {
                 int curMark = (Integer) jTable5.getValueAt(i, 1);
                 totalMarks += curMark;
@@ -5213,30 +5218,43 @@ public class ClassTest extends javax.swing.JFrame {
         String result = null;
         String teacherSub = getTeacherSubject();
         int resultNo = 1;
-        if (teacherSub.equals("Business Studies")) {
-            result = "biz_";
-        } else if (teacherSub.equals("Accountancy")) {
-            result = "acc_";
-        } else if (teacherSub.equals("Informatics Practices")) {
-            result = "ip_";
-        } else if (teacherSub.equals("Economics")) {
-            result = "eco_";
-        } else if (teacherSub.equals("English")) {
-            result = "eng_";
-        } else if (teacherSub.equals("Physics")) {
-            result = "phy_";
-        } else if (teacherSub.equals("Chemistry")) {
-            result = "chem_";
-        } else if (teacherSub.equals("Biology")) {
-            result = "bio_";
-        } else if (teacherSub.equals("Mathematics")) {
-            result = "math_";
-        } else if (teacherSub.equals("History")) {
-            result = "his_";
-        } else if (teacherSub.equals("Geography")) {
-            result = "geo_";
-        } else if (teacherSub.equals("Civics")) {
-            result = "civ_";
+        switch (teacherSub) {
+            case "Business Studies":
+                result = "biz_";
+                break;
+            case "Accountancy":
+                result = "acc_";
+                break;
+            case "Informatics Practices":
+                result = "ip_";
+                break;
+            case "Economics":
+                result = "eco_";
+                break;
+            case "English":
+                result = "eng_";
+                break;
+            case "Physics":
+                result = "phy_";
+                break;
+            case "Chemistry":
+                result = "chem_";
+                break;
+            case "Biology":
+                result = "bio_";
+                break;
+            case "Mathematics":
+                result = "math_";
+                break;
+            case "History":
+                result = "his_";
+                break;
+            case "Geography":
+                result = "geo_";
+                break;
+            case "Civics":
+                result = "civ_";
+                break;
         }
         try {
             rs = stmt.executeQuery("select testid from testlist where subject=\"" + teacherSub + "\" order by testid desc;");
