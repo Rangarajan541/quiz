@@ -4499,12 +4499,19 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(editQuestionPage, "All changes successfully saved.", "Edit Successful", JOptionPane.INFORMATION_MESSAGE);
             editQuestionPage.dispose();
             updateTeacherTestList();
+            cleanUpAfterCreation();
         } catch (SQLException ex) {
             ex.printStackTrace();
             showSQLException("Error occured while updating edits to database");
         }
     }//GEN-LAST:event_jButton31ActionPerformed
 
+    private void cleanUpAfterCreation() {
+        DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
+        model.setRowCount(0);
+        jTextField16.setText(null);
+        jTextField8.setText(null);
+    }
     private void jTable9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable9MouseClicked
 
         if (evt.getClickCount() == 2) {
@@ -4650,8 +4657,13 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
 
-        updateTestReport();
-        teacherTestReportPage.setVisible(true);
+        if (jTable2.getSelectedRow() != -1) {
+            updateTestReport();
+            teacherTestReportPage.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test", "No test selected", JOptionPane.ERROR_MESSAGE);
+        }
+
 
     }//GEN-LAST:event_jButton16ActionPerformed
 
@@ -5081,6 +5093,8 @@ public class ClassTest extends javax.swing.JFrame {
             jTextField21.setText(Double.toString(totalMarks / (i)));
             jTextField23.setText(Integer.toString(lowest));
             jTextField22.setText(Integer.toString(highest));
+        } catch (ArrayIndexOutOfBoundsException ex) {
+
         } catch (SQLException ex) {
             ex.printStackTrace();
             showSQLException("Error occured while updating test report");
