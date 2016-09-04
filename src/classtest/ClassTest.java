@@ -1,5 +1,6 @@
 package classtest;
 
+import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -43,7 +44,7 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask testTimerTask;
     private java.util.TimerTask antiCheatTask;
     private final String separator = "==InternalSeparator==";
-    private boolean isTestInProgress = false, canCheat = true;
+    private boolean isTestInProgress = false, canCheat = true, red = true;
 
     public ClassTest() {
         initComponents();
@@ -270,33 +271,37 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void preventCheating() {
-        if (acCount == (totalAllowedCheats)) {
-            antiCheatFrame.dispose();
-            antiCheatTask.cancel();
-            finishTest();
-            JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
-        } else {
-            acCount++;
-            antiCheatFrame.setVisible(true);
-            jTextArea4.setText("Please go back to test window or test will lock within:\n\n" + acSeconds + " Seconds.\n\nThis is warning " + acCount + " of " + totalAllowedCheats);
-            antiCheatTask = new java.util.TimerTask() {
-                public void run() {
-                    if (acSeconds == 1) {
-                        antiCheatFrame.dispose();
-                        antiCheatTask.cancel();
-                        finishTest();
-                        JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        acSeconds--;
-                        jTextArea4.setText("Please go back to test window or test will lock within:\n\n" + acSeconds + " Seconds.\n\nThis is warning " + acCount + " of " + totalAllowedCheats);
+        try {
+            if (acCount == (totalAllowedCheats)) {
+                antiCheatFrame.dispose();
+                antiCheatTask.cancel();
+                finishTest();
+                JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
+            } else {
+                acCount++;
+                antiCheatFrame.setVisible(true);
+                jTextArea4.setText("Please go back to test window or test will lock within:\n\n" + acSeconds + " Seconds.\n\nThis is warning " + acCount + " of " + totalAllowedCheats);
+                antiCheatTask = new java.util.TimerTask() {
+                    public void run() {
+                        if (acSeconds == 1) {
+                            antiCheatFrame.dispose();
+                            antiCheatTask.cancel();
+                            finishTest();
+                            JOptionPane.showMessageDialog(studentFinishTestPage, "Anti Cheat detection worked and the test locked.\nIf you think this was an error, contact system administrator.", "Test Locked", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            acSeconds--;
+                            jTextArea4.setText("Please go back to test window or test will lock within:\n\n" + acSeconds + " Seconds.\n\nThis is warning " + acCount + " of " + totalAllowedCheats);
+                        }
                     }
+                };
+                issuedWarnings++;
+                logActivity(loginName, "Student issued cheat warnings.");
+                if (totalCheatSeconds != 0) {
+                    wakeUpTimer.scheduleAtFixedRate(antiCheatTask, 1000, 1000);
                 }
-            };
-            issuedWarnings++;
-            logActivity(loginName, "Student issued cheat warnings.");
-            if (totalCheatSeconds != 0) {
-                wakeUpTimer.scheduleAtFixedRate(antiCheatTask, 1000, 1000);
             }
+        } catch (NullPointerException ex) {
+
         }
     }
 
@@ -3977,6 +3982,7 @@ public class ClassTest extends javax.swing.JFrame {
                     jLabel5.setText("Welcome, " + loginName);
                     studentPanelPage.setVisible(true);
                     updateStudentTestList();
+                    updateStudentTestListForStatus();
                 } else {
                     stmt.executeUpdate("update teacher_auth set onlinestatus=1 where name=\"" + loginName + "\";");
                     jLabel20.setText("Welcome, " + loginName);
@@ -4015,11 +4021,13 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         updateStudentTestList();
+        updateStudentTestListForStatus();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
 
         updateStudentTestList();
+        updateStudentTestListForStatus();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
@@ -4062,6 +4070,17 @@ public class ClassTest extends javax.swing.JFrame {
                                 finishTest();
                                 testTimerTask.cancel();
                                 isTestInProgress = false;
+                            }
+                            if (testCountdown <= 60) {
+                                Color r = new Color(255, 0, 0);
+                                Color b = new Color(0, 0, 0);
+                                if (red) {
+                                    jTextField2.setForeground(r);
+                                    red = false;
+                                } else {
+                                    jTextField2.setForeground(b);
+                                    red = true;
+                                }
                             }
                             testCountdown--;
                             int min = testCountdown / 60;
@@ -4305,17 +4324,24 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-
-        ResultSet rs, rs2;
-        DefaultTableModel prevResultsModel = (DefaultTableModel) jTable4.getModel();
-        prevResultsModel.setRowCount(0);
         try {
+            Statement stmt3 = con.createStatement();
+            ResultSet rs, rs2, rs3;
+            DefaultTableModel prevResultsModel = (DefaultTableModel) jTable4.getModel();
+            prevResultsModel.setRowCount(0);
             rs = stmt.executeQuery("select * from studenthistorydatabase_" + loginName + ";");
             while (rs.next()) {
                 String testid = rs.getString("testid");
-                rs2 = stmt2.executeQuery("select description,subject from testlist where testid=\"" + testid + "\";");
+                rs3 = stmt3.executeQuery("select count(*) from testquestions_" + testid + ";");
+                int totalMarks = 0;
+                if (rs3.next()) {
+                    totalMarks = rs3.getInt(1);
+                }
+                rs2 = stmt2.executeQuery("select description,subject,points from testlist where testid=\"" + testid + "\";");
                 if (rs2.next()) {
-                    prevResultsModel.addRow(new Object[]{rs2.getString(2), rs2.getString(1), Integer.toString(rs.getInt("marksearned"))});
+                    totalMarks = totalMarks * rs2.getInt("points");
+                    String score = Integer.toString(rs.getInt("marksearned")) + "/" + totalMarks;
+                    prevResultsModel.addRow(new Object[]{rs2.getString("subject"), rs2.getString("description"), score});
                 }
             }
         } catch (SQLException ex) {
@@ -4987,7 +5013,6 @@ public class ClassTest extends javax.swing.JFrame {
                                 selectedAnswer = rs2.getString(1);
                             }
                         } catch (SQLException ex) {
-
                         }
                         if (selectedAnswer.equals("x")) {
                             selectedAnswer = "Not attempted";
@@ -5029,17 +5054,16 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton51ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton51ActionPerformed
-
+        updateStudentTestList();
         updateStudentTestListForStatus();
     }//GEN-LAST:event_jButton51ActionPerformed
 
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
-
+        updateStudentTestList();
         updateStudentTestListForStatus();
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
     private void updateStudentTestListForStatus() {
-        updateStudentTestList();
         if (jComboBox6.getSelectedIndex() != 0) {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
             String status = (String) jComboBox6.getSelectedItem();
