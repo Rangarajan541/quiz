@@ -920,7 +920,7 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("TEACHER REGISTRATION FORM");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatics Practices", "Economics", "Business Studies", "Accountancy", "English" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatics Practices", "Economics", "Business Studies", "Accountancy", "English", "Physics", "Chemistry", "Biology", "Mathematics", "History", "Geography", "Civics" }));
 
         jLabel18.setText("Select subject:");
 
@@ -1239,13 +1239,14 @@ public class ClassTest extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel84)
-                    .addComponent(jButton51, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton51, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel84)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -4980,9 +4981,13 @@ public class ClassTest extends javax.swing.JFrame {
                         String question = rs.getString("question");
                         String correctAnswer = rs.getString("answer");
                         String selectedAnswer = "x";
-                        rs2 = stmt2.executeQuery("select question_" + rs.getInt("sno") + " from studenthistorydatabase_" + loginName + " where testid=\"" + testid + "\";");
-                        if (rs2.next()) {
-                            selectedAnswer = rs2.getString(1);
+                        try {
+                            rs2 = stmt2.executeQuery("select question_" + rs.getInt("sno") + " from studenthistorydatabase_" + loginName + " where testid=\"" + testid + "\";");
+                            if (rs2.next()) {
+                                selectedAnswer = rs2.getString(1);
+                            }
+                        } catch (SQLException ex) {
+
                         }
                         if (selectedAnswer.equals("x")) {
                             selectedAnswer = "Not attempted";
@@ -5200,6 +5205,20 @@ public class ClassTest extends javax.swing.JFrame {
             result = "eco_";
         } else if (teacherSub.equals("English")) {
             result = "eng_";
+        } else if (teacherSub.equals("Physics")) {
+            result = "phy_";
+        } else if (teacherSub.equals("Chemistry")) {
+            result = "chem_";
+        } else if (teacherSub.equals("Biology")) {
+            result = "bio_";
+        } else if (teacherSub.equals("Mathematics")) {
+            result = "math_";
+        } else if (teacherSub.equals("History")) {
+            result = "his_";
+        } else if (teacherSub.equals("Geography")) {
+            result = "geo_";
+        } else if (teacherSub.equals("Civics")) {
+            result = "civ_";
         }
         try {
             rs = stmt.executeQuery("select testid from testlist where subject=\"" + teacherSub + "\" order by testid desc;");
