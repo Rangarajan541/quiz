@@ -26,6 +26,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author Rangarajan.A
+ */
+@SuppressWarnings("serial")
 public class ClassTest extends javax.swing.JFrame {
 
     private String currentTestID = null;
@@ -4115,7 +4120,7 @@ public class ClassTest extends javax.swing.JFrame {
             resultsModel.setRowCount(0);
             rs = stmt.executeQuery("select answer from testquestions_" + currentTestID + " ;");
             while (rs.next()) {
-                finalAnswersList.add(rs.getString(1));
+                finalAnswersList.add(rs.getString("answer"));
             }
             for (String x : questionList) {
                 String xTokens[] = x.split(separator);
@@ -5134,11 +5139,11 @@ public class ClassTest extends javax.swing.JFrame {
             errModelTable.setRowCount(0);
             rs = stmt.executeQuery("select * from activitylog");
             while (rs.next()) {
-                actModelTable.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
+                actModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("activity"), rs.getString("time")});
             }
             rs = stmt.executeQuery("select * from errorlog");
             while (rs.next()) {
-                errModelTable.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
+                errModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
             }
         } catch (SQLException ex) {
             showException("Error occured while updating logs", ex);
@@ -5157,13 +5162,13 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             rs = stmt.executeQuery("select subject from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
-                jTextField24.setText(rs.getString(1));
+                jTextField24.setText(rs.getString("subject"));
             }
             rs = stmt.executeQuery("select name from student_auth;");
             while (rs.next()) {
-                rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString(1) + " where testid=\"" + testid + "\";");
+                rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString("name") + " where testid=\"" + testid + "\";");
                 if (rs2.next()) {
-                    testReportModel.addRow(new Object[]{rs.getString(1), rs2.getInt(1)});
+                    testReportModel.addRow(new Object[]{rs.getString("name"), rs2.getInt("marksearned")});
                 }
             }
             int i, highest = 0, lowest = (Integer) jTable5.getValueAt(0, 1);
@@ -5228,7 +5233,7 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             rs = stmt.executeQuery("select testid from testlist where subject=\"" + teacherSub + "\" order by testid desc;");
             if (rs.next()) {
-                String tempTokens[] = rs.getString(1).split("_");
+                String tempTokens[] = rs.getString("testid").split("_");
                 resultNo = Integer.parseInt(tempTokens[1]) + 1;
             }
         } catch (SQLException ex) {
@@ -5244,7 +5249,7 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             rs = stmt.executeQuery("select subject from teacher_auth where name=\"" + loginName + "\";");
             if (rs.next()) {
-                subject = rs.getString(1);
+                subject = rs.getString("subject");
             }
         } catch (SQLException ex) {
             showException("Error occured while fetching subject from loginName", ex);
