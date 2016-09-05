@@ -275,6 +275,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void preventCheating() {
+        System.out.println("calleD");
         try {
             if (acCount == (totalAllowedCheats)) {
                 antiCheatFrame.dispose();
@@ -4038,7 +4039,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
+        fetchSystemParameters();
         ResultSet rs;
         totalQuestions = 0;
         int marks = 0;
