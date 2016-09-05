@@ -41,7 +41,7 @@ public class ClassTest extends javax.swing.JFrame {
     private Connection con;
     private Statement stmt, stmt2;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
-    int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300;
+    int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300, flashWarning = 60;
     private String SUBJECT = null, loginName;
     private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
     private java.util.Timer wakeUpTimer;
@@ -327,6 +327,11 @@ public class ClassTest extends javax.swing.JFrame {
                 savedWakeUpSetting = rs.getInt("data");
                 jTextField26.setText(Integer.toString(savedWakeUpSetting));
             }
+            rs = stmt.executeQuery("select * from systemsettings where identifier=\"flashwarningseconds\";");
+            if (rs.next()) {
+                flashWarning = rs.getInt("data");
+                jTextField29.setText(Integer.toString(flashWarning));
+            }
         } catch (SQLException ex) {
             showException("Error occured while loading parameters", ex);
         }
@@ -334,10 +339,10 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void updateSystemParameters() {
         try {
-            System.out.println(jTextField11.getText().trim());
             stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField11.getText().trim()) + " where identifier=\"totalcheatseconds\";");
             stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField25.getText().trim()) + " where identifier=\"totalallowedwarnings\";");
             stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField26.getText().trim()) + " where identifier=\"wakeupseconds\";");
+            stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField29.getText().trim()) + " where identifier=\"flashwarningseconds\";");
             JOptionPane.showMessageDialog(adminPage, "Settings were successfully saved", "Action successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullPointerException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(adminPage, "Fields cannot be empty.\nSet value to 0 to disable the setting.", "Invalid parameters", JOptionPane.ERROR_MESSAGE);
@@ -656,6 +661,8 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField26 = new javax.swing.JTextField();
         jButton47 = new javax.swing.JButton();
         jLabel80 = new javax.swing.JLabel();
+        jLabel85 = new javax.swing.JLabel();
+        jTextField29 = new javax.swing.JTextField();
         jMenuBar13 = new javax.swing.JMenuBar();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem32 = new javax.swing.JMenuItem();
@@ -3351,6 +3358,8 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel80.setText("Fields cannot be blank, set to 0 to disable setting.");
 
+        jLabel85.setText("Specify test timer flash limit:");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
@@ -3360,17 +3369,19 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel27Layout.createSequentialGroup()
                         .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel77)
                             .addComponent(jLabel78)
-                            .addComponent(jLabel79))
+                            .addComponent(jLabel79)
+                            .addComponent(jLabel85))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField11)
                             .addComponent(jTextField25)
-                            .addComponent(jTextField26, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)))
-                    .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jTextField26, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(jTextField29))))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -3389,6 +3400,10 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jLabel79)
                     .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel85)
+                    .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addComponent(jLabel80)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton47)
@@ -4042,7 +4057,7 @@ public class ClassTest extends javax.swing.JFrame {
                         stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
                         studentPanelPage.dispose();
                         currentTestID = testid;
-                        jLabel38.setText((String) jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+                        jLabel38.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
                         rs = stmt.executeQuery("select points from testlist where testid=\"" + testid + "\";");
                         if (rs.next()) {
                             marks = rs.getInt(1);
@@ -4062,7 +4077,7 @@ public class ClassTest extends javax.swing.JFrame {
                                     testTimerTask.cancel();
                                     isTestInProgress = false;
                                 }
-                                if (testCountdown <= 60) {
+                                if (testCountdown <= flashWarning) {
                                     Color r = new Color(255, 0, 0);
                                     Color b = new Color(0, 0, 0);
                                     if (red) {
@@ -5470,6 +5485,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void showException(String a, Exception ex) {
+        ex.printStackTrace();
         StackTraceElement[] list = ex.getStackTrace();
         String x = "";
         for (StackTraceElement y : list) {
@@ -5725,6 +5741,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
@@ -5888,6 +5905,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField27;
     private javax.swing.JTextField jTextField28;
+    private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
