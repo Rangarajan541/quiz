@@ -69,9 +69,10 @@ DROP TABLE IF EXISTS `student_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `student_auth` (
-  `name` varchar(50) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
   `password` varchar(512) DEFAULT NULL,
-  `onlinestatus` int(1) DEFAULT NULL
+  `onlinestatus` int(1) DEFAULT NULL,
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -81,7 +82,56 @@ CREATE TABLE `student_auth` (
 
 LOCK TABLES `student_auth` WRITE;
 /*!40000 ALTER TABLE `student_auth` DISABLE KEYS */;
+INSERT INTO `student_auth` VALUES ('amit','108317418603245272581161763738331279269013253057951070798501290887753974195791',0);
 /*!40000 ALTER TABLE `student_auth` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `studenthistorydatabase_amit`
+--
+
+DROP TABLE IF EXISTS `studenthistorydatabase_amit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `studenthistorydatabase_amit` (
+  `testid` varchar(50) DEFAULT NULL,
+  `marksearned` int(5) DEFAULT NULL,
+  `aborted` int(1) DEFAULT NULL,
+  `cheatwarnings` int(2) DEFAULT NULL,
+  `datetaken` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `studenthistorydatabase_amit`
+--
+
+LOCK TABLES `studenthistorydatabase_amit` WRITE;
+/*!40000 ALTER TABLE `studenthistorydatabase_amit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `studenthistorydatabase_amit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `systemsettings`
+--
+
+DROP TABLE IF EXISTS `systemsettings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `systemsettings` (
+  `identifier` varchar(50) DEFAULT NULL,
+  `data` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `systemsettings`
+--
+
+LOCK TABLES `systemsettings` WRITE;
+/*!40000 ALTER TABLE `systemsettings` DISABLE KEYS */;
+INSERT INTO `systemsettings` VALUES ('totalcheatseconds',5),('totalallowedwarnings',1),('wakeupseconds',300),('flashwarningseconds',60);
+/*!40000 ALTER TABLE `systemsettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -92,11 +142,12 @@ DROP TABLE IF EXISTS `teacher_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teacher_auth` (
-  `name` varchar(50) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
   `password` varchar(512) DEFAULT NULL,
   `subject` varchar(30) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
-  `onlinestatus` int(1) DEFAULT NULL
+  `onlinestatus` int(1) DEFAULT NULL,
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,6 +157,7 @@ CREATE TABLE `teacher_auth` (
 
 LOCK TABLES `teacher_auth` WRITE;
 /*!40000 ALTER TABLE `teacher_auth` DISABLE KEYS */;
+INSERT INTO `teacher_auth` VALUES ('eco Teacher','108317418603245272581161763738331279269013253057951070798501290887753974195791','Economics',1,0),('IP Teacher','108317418603245272581161763738331279269013253057951070798501290887753974195791','Informatics Practices',1,0);
 /*!40000 ALTER TABLE `teacher_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +187,58 @@ CREATE TABLE `testlist` (
 
 LOCK TABLES `testlist` WRITE;
 /*!40000 ALTER TABLE `testlist` DISABLE KEYS */;
+INSERT INTO `testlist` VALUES ('eco_1','eco teacher','Unit test 4','Economics',5,1,'2016-09-05 08:16:45',1800),('ip_1','ip teacher','unit 9','Informatics Practices',10,1,'2016-09-05 08:16:52',2100);
 /*!40000 ALTER TABLE `testlist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `testquestions_eco_1`
+--
+
+DROP TABLE IF EXISTS `testquestions_eco_1`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `testquestions_eco_1` (
+  `sno` int(11) DEFAULT NULL,
+  `question` varchar(2500) DEFAULT NULL,
+  `answer` varchar(5) DEFAULT NULL,
+  `reserve` int(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `testquestions_eco_1`
+--
+
+LOCK TABLES `testquestions_eco_1` WRITE;
+/*!40000 ALTER TABLE `testquestions_eco_1` DISABLE KEYS */;
+INSERT INTO `testquestions_eco_1` VALUES (1,'select a for this question','a',0),(2,'select b','b',0),(3,'select c','c',0),(4,'select \n\n\nd','d',0);
+/*!40000 ALTER TABLE `testquestions_eco_1` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `testquestions_ip_1`
+--
+
+DROP TABLE IF EXISTS `testquestions_ip_1`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `testquestions_ip_1` (
+  `sno` int(11) DEFAULT NULL,
+  `question` varchar(2500) DEFAULT NULL,
+  `answer` varchar(5) DEFAULT NULL,
+  `reserve` int(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `testquestions_ip_1`
+--
+
+LOCK TABLES `testquestions_ip_1` WRITE;
+/*!40000 ALTER TABLE `testquestions_ip_1` DISABLE KEYS */;
+INSERT INTO `testquestions_ip_1` VALUES (1,'select c','c',0),(2,'select d','d',0),(3,'select a','a',0),(4,'select b','b',0);
+/*!40000 ALTER TABLE `testquestions_ip_1` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -147,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-27 16:58:35
+-- Dump completed on 2016-09-05 14:00:32
