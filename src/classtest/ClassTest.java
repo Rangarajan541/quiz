@@ -50,6 +50,7 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask antiCheatTask;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true;
+    private String logLocation = "D:/Online Quiz - Error log.txt";
 
     public ClassTest() {
         initComponents();
@@ -326,23 +327,28 @@ public class ClassTest extends javax.swing.JFrame {
             ResultSet rs;
             rs = stmt.executeQuery("select * from systemsettings where identifier=\"totalcheatseconds\";");
             if (rs.next()) {
-                totalCheatSeconds = rs.getInt("data");
+                totalCheatSeconds = Integer.parseInt(rs.getString("data"));
                 jTextField11.setText(Integer.toString(totalCheatSeconds));
             }
             rs = stmt.executeQuery("select * from systemsettings where identifier=\"totalallowedwarnings\";");
             if (rs.next()) {
-                totalAllowedCheats = rs.getInt("data");
+                totalAllowedCheats = Integer.parseInt(rs.getString("data"));
                 jTextField25.setText(Integer.toString(totalAllowedCheats));
             }
             rs = stmt.executeQuery("select * from systemsettings where identifier=\"wakeupseconds\";");
             if (rs.next()) {
-                savedWakeUpSetting = rs.getInt("data");
+                savedWakeUpSetting = Integer.parseInt(rs.getString("data"));
                 jTextField26.setText(Integer.toString(savedWakeUpSetting));
             }
             rs = stmt.executeQuery("select * from systemsettings where identifier=\"flashwarningseconds\";");
             if (rs.next()) {
-                flashWarning = rs.getInt("data");
+                flashWarning = Integer.parseInt(rs.getString("data"));
                 jTextField29.setText(Integer.toString(flashWarning));
+            }
+            rs = stmt.executeQuery("select * from systemsettings where identifier=\"loglocation\";");
+            if (rs.next()) {
+                logLocation = rs.getString("data");
+                jTextField30.setText(logLocation);
             }
         } catch (SQLException ex) {
             showException("Error occured while loading parameters", ex);
@@ -351,10 +357,11 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void updateSystemParameters() {
         try {
-            stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField11.getText().trim()) + " where identifier=\"totalcheatseconds\";");
-            stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField25.getText().trim()) + " where identifier=\"totalallowedwarnings\";");
-            stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField26.getText().trim()) + " where identifier=\"wakeupseconds\";");
-            stmt.executeUpdate("update systemsettings set data=" + Integer.parseInt(jTextField29.getText().trim()) + " where identifier=\"flashwarningseconds\";");
+            stmt.executeUpdate("update systemsettings set data=\"" + Integer.parseInt(jTextField11.getText().trim()) + "\" where identifier=\"totalcheatseconds\";");
+            stmt.executeUpdate("update systemsettings set data=\"" + Integer.parseInt(jTextField25.getText().trim()) + "\" where identifier=\"totalallowedwarnings\";");
+            stmt.executeUpdate("update systemsettings set data=\"" + Integer.parseInt(jTextField26.getText().trim()) + "\" where identifier=\"wakeupseconds\";");
+            stmt.executeUpdate("update systemsettings set data=\"" + Integer.parseInt(jTextField29.getText().trim()) + "\" where identifier=\"flashwarningseconds\";");
+            stmt.executeUpdate("update systemsettings set data=\"" + jTextField30.getText().trim() + "\" where identifier=\"loglocation\";");
             JOptionPane.showMessageDialog(adminPage, "Settings were successfully saved", "Action successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullPointerException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(adminPage, "Fields cannot be empty.\nSet value to 0 to disable the setting.", "Invalid parameters", JOptionPane.ERROR_MESSAGE);
@@ -685,6 +692,10 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel80 = new javax.swing.JLabel();
         jLabel85 = new javax.swing.JLabel();
         jTextField29 = new javax.swing.JTextField();
+        jLabel86 = new javax.swing.JLabel();
+        jButton54 = new javax.swing.JButton();
+        jTextField30 = new javax.swing.JTextField();
+        jButton55 = new javax.swing.JButton();
         jMenuBar13 = new javax.swing.JMenuBar();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem32 = new javax.swing.JMenuItem();
@@ -3433,6 +3444,25 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel85.setText("Specify test timer flash limit:");
 
+        jLabel86.setText("Select Error log location:");
+
+        jButton54.setText("Select directory");
+        jButton54.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton54ActionPerformed(evt);
+            }
+        });
+
+        jTextField30.setEditable(false);
+        jTextField30.setText("Log location");
+
+        jButton55.setText("Debug: Throw an exception");
+        jButton55.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton55ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
@@ -3440,6 +3470,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField30)
                     .addComponent(jButton47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3454,7 +3485,12 @@ public class ClassTest extends javax.swing.JFrame {
                             .addComponent(jTextField11)
                             .addComponent(jTextField25)
                             .addComponent(jTextField26, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .addComponent(jTextField29))))
+                            .addComponent(jTextField29)))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jLabel86)
+                        .addGap(52, 52, 52)
+                        .addComponent(jButton54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -3476,11 +3512,19 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel85)
                     .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel80)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel86)
+                    .addComponent(jButton54))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton47)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton55)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton23)
                 .addContainerGap())
         );
@@ -5129,6 +5173,34 @@ public class ClassTest extends javax.swing.JFrame {
         updateStudentTestListForStatus();
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
+    private void jButton54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton54ActionPerformed
+        // TODO add your handling code here:
+        try {
+            jFileChooser1.setSelectedFile(new File(jTextField30.getText()));
+            int val = jFileChooser1.showSaveDialog(adminPage);
+            if (val == JFileChooser.APPROVE_OPTION) {
+                File f = jFileChooser1.getSelectedFile();
+                String logPath = f.getCanonicalPath();
+                if (!logPath.endsWith(".txt")) {
+                    logPath = logPath + ".txt";
+                }
+                logPath = logPath.replace('\\', '/');
+                jTextField30.setText(logPath);
+            }
+        } catch (IOException ex) {
+            showException("Error occured while selecting error log location", ex);
+        }
+    }//GEN-LAST:event_jButton54ActionPerformed
+
+    private void jButton55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton55ActionPerformed
+        // TODO add your handling code here:
+        try {
+            throw new Exception("User generated");
+        } catch (Exception ex) {
+            showException("User generated", ex);
+        }
+    }//GEN-LAST:event_jButton55ActionPerformed
+
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
@@ -5558,14 +5630,12 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void showException(String a, Exception ex) {
-        ex.printStackTrace();
-        StackTraceElement[] list = ex.getStackTrace();
-        String x = "";
-        for (StackTraceElement y : list) {
-            x += y.toString();
+        logError(a, ex);
+        if (isUserStudent()) {
+            JOptionPane.showMessageDialog(null, a + "\n\nPlease contact system administrator for more details and to resolve issue.", "Internal error occured.", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, a + "\n\nPlease contact administrator to resolve issue. \nFor more details, check error log located at:\n" + logLocation);
         }
-        logError(a + "     " + x);
-        JOptionPane.showMessageDialog(null, "Oops!\n" + a + "\n\nPlease contact system administrator for more details and to resolve issue.", "Internal error occured.", JOptionPane.ERROR_MESSAGE);
     }
 
     private void logout() {
@@ -5584,18 +5654,25 @@ public class ClassTest extends javax.swing.JFrame {
         logActivity(loginName, "User logged out");
     }
 
-    private void logError(String a) {
+    private void logError(String a, Exception ex) {
         java.util.Date datetime = new java.util.Date();
-        SimpleDateFormat format;
-        try {
-            format = new SimpleDateFormat("yyyyMMddHHmmss");
-            try {
-                stmt.executeUpdate("insert into errorlog values (\"" + loginName + "\", \"" + a + "\",\"" + format.format(new java.util.Date()) + "\");");
-            } catch (NullPointerException ex) {
-                stmt.executeUpdate("insert into errorlog values (\"" + "SYSTEM" + "\", \"" + a + "\",\"" + format.format(new java.util.Date()) + "\");");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy MMMMM dd - HH:mm:ss");
+        try (FileWriter fw = new FileWriter(logLocation, true);) {
+            fw.write("Error Log Time: " + format.format(new java.util.Date()));
+            fw.write(System.getProperty("line.separator"));
+            fw.write("Error message: " + a);
+            fw.write(System.getProperty("line.separator"));
+            StackTraceElement logLines[] = ex.getStackTrace();
+            for (StackTraceElement x : logLines) {
+                fw.write(x.toString());
+                fw.write(System.getProperty("line.separator"));
             }
-        } catch (SQLException ex) {
-            showException("Failed Error logging", ex);
+            fw.write("End");
+            fw.write(System.getProperty("line.separator"));
+            fw.write("___________");
+            fw.write(System.getProperty("line.separator"));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error occured while trying to log errors.");
         }
     }
 
@@ -5604,7 +5681,7 @@ public class ClassTest extends javax.swing.JFrame {
             x.dispose();
         }
     }
-
+    
     private void updateTeacherTestList() {
         ResultSet rs, rs2;
         int selInd = jComboBox4.getSelectedIndex();
@@ -5722,6 +5799,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton51;
     private javax.swing.JButton jButton52;
     private javax.swing.JButton jButton53;
+    private javax.swing.JButton jButton54;
+    private javax.swing.JButton jButton55;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -5825,6 +5904,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
@@ -5990,6 +6070,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField28;
     private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField30;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
