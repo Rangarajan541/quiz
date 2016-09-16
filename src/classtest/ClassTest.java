@@ -59,8 +59,8 @@ public class ClassTest extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "open");
             stmt = con.createStatement();
             stmt2 = con.createStatement();
-        } catch (ClassNotFoundException | SQLException ex) {
-            showException("Error occured while registering sql driver", ex);
+        } catch (Exception ex) {
+            showException("Error occured while establishing database link", ex);
         }
         fetchSystemParameters();
         WindowAdapter onCloseListener = new WindowAdapter() {
