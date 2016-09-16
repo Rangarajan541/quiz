@@ -4975,6 +4975,10 @@ public class ClassTest extends javax.swing.JFrame {
         if (ans == JOptionPane.YES_OPTION) {
             try {
                 String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
+                if (type.equals("teacher") && name.equals(loginName)) {
+                    JOptionPane.showMessageDialog(adminPage, "You cannot delete yourself", "Invalid action", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 switch (type) {
                     case "teacher":
                         stmt.executeUpdate("delete from teacher_auth where name =\"" + name + "\";");
@@ -5634,7 +5638,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (isUserStudent()) {
             JOptionPane.showMessageDialog(null, a + "\n\nPlease contact system administrator for more details and to resolve issue.", "Internal error occured.", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, a + "\n\nPlease contact administrator to resolve issue. \nFor more details, check error log located at:\n" + logLocation);
+            JOptionPane.showMessageDialog(null, a + "\n\nPlease contact administrator to resolve issue. \nFor more details, check error log located at:\n" + logLocation, "Internal error occured", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -5656,11 +5660,20 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void logError(String a, Exception ex) {
         java.util.Date datetime = new java.util.Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy MMMMM dd - HH:mm:ss");
+        SimpleDateFormat format;
+        try {
+            format = new SimpleDateFormat("yyyyMMddHHmmss");
+            stmt.executeUpdate("insert into errorlog values(\"" + loginName + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "An error occured while updating error database. Check Error log located at:\n" + logLocation, "Error Logging error", JOptionPane.ERROR_MESSAGE);
+        }
         try (FileWriter fw = new FileWriter(logLocation, true);) {
+            format = new SimpleDateFormat("yyyy MMMMM dd - HH:mm:ss");
             fw.write("Error Log Time: " + format.format(new java.util.Date()));
             fw.write(System.getProperty("line.separator"));
             fw.write("Error message: " + a);
+            fw.write(System.getProperty("line.separator"));
+            fw.write("Error occured for user: " + loginName);
             fw.write(System.getProperty("line.separator"));
             StackTraceElement logLines[] = ex.getStackTrace();
             for (StackTraceElement x : logLines) {
@@ -5681,7 +5694,7 @@ public class ClassTest extends javax.swing.JFrame {
             x.dispose();
         }
     }
-    
+
     private void updateTeacherTestList() {
         ResultSet rs, rs2;
         int selInd = jComboBox4.getSelectedIndex();
