@@ -3526,9 +3526,10 @@
             <Component class="javax.swing.JComboBox" name="jComboBox7">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="On or Before"/>
-                    <StringItem index="1" value="On or After"/>
+                  <StringArray count="3">
+                    <StringItem index="0" value="On"/>
+                    <StringItem index="1" value="On or Before"/>
+                    <StringItem index="2" value="On or After"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -3676,9 +3677,10 @@
             <Component class="javax.swing.JComboBox" name="jComboBox14">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="On or Before"/>
-                    <StringItem index="1" value="On or After"/>
+                  <StringArray count="3">
+                    <StringItem index="0" value="On"/>
+                    <StringItem index="1" value="On or Before"/>
+                    <StringItem index="2" value="On or After"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -3687,6 +3689,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Go"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton52ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton53">
               <Properties>

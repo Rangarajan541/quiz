@@ -268,14 +268,21 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void generateYearModel() {
-        int x = Calendar.getInstance().get((Calendar.YEAR));
+        Calendar now=Calendar.getInstance();
+        int x = now.get(Calendar.YEAR);
         String[] yearList = new String[x - 2015];
         for (int i = 0; i <= yearList.length - 1; i++) {
             yearList[i] = Integer.toString(2016 + i);
         }
         jComboBox10.setModel(new DefaultComboBoxModel(yearList));
         jComboBox12.setModel(new DefaultComboBoxModel(yearList));
-
+        jComboBox10.setSelectedItem(x);
+        jComboBox12.setSelectedItem(x);
+        System.out.println(now.get(Calendar.DATE));
+        jComboBox8.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
+        jComboBox13.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
+        jComboBox9.setSelectedIndex(now.get(Calendar.MONTH));
+        jComboBox11.setSelectedIndex(now.get(Calendar.MONTH));
     }
 
     private void resetCheatMeasures() {
@@ -3062,7 +3069,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "On or Before", "On or After" }));
+        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "On", "On or Before", "On or After" }));
 
         jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
 
@@ -3076,9 +3083,14 @@ public class ClassTest extends javax.swing.JFrame {
 
         jComboBox13.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
 
-        jComboBox14.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "On or Before", "On or After" }));
+        jComboBox14.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "On", "On or Before", "On or After" }));
 
         jButton52.setText("Go");
+        jButton52.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton52ActionPerformed(evt);
+            }
+        });
 
         jButton53.setText("Go");
 
@@ -5204,6 +5216,10 @@ public class ClassTest extends javax.swing.JFrame {
             showException("User generated", ex);
         }
     }//GEN-LAST:event_jButton55ActionPerformed
+
+    private void jButton52ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton52ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton52ActionPerformed
 
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
