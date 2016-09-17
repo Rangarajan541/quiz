@@ -268,7 +268,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void generateYearModel() {
-        Calendar now=Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
         int x = now.get(Calendar.YEAR);
         String[] yearList = new String[x - 2015];
         for (int i = 0; i <= yearList.length - 1; i++) {
@@ -3093,6 +3093,11 @@ public class ClassTest extends javax.swing.JFrame {
         });
 
         jButton53.setText("Go");
+        jButton53.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton53ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
         jPanel24.setLayout(jPanel24Layout);
@@ -5219,7 +5224,13 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void jButton52ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton52ActionPerformed
         // TODO add your handling code here:
+        updateLogs();
     }//GEN-LAST:event_jButton52ActionPerformed
+
+    private void jButton53ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton53ActionPerformed
+        // TODO add your handling code here:
+        updateLogs();
+    }//GEN-LAST:event_jButton53ActionPerformed
 
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
@@ -5311,17 +5322,60 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void updateLogs() {
-        ResultSet rs;
+        ResultSet rs = null;
         try {
             DefaultTableModel actModelTable = (DefaultTableModel) jTable6.getModel();
             DefaultTableModel errModelTable = (DefaultTableModel) jTable10.getModel();
             actModelTable.setRowCount(0);
             errModelTable.setRowCount(0);
-            rs = stmt.executeQuery("select * from activitylog");
+            Calendar activityDate = Calendar.getInstance();
+            activityDate.set(Calendar.YEAR, Integer.parseInt((String) jComboBox10.getSelectedItem()));
+            activityDate.set(Calendar.MONTH, jComboBox9.getSelectedIndex());
+            activityDate.set(Calendar.DATE, Integer.parseInt((String) jComboBox8.getSelectedItem()));
+            Calendar errorDate = Calendar.getInstance();
+            errorDate.set(Calendar.YEAR, Integer.parseInt((String) jComboBox12.getSelectedItem()));
+            errorDate.set(Calendar.MONTH, jComboBox11.getSelectedIndex());
+            errorDate.set(Calendar.DATE, Integer.parseInt((String) jComboBox13.getSelectedItem()));
+            String actString = (new SimpleDateFormat("yyyyMMdd").format(activityDate.getTime()));
+            activityDate.set(Calendar.DATE, (activityDate.get(Calendar.DATE)) + 1);
+            String actStringNext = (new SimpleDateFormat("yyyyMMdd").format(activityDate.getTime()));
+            String errString = (new SimpleDateFormat("yyyyMMdd").format(errorDate.getTime()));
+            errorDate.set(Calendar.DATE, (errorDate.get(Calendar.DATE)) + 1);
+            String errStringNext = (new SimpleDateFormat("yyyyMMdd").format(errorDate.getTime()));
+            int searchOption = jComboBox7.getSelectedIndex();
+            switch (searchOption) {
+                case 0: {
+                    System.out.println("select * from activitylog where time>=date(" + actString + ") and time <date(" + actStringNext + ");");
+                    rs = stmt.executeQuery("select * from activitylog where time>=date(" + actString + ") and time <date(" + actStringNext + ");");
+                }
+                break;
+                case 1: {
+                    rs = stmt.executeQuery("select * from activitylog where time<=date(" + actString + ");");
+                }
+                break;
+                case 2: {
+                    rs = stmt.executeQuery("select * from activitylog where time>=date(" + actString + ");");
+                }
+                break;
+            }
             while (rs.next()) {
                 actModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("activity"), rs.getString("time")});
             }
-            rs = stmt.executeQuery("select * from errorlog");
+            searchOption = jComboBox14.getSelectedIndex();
+            switch (searchOption) {
+                case 0: {
+                    rs = stmt.executeQuery("select * from errorlog where time>=date(" + errString + ") and time <date(" + errStringNext + ");");
+                }
+                break;
+                case 1: {
+                    rs = stmt.executeQuery("select * from errorlog where time<=date(" + errString + ");");
+                }
+                break;
+                case 2: {
+                    rs = stmt.executeQuery("select * from errorlog where time>=date(" + errString + ");");
+                }
+                break;
+            }
             while (rs.next()) {
                 errModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
             }
