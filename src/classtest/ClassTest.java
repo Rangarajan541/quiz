@@ -1,6 +1,7 @@
 package classtest;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.util.*;
 import javax.swing.*;
@@ -50,7 +53,7 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask antiCheatTask;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true;
-    private String logLocation = "D:/Online Quiz - Error log.txt";
+    private String logLocation = "D:/Online Quiz - Error log.txt", resLocation = "D:/res";
 
     public ClassTest() {
         initComponents();
@@ -243,6 +246,8 @@ public class ClassTest extends javax.swing.JFrame {
         userHistoryPage.pack();
         userHistoryPage.setLocationRelativeTo(adminPage);
         userHistoryPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        imageDisplayPage.setTitle("Question image - You can resize this window");
+        imageDisplayPage.setLocationRelativeTo(studentQuestionPage);
         allWindowList.add(logPage);
         allWindowList.add(adminPage);
         allWindowList.add(editQuestionBridge);
@@ -259,6 +264,7 @@ public class ClassTest extends javax.swing.JFrame {
         allWindowList.add(teacherRegisterPage);
         allWindowList.add(teacherTestReportPage);
         allWindowList.add(userHistoryPage);
+        allWindowList.add(imageDisplayPage);
         for (JFrame x : allWindowList) {
             x.addFocusListener(wakeUpListenerFocus);
             x.addKeyListener(wakeUpListenerKey);
@@ -357,6 +363,11 @@ public class ClassTest extends javax.swing.JFrame {
                 logLocation = rs.getString("data");
                 jTextField30.setText(logLocation);
             }
+            rs = stmt.executeQuery("select * from systemsettings where identifier=\"reslocation\";");
+            if (rs.next()) {
+                resLocation = rs.getString("data");
+                jTextField31.setText(resLocation);
+            }
         } catch (SQLException ex) {
             showException("Error occured while loading parameters", ex);
         }
@@ -369,6 +380,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("update systemsettings set data=\"" + Integer.parseInt(jTextField26.getText().trim()) + "\" where identifier=\"wakeupseconds\";");
             stmt.executeUpdate("update systemsettings set data=\"" + Integer.parseInt(jTextField29.getText().trim()) + "\" where identifier=\"flashwarningseconds\";");
             stmt.executeUpdate("update systemsettings set data=\"" + jTextField30.getText().trim() + "\" where identifier=\"loglocation\";");
+            stmt.executeUpdate("update systemsettings set data=\"" + jTextField31.getText().trim() + "\" where identifier=\"reslocation\";");
             JOptionPane.showMessageDialog(adminPage, "Settings were successfully saved", "Action successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullPointerException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(adminPage, "Fields cannot be empty.\nSet value to 0 to disable the setting.", "Invalid parameters", JOptionPane.ERROR_MESSAGE);
@@ -509,6 +521,8 @@ public class ClassTest extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jButton4 = new javax.swing.JButton();
+        jButton56 = new javax.swing.JButton();
+        jLabel87 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton17 = new javax.swing.JButton();
         jLabel70 = new javax.swing.JLabel();
@@ -605,6 +619,7 @@ public class ClassTest extends javax.swing.JFrame {
         jButton33 = new javax.swing.JButton();
         jButton34 = new javax.swing.JButton();
         jButton35 = new javax.swing.JButton();
+        jButton57 = new javax.swing.JButton();
         jMenuBar15 = new javax.swing.JMenuBar();
         jMenu15 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
@@ -703,6 +718,9 @@ public class ClassTest extends javax.swing.JFrame {
         jButton54 = new javax.swing.JButton();
         jTextField30 = new javax.swing.JTextField();
         jButton55 = new javax.swing.JButton();
+        jLabel88 = new javax.swing.JLabel();
+        jButton58 = new javax.swing.JButton();
+        jTextField31 = new javax.swing.JTextField();
         jMenuBar13 = new javax.swing.JMenuBar();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem32 = new javax.swing.JMenuItem();
@@ -733,6 +751,9 @@ public class ClassTest extends javax.swing.JFrame {
         jMenuBar16 = new javax.swing.JMenuBar();
         jMenu16 = new javax.swing.JMenu();
         jMenuItem40 = new javax.swing.JMenuItem();
+        imageDisplayPage = new javax.swing.JFrame();
+        jScrollPane18 = new javax.swing.JScrollPane();
+        jLabel89 = new javax.swing.JLabel();
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -1755,6 +1776,15 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
+        jButton56.setText("View image");
+        jButton56.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton56ActionPerformed(evt);
+            }
+        });
+
+        jLabel87.setText("This question has a picture:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -1783,14 +1813,23 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGap(316, 316, 316))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel87, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton56)
+                    .addComponent(jLabel87))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton4)
@@ -1874,7 +1913,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -2576,17 +2615,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable9.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Questions", "Answers"
+                "Questions", "Answers", "Image"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2660,6 +2699,13 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
+        jButton57.setText("Add image for selected question");
+        jButton57.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton57ActionPerformed(evt);
+            }
+        });
+
         jMenu15.setText("Nav");
 
         jMenuItem17.setText("Back");
@@ -2698,31 +2744,32 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(editQuestionPageLayout.createSequentialGroup()
-                        .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(editQuestionPageLayout.createSequentialGroup()
-                                .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(editQuestionPageLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel64)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel66)
-                                    .addComponent(jLabel65))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButton57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(editQuestionPageLayout.createSequentialGroup()
+                        .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(editQuestionPageLayout.createSequentialGroup()
                         .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(12, Short.MAX_VALUE))))
-            .addGroup(editQuestionPageLayout.createSequentialGroup()
-                .addGap(275, 275, 275)
-                .addComponent(jButton31)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap(12, Short.MAX_VALUE))
+                    .addGroup(editQuestionPageLayout.createSequentialGroup()
+                        .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(editQuestionPageLayout.createSequentialGroup()
+                                .addComponent(jLabel64)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel66)
+                                    .addComponent(jLabel65)))
+                            .addGroup(editQuestionPageLayout.createSequentialGroup()
+                                .addGap(261, 261, 261)
+                                .addComponent(jButton31)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         editQuestionPageLayout.setVerticalGroup(
             editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2731,6 +2778,8 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jButton57)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton33)
@@ -3480,6 +3529,18 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
+        jLabel88.setText("Select location to save images:");
+
+        jButton58.setText("Select directory");
+        jButton58.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton58ActionPerformed(evt);
+            }
+        });
+
+        jTextField31.setEditable(false);
+        jTextField31.setText("Image location");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
@@ -3487,6 +3548,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField31)
                     .addComponent(jTextField30)
                     .addComponent(jButton47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3507,7 +3569,11 @@ public class ClassTest extends javax.swing.JFrame {
                         .addComponent(jLabel86)
                         .addGap(52, 52, 52)
                         .addComponent(jButton54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jLabel88)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -3537,9 +3603,15 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jButton54))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel88)
+                    .addComponent(jButton58))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton47)
+                .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton55)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton23)
@@ -3815,6 +3887,25 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jScrollPane18.setViewportView(jLabel89);
+
+        javax.swing.GroupLayout imageDisplayPageLayout = new javax.swing.GroupLayout(imageDisplayPage.getContentPane());
+        imageDisplayPage.getContentPane().setLayout(imageDisplayPageLayout);
+        imageDisplayPageLayout.setHorizontalGroup(
+            imageDisplayPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imageDisplayPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        imageDisplayPageLayout.setVerticalGroup(
+            imageDisplayPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(imageDisplayPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
         setEnabled(false);
@@ -3993,7 +4084,7 @@ public class ClassTest extends javax.swing.JFrame {
             passwordsMatch = true;
         }
         if (passwordsMatch) {
-            if (a.length >= 8) {
+            if (a.length >= 4) {
                 MessageDigest digest;
                 try {
                     digest = MessageDigest.getInstance("SHA-256");
@@ -4004,7 +4095,7 @@ public class ClassTest extends javax.swing.JFrame {
                     showException("Problem importing Java Security libraries. SHA256 NOT FOUND.", ex);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Your password must be at least 8 characters long.", "Password too short", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Your password must be at least 4 characters long.", "Password too short", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Your passwords do not match.", "Password mismatch", JOptionPane.ERROR_MESSAGE);
@@ -4476,20 +4567,25 @@ public class ClassTest extends javax.swing.JFrame {
             prevResultsModel.setRowCount(0);
             rs = stmt.executeQuery("select * from studenthistorydatabase_" + loginName + ";");
             while (rs.next()) {
-                String testid = rs.getString("testid");
-                rs3 = stmt3.executeQuery("select count(*) from testquestions_" + testid + ";");
-                int totalMarks = 0;
-                if (rs3.next()) {
-                    totalMarks = rs3.getInt(1);
-                }
-                rs2 = stmt2.executeQuery("select description,subject,points from testlist where testid=\"" + testid + "\";");
-                if (rs2.next()) {
-                    totalMarks = totalMarks * rs2.getInt("points");
-                    String score = Integer.toString(rs.getInt("marksearned")) + "/" + totalMarks;
-                    prevResultsModel.addRow(new Object[]{rs2.getString("subject"), rs2.getString("description"), score});
+                try {
+                    String testid = rs.getString("testid");
+                    rs3 = stmt3.executeQuery("select count(*) from testquestions_" + testid + ";");
+                    int totalMarks = 0;
+                    if (rs3.next()) {
+                        totalMarks = rs3.getInt(1);
+                    }
+                    rs2 = stmt2.executeQuery("select description,subject,points from testlist where testid=\"" + testid + "\";");
+                    if (rs2.next()) {
+                        totalMarks = totalMarks * rs2.getInt("points");
+                        String score = Integer.toString(rs.getInt("marksearned")) + "/" + totalMarks;
+                        prevResultsModel.addRow(new Object[]{rs2.getString("subject"), rs2.getString("description"), score});
+                    }
+                } catch (SQLException ex) {
+
                 }
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             showException("Error occured while displaying previous resuts", ex);
         }
         studentPreviousResultsPage.setVisible(true);
@@ -4581,6 +4677,23 @@ public class ClassTest extends javax.swing.JFrame {
             int result = JOptionPane.showConfirmDialog(teacherPanelPage, "Are you sure that you want to delete this test?\n\nTest ID: " + x + "\nTest Description: " + descx + "\nThis action CANNOT be undone.", "Delete Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
                 try {
+                    ResultSet rs = stmt.executeQuery("select imagesource from testquestions_" + x + ";");
+                    File parentDir = null;
+                    while (rs.next()) {
+                        File tempFile = new File(rs.getString("imagesource"));
+                        if (tempFile.exists()) {
+                            parentDir = tempFile.getParentFile();
+                            tempFile.delete();
+                        }
+                    }
+                    try {
+                        for (File f : parentDir.listFiles()) {
+                            f.delete();
+                        }
+                        parentDir.delete();
+                    } catch (NullPointerException ex) {
+
+                    }
                     stmt.executeUpdate("delete from testlist where testid=\"" + x + "\";");
                     stmt.executeUpdate("drop table testquestions_" + x);
                     JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was deleted.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
@@ -4618,7 +4731,8 @@ public class ClassTest extends javax.swing.JFrame {
             while (rs.next()) {
                 String question = rs.getString("question");
                 String answer = rs.getString("answer");
-                editQuestionsModel.addRow(new Object[]{question, answer});
+                String imagesource = rs.getString("imagesource");
+                editQuestionsModel.addRow(new Object[]{question, answer, imagesource});
             }
         } catch (SQLException ex) {
             showException("Error occured while updating edit question list", ex);
@@ -4672,10 +4786,34 @@ public class ClassTest extends javax.swing.JFrame {
                 int ans = JOptionPane.showConfirmDialog(editQuestionPage, "There aren't any questions. Test will be locked. Would you like to proceed?", "Empty Test", JOptionPane.YES_NO_OPTION);
                 if (ans == JOptionPane.YES_OPTION) {
                     stmt.executeUpdate("update testlist set status=0 where testid=\"" + testid + "\";");
+                } else {
+                    return;
                 }
             } else {
-                for (int i = 0; i < jTable9.getRowCount(); i++) {
-                    stmt.executeUpdate("insert into testquestions_" + testid + " values (" + Integer.toString(i + 1) + ",\"" + jTable9.getValueAt(i, 0) + "\",\"" + jTable9.getValueAt(i, 1) + "\",0);");
+                try {
+                    File folder = new File(resLocation + jTextField15.getText().trim());
+                    if (!folder.exists()) {
+                        folder.mkdirs();
+                    }
+
+                    for (int i = 0; i < jTable9.getRowCount(); i++) {
+                        String tempPath = (String) jTable9.getValueAt(i, 2);
+                        String imgPath = "";
+                        if (tempPath != null) {
+                            File x = new File((String) jTable9.getValueAt(i, 2));
+                            if (x.exists()) {
+                                int index = x.getCanonicalPath().lastIndexOf('.');
+                                String extension = x.getCanonicalPath().substring(index, x.getCanonicalPath().length());
+                                File newPath = new File(folder.getCanonicalPath() + "/Question_" + Integer.toString(i + 1) + extension);
+                                Files.copy(x.toPath(), newPath.toPath(),StandardCopyOption.REPLACE_EXISTING);
+                                imgPath = newPath.getCanonicalPath().replace('\\', '/');
+                            }
+                        }
+                        stmt.executeUpdate("insert into testquestions_" + testid + " values (" + Integer.toString(i + 1) + ",\"" + jTable9.getValueAt(i, 0) + "\",\"" + jTable9.getValueAt(i, 1) + "\",\"" + imgPath + "\",0);");
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    showException("Error occured while uploading image", ex);
                 }
             }
             JOptionPane.showMessageDialog(editQuestionPage, "All changes successfully saved.", "Edit Successful", JOptionPane.INFORMATION_MESSAGE);
@@ -4793,7 +4931,7 @@ public class ClassTest extends javax.swing.JFrame {
         ResultSet rs;
         try {
             stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginName + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + jTextField9.getText().trim() + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
-            stmt.executeUpdate("create table testquestions_" + testid + "( sno int(11),question varchar(2500),answer varchar(5),reserve int(1));");
+            stmt.executeUpdate("create table testquestions_" + testid + "( sno int(11),question varchar(2500),answer varchar(5),imagesource varchar(2500),reserve int(1));");
             rs = stmt.executeQuery("select * from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
                 jTextField15.setText(rs.getString("testid"));
@@ -5232,6 +5370,47 @@ public class ClassTest extends javax.swing.JFrame {
         updateLogs();
     }//GEN-LAST:event_jButton53ActionPerformed
 
+    private void jButton57ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton57ActionPerformed
+        // TODO add your handling code here:
+        if (jTable9.getSelectedRow() != -1) {
+            int val = jFileChooser1.showOpenDialog(editQuestionPage);
+            if (val == JFileChooser.APPROVE_OPTION) {
+                try {
+                    File f = jFileChooser1.getSelectedFile();
+                    String path = f.getCanonicalPath();
+                    path = path.replace('\\', '/');
+                    jTable9.setValueAt(path, jTable9.getSelectedRow(), 2);
+                } catch (IOException ex) {
+                    showException("Error occured while selecting image for question", ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(editQuestionPage, "Please select a question to add image", "No Question Selected", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton57ActionPerformed
+
+    private void jButton58ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton58ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser jFileChooser2 = new JFileChooser();
+        jFileChooser2.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int val = jFileChooser2.showSaveDialog(adminPage);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            try {
+                File f = jFileChooser2.getSelectedFile();
+                String path = f.getCanonicalPath();
+                path = path.replace('\\', '/') + "/";
+                jTextField31.setText(path);
+            } catch (IOException ex) {
+                showException("Error occured while choosing save location", ex);
+            }
+        }
+    }//GEN-LAST:event_jButton58ActionPerformed
+
+    private void jButton56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton56ActionPerformed
+        imageDisplayPage.setVisible(true);
+
+    }//GEN-LAST:event_jButton56ActionPerformed
+
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
@@ -5590,6 +5769,34 @@ public class ClassTest extends javax.swing.JFrame {
     private void setNextQuestion(int i) {
         String questionLine = questionListMod.get(i);
         String[] tempTokens = questionLine.split(separator);
+        imageDisplayPage.setVisible(false);
+        File img;
+        try {
+            int ind = Integer.parseInt(tempTokens[1]);
+            ResultSet rs = stmt.executeQuery("select imagesource from testquestions_" + currentTestID + " where sno=" + ind + ";");
+            if (rs.next()) {
+                img = new File(rs.getString("imagesource"));
+                if (img.exists()) {
+                    ImageIcon icon = new ImageIcon(img.getCanonicalPath());
+                    jScrollPane18.setPreferredSize(new Dimension(icon.getIconHeight() + 50, icon.getIconWidth() + 50));
+                    jLabel89.setPreferredSize(new Dimension(icon.getIconHeight() + 25, icon.getIconWidth() + 25));
+                    jLabel89.setIcon(icon);
+                    imageDisplayPage.pack();
+                    imageDisplayPage.setVisible(true);
+                    imageDisplayPage.setAlwaysOnTop(true);
+                    imageDisplayPage.setAlwaysOnTop(false);
+                    jLabel87.setText("This question has an image: ");
+                    jLabel87.setForeground(new Color(255, 0, 0));
+                    jButton56.setEnabled(true);
+                } else {
+                    jLabel87.setText("This question does not have an image.");
+                    jLabel87.setForeground(new Color(0, 0, 0));
+                    jButton56.setEnabled(false);
+                }
+            }
+        } catch (SQLException | IOException ex) {
+            showException("Error occured while testing to see if question has an image.", ex);
+        }
         jTextArea1.setText(tempTokens[2]);
         jTextField13.setText(tempTokens[0]);
         updateQuestionProgress();
@@ -5833,6 +6040,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JFrame editQuestionBridge;
     private javax.swing.JFrame editQuestionPage;
+    private javax.swing.JFrame imageDisplayPage;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -5884,6 +6092,9 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton53;
     private javax.swing.JButton jButton54;
     private javax.swing.JButton jButton55;
+    private javax.swing.JButton jButton56;
+    private javax.swing.JButton jButton57;
+    private javax.swing.JButton jButton58;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -5988,6 +6199,9 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
@@ -6104,6 +6318,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane16;
     private javax.swing.JScrollPane jScrollPane17;
+    private javax.swing.JScrollPane jScrollPane18;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -6154,6 +6369,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField30;
+    private javax.swing.JTextField jTextField31;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
