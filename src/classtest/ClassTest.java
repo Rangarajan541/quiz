@@ -25,8 +25,6 @@ import java.util.*;
 import javax.swing.*;
 import java.security.*;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -4347,6 +4345,7 @@ public class ClassTest extends javax.swing.JFrame {
         acCount = 0;
         isTestInProgress = false;
         studentQuestionPage.dispose();
+        imageDisplayPage.dispose();
         studentFinishTestPage.setVisible(true);
         ArrayList<String> finalAnswersList = new ArrayList<>();
         ResultSet rs;
@@ -4585,7 +4584,6 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
             showException("Error occured while displaying previous resuts", ex);
         }
         studentPreviousResultsPage.setVisible(true);
@@ -4639,7 +4637,7 @@ public class ClassTest extends javax.swing.JFrame {
             teacherQuestionPage.dispose();
             editQuestionPage.setVisible(true);
         } catch (IOException ex) {
-            Logger.getLogger(ClassTest.class.getName()).log(Level.SEVERE, null, ex);
+            showException("error occured while parsing source file", ex);
         }
     }//GEN-LAST:event_jButton28ActionPerformed
 
@@ -4805,14 +4803,13 @@ public class ClassTest extends javax.swing.JFrame {
                                 int index = x.getCanonicalPath().lastIndexOf('.');
                                 String extension = x.getCanonicalPath().substring(index, x.getCanonicalPath().length());
                                 File newPath = new File(folder.getCanonicalPath() + "/Question_" + Integer.toString(i + 1) + extension);
-                                Files.copy(x.toPath(), newPath.toPath(),StandardCopyOption.REPLACE_EXISTING);
+                                Files.copy(x.toPath(), newPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
                                 imgPath = newPath.getCanonicalPath().replace('\\', '/');
                             }
                         }
                         stmt.executeUpdate("insert into testquestions_" + testid + " values (" + Integer.toString(i + 1) + ",\"" + jTable9.getValueAt(i, 0) + "\",\"" + jTable9.getValueAt(i, 1) + "\",\"" + imgPath + "\",0);");
                     }
                 } catch (IOException ex) {
-                    ex.printStackTrace();
                     showException("Error occured while uploading image", ex);
                 }
             }
@@ -5711,22 +5708,27 @@ public class ClassTest extends javax.swing.JFrame {
             answeredList.add(curQuesInd);
             totalAnsweredQuestions++;
         }
-        String temp[] = null;
+        String temp[];
         try {
             String questionLine = questionListMod.get(curQuesInd);
             temp = questionLine.split(separator);
             int dataIndex = Integer.parseInt(temp[1]);
             rs = stmt.executeQuery("select question_" + temp[1] + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+            try {
+                stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
+            } catch (SQLException ex) {
+
+            }
             stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set question_" + temp[1] + " = \"" + answer + "\" where testid=\"" + currentTestID + "\";");
             jLabel70.setText("Answer saved");
         } catch (SQLException ex) {
-            try {
+            /* try {
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
                 updateAnswer(answer);
                 return;
             } catch (SQLException ex1) {
                 showException("Error occured while creating column for answer", ex);
-            }
+            }*/
             showException("Error occured while updating answer", ex);
         }
     }
