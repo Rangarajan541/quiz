@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.15, for Win32 (AMD64)
 --
 -- Host: localhost    Database: quiz
 -- ------------------------------------------------------
--- Server version	5.7.9-log
+-- Server version	5.7.15-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,6 +35,7 @@ CREATE TABLE `activitylog` (
 
 LOCK TABLES `activitylog` WRITE;
 /*!40000 ALTER TABLE `activitylog` DISABLE KEYS */;
+INSERT INTO `activitylog` VALUES ('teach','Teacher application submitted','2016-09-18 12:01:23'),('teach','User logged in','2016-09-18 12:01:39'),('teach','User logged out','2016-09-18 12:09:36'),('teach','User logged in','2016-09-18 12:10:47'),('teach','User logged out','2016-09-18 12:11:44'),('amit','student registered','2016-09-18 12:11:56'),('teach','User logged in','2016-09-18 12:12:01'),('teach','User logged out','2016-09-18 12:12:05'),('amit','User logged in','2016-09-18 12:12:11'),('amit','User Started Test','2016-09-18 12:12:25'),('amit','User Finished Test','2016-09-18 12:17:42'),('amit','User logged out','2016-09-18 12:23:16'),('amit','student registered','2016-09-18 12:40:41'),('amit','User logged in','2016-09-18 12:40:44'),('amit','User Started Test','2016-09-18 12:40:47'),('amit','User Aborted Test','2016-09-18 12:40:53'),('amit','User Finished Test','2016-09-18 12:40:53'),('amit','User logged out','2016-09-18 12:41:42');
 /*!40000 ALTER TABLE `activitylog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,6 +59,7 @@ CREATE TABLE `errorlog` (
 
 LOCK TABLES `errorlog` WRITE;
 /*!40000 ALTER TABLE `errorlog` DISABLE KEYS */;
+INSERT INTO `errorlog` VALUES ('teach','C:UsersElcotDocumentsip_1Question_1.jpg','2016-09-18 12:03:48');
 /*!40000 ALTER TABLE `errorlog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +84,7 @@ CREATE TABLE `student_auth` (
 
 LOCK TABLES `student_auth` WRITE;
 /*!40000 ALTER TABLE `student_auth` DISABLE KEYS */;
-INSERT INTO `student_auth` VALUES ('amit','108317418603245272581161763738331279269013253057951070798501290887753974195791',0);
+INSERT INTO `student_auth` VALUES ('amit','1661548902539077689835780616605042428580731493960493799641588268547596371700',0);
 /*!40000 ALTER TABLE `student_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,6 +110,7 @@ CREATE TABLE `studenthistorydatabase_amit` (
 
 LOCK TABLES `studenthistorydatabase_amit` WRITE;
 /*!40000 ALTER TABLE `studenthistorydatabase_amit` DISABLE KEYS */;
+INSERT INTO `studenthistorydatabase_amit` VALUES ('ip_1',0,1,0,'2016-09-18 12:40:53');
 /*!40000 ALTER TABLE `studenthistorydatabase_amit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +123,7 @@ DROP TABLE IF EXISTS `systemsettings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `systemsettings` (
   `identifier` varchar(50) DEFAULT NULL,
-  `data` int(11) DEFAULT NULL
+  `data` varchar(5000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -130,7 +133,7 @@ CREATE TABLE `systemsettings` (
 
 LOCK TABLES `systemsettings` WRITE;
 /*!40000 ALTER TABLE `systemsettings` DISABLE KEYS */;
-INSERT INTO `systemsettings` VALUES ('totalcheatseconds',5),('totalallowedwarnings',1),('wakeupseconds',300),('flashwarningseconds',60);
+INSERT INTO `systemsettings` VALUES ('totalcheatseconds','25'),('totalallowedwarnings','0'),('wakeupseconds','0'),('flashwarningseconds','60'),('loglocation','C:/Users/Elcot/Documents/Error Log.txt'),('reslocation','C:/Users/Elcot/Documents/');
 /*!40000 ALTER TABLE `systemsettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +160,7 @@ CREATE TABLE `teacher_auth` (
 
 LOCK TABLES `teacher_auth` WRITE;
 /*!40000 ALTER TABLE `teacher_auth` DISABLE KEYS */;
-INSERT INTO `teacher_auth` VALUES ('eco Teacher','108317418603245272581161763738331279269013253057951070798501290887753974195791','Economics',1,0),('IP Teacher','108317418603245272581161763738331279269013253057951070798501290887753974195791','Informatics Practices',1,0);
+INSERT INTO `teacher_auth` VALUES ('teach','1661548902539077689835780616605042428580731493960493799641588268547596371700','Informatics Practices',1,0);
 /*!40000 ALTER TABLE `teacher_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,33 +190,8 @@ CREATE TABLE `testlist` (
 
 LOCK TABLES `testlist` WRITE;
 /*!40000 ALTER TABLE `testlist` DISABLE KEYS */;
-INSERT INTO `testlist` VALUES ('eco_1','eco teacher','Unit test 4','Economics',5,1,'2016-09-05 08:16:45',1800),('ip_1','ip teacher','unit 9','Informatics Practices',10,1,'2016-09-05 08:16:52',2100);
+INSERT INTO `testlist` VALUES ('ip_1','teach','asd','Informatics Practices',1,1,'2016-09-18 12:12:03',1800);
 /*!40000 ALTER TABLE `testlist` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `testquestions_eco_1`
---
-
-DROP TABLE IF EXISTS `testquestions_eco_1`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `testquestions_eco_1` (
-  `sno` int(11) DEFAULT NULL,
-  `question` varchar(2500) DEFAULT NULL,
-  `answer` varchar(5) DEFAULT NULL,
-  `reserve` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `testquestions_eco_1`
---
-
-LOCK TABLES `testquestions_eco_1` WRITE;
-/*!40000 ALTER TABLE `testquestions_eco_1` DISABLE KEYS */;
-INSERT INTO `testquestions_eco_1` VALUES (1,'select a for this question','a',0),(2,'select b','b',0),(3,'select c','c',0),(4,'select \n\n\nd','d',0);
-/*!40000 ALTER TABLE `testquestions_eco_1` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -227,6 +205,7 @@ CREATE TABLE `testquestions_ip_1` (
   `sno` int(11) DEFAULT NULL,
   `question` varchar(2500) DEFAULT NULL,
   `answer` varchar(5) DEFAULT NULL,
+  `imagesource` varchar(2500) DEFAULT NULL,
   `reserve` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -237,7 +216,7 @@ CREATE TABLE `testquestions_ip_1` (
 
 LOCK TABLES `testquestions_ip_1` WRITE;
 /*!40000 ALTER TABLE `testquestions_ip_1` DISABLE KEYS */;
-INSERT INTO `testquestions_ip_1` VALUES (1,'select c','c',0),(2,'select d','d',0),(3,'select a','a',0),(4,'select b','b',0);
+INSERT INTO `testquestions_ip_1` VALUES (1,'asjdkajsdkjahlsdjkhasljdhajshdjasdasdas','a','C:/Users/Elcot/Documents/ip_1/Question_1.jpg',0),(2,'aksjd;kasj;dkajs;ldkja s;lkdja;skdjajksh','b','C:/Users/Elcot/Documents/ip_1/Question_2.jpg',0),(3,'aksdlakjsdhajshdlajshdjashdlkjashdljkashdjkasda','c','C:/Users/Elcot/Documents/ip_1/Question_3.jpg',0),(4,'ashdjh,sajdhl,aksda','d','',0);
 /*!40000 ALTER TABLE `testquestions_ip_1` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -250,4 +229,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-05 14:00:32
+-- Dump completed on 2016-09-18 22:07:38
