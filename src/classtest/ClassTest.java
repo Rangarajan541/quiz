@@ -282,7 +282,6 @@ public class ClassTest extends javax.swing.JFrame {
         jComboBox12.setModel(new DefaultComboBoxModel(yearList));
         jComboBox10.setSelectedItem(x);
         jComboBox12.setSelectedItem(x);
-        System.out.println(now.get(Calendar.DATE));
         jComboBox8.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
         jComboBox13.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
         jComboBox9.setSelectedIndex(now.get(Calendar.MONTH));
@@ -4790,7 +4789,12 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             } else {
                 try {
-                    File folder = new File(resLocation + jTextField15.getText().trim());
+                    File folder;
+                    if (resLocation.endsWith("/")) {
+                        folder = new File(resLocation + jTextField15.getText().trim());
+                    } else {
+                        folder = new File(resLocation + "/" + jTextField15.getText().trim());
+                    }
                     if (!folder.exists()) {
                         folder.mkdirs();
                     }
@@ -5522,7 +5526,6 @@ public class ClassTest extends javax.swing.JFrame {
             int searchOption = jComboBox7.getSelectedIndex();
             switch (searchOption) {
                 case 0: {
-                    System.out.println("select * from activitylog where time>=date(" + actString + ") and time <date(" + actStringNext + ");");
                     rs = stmt.executeQuery("select * from activitylog where time>=date(" + actString + ") and time <date(" + actStringNext + ");");
                 }
                 break;
@@ -5714,7 +5717,7 @@ public class ClassTest extends javax.swing.JFrame {
             String questionLine = questionListMod.get(curQuesInd);
             temp = questionLine.split(separator);
             int dataIndex = Integer.parseInt(temp[1]);
-            rs = stmt.executeQuery("select question_" + temp[1] + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+            //rs = stmt.executeQuery("select question_" + temp[1] + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
             try {
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
             } catch (SQLException ex) {
@@ -5939,6 +5942,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void logError(String a, Exception ex) {
+        ex.printStackTrace();
         java.util.Date datetime = new java.util.Date();
         SimpleDateFormat format;
         try {
@@ -5951,7 +5955,9 @@ public class ClassTest extends javax.swing.JFrame {
             format = new SimpleDateFormat("yyyy MMMMM dd - HH:mm:ss");
             fw.write("Error Log Time: " + format.format(new java.util.Date()));
             fw.write(System.getProperty("line.separator"));
-            fw.write("Error message: " + a);
+            fw.write("Error message(Annotated): " + a);
+            fw.write(System.getProperty("line.separator"));            
+            fw.write("Error message(System): " + ex.getMessage());
             fw.write(System.getProperty("line.separator"));
             fw.write("Error occured for user: " + loginName);
             fw.write(System.getProperty("line.separator"));
