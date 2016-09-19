@@ -1911,7 +1911,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -3885,6 +3885,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel89.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jScrollPane18.setViewportView(jLabel89);
 
         javax.swing.GroupLayout imageDisplayPageLayout = new javax.swing.GroupLayout(imageDisplayPage.getContentPane());
