@@ -85,6 +85,7 @@ public class ClassTest extends javax.swing.JFrame {
         WindowAdapter abortTestListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                canCheat = false;
                 abortTest();
             }
         };
@@ -145,6 +146,7 @@ public class ClassTest extends javax.swing.JFrame {
             @Override
             public void windowGainedFocus(WindowEvent e) {
                 resetCheatMeasures();
+                canCheat = true;
             }
 
             @Override
@@ -718,6 +720,7 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel88 = new javax.swing.JLabel();
         jButton58 = new javax.swing.JButton();
         jTextField31 = new javax.swing.JTextField();
+        jLabel90 = new javax.swing.JLabel();
         jMenuBar13 = new javax.swing.JMenuBar();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem32 = new javax.swing.JMenuItem();
@@ -3539,6 +3542,8 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField31.setEditable(false);
         jTextField31.setText("Image location");
 
+        jLabel90.setText("Warning: Anti cheat in beta stage. May behave abnormally.");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
@@ -3571,7 +3576,10 @@ public class ClassTest extends javax.swing.JFrame {
                     .addGroup(jPanel27Layout.createSequentialGroup()
                         .addComponent(jLabel88)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButton58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jLabel90)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -3608,6 +3616,8 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel90)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton47)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton55)
@@ -3884,6 +3894,15 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jPanel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        imageDisplayPage.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                imageDisplayPageFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                imageDisplayPageFocusLost(evt);
+            }
+        });
 
         jLabel89.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jScrollPane18.setViewportView(jLabel89);
@@ -4466,9 +4485,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         jLabel70.setText(null);
         if (Integer.parseInt(jTextField13.getText()) == Integer.parseInt(jTextField14.getText())) {
-            canCheat = false;
             jLabel70.setText("You have no more questions left.\tClick Finish test.");
-            canCheat = true;
             return;
         }
         curQuesInd++;
@@ -4581,7 +4598,6 @@ public class ClassTest extends javax.swing.JFrame {
                         prevResultsModel.addRow(new Object[]{rs2.getString("subject"), rs2.getString("description"), score});
                     }
                 } catch (SQLException ex) {
-
                 }
             }
         } catch (SQLException ex) {
@@ -4632,8 +4648,11 @@ public class ClassTest extends javax.swing.JFrame {
             DefaultTableModel questionEditModel = (DefaultTableModel) jTable9.getModel();
             questionEditModel.setRowCount(0);
             while ((dummy = br.readLine()) != null) {
-                String dummyTokens[] = dummy.split(";-;");
-                questionEditModel.addRow(new Object[]{dummyTokens[0], dummyTokens[1]});
+                try {
+                    String dummyTokens[] = dummy.split(";-;");
+                    questionEditModel.addRow(new Object[]{dummyTokens[0], dummyTokens[1]});
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                }
             }
             teacherQuestionPage.dispose();
             editQuestionPage.setVisible(true);
@@ -4691,7 +4710,6 @@ public class ClassTest extends javax.swing.JFrame {
                         }
                         parentDir.delete();
                     } catch (NullPointerException ex) {
-
                     }
                     stmt.executeUpdate("delete from testlist where testid=\"" + x + "\";");
                     stmt.executeUpdate("drop table testquestions_" + x);
@@ -4799,7 +4817,6 @@ public class ClassTest extends javax.swing.JFrame {
                     if (!folder.exists()) {
                         folder.mkdirs();
                     }
-
                     for (int i = 0; i < jTable9.getRowCount(); i++) {
                         String tempPath = (String) jTable9.getValueAt(i, 2);
                         String imgPath = "";
@@ -5336,7 +5353,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
     private void jButton54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton54ActionPerformed
-        // TODO add your handling code here:
+
         try {
             jFileChooser1.setSelectedFile(new File(jTextField30.getText()));
             int val = jFileChooser1.showSaveDialog(adminPage);
@@ -5355,7 +5372,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton54ActionPerformed
 
     private void jButton55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton55ActionPerformed
-        // TODO add your handling code here:
+
         try {
             throw new Exception("User generated");
         } catch (Exception ex) {
@@ -5364,17 +5381,17 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton55ActionPerformed
 
     private void jButton52ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton52ActionPerformed
-        // TODO add your handling code here:
+
         updateLogs();
     }//GEN-LAST:event_jButton52ActionPerformed
 
     private void jButton53ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton53ActionPerformed
-        // TODO add your handling code here:
+
         updateLogs();
     }//GEN-LAST:event_jButton53ActionPerformed
 
     private void jButton57ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton57ActionPerformed
-        // TODO add your handling code here:
+
         if (jTable9.getSelectedRow() != -1) {
             int val = jFileChooser1.showOpenDialog(editQuestionPage);
             if (val == JFileChooser.APPROVE_OPTION) {
@@ -5393,7 +5410,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton57ActionPerformed
 
     private void jButton58ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton58ActionPerformed
-        // TODO add your handling code here:
+
         JFileChooser jFileChooser2 = new JFileChooser();
         jFileChooser2.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int val = jFileChooser2.showSaveDialog(adminPage);
@@ -5410,9 +5427,21 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton58ActionPerformed
 
     private void jButton56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton56ActionPerformed
+        canCheat = false;
         imageDisplayPage.setVisible(true);
 
     }//GEN-LAST:event_jButton56ActionPerformed
+
+    private void imageDisplayPageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imageDisplayPageFocusGained
+
+        canCheat = false;
+    }//GEN-LAST:event_imageDisplayPageFocusGained
+
+    private void imageDisplayPageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imageDisplayPageFocusLost
+
+        canCheat = true;
+
+    }//GEN-LAST:event_imageDisplayPageFocusLost
 
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
@@ -5722,7 +5751,6 @@ public class ClassTest extends javax.swing.JFrame {
             try {
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
             } catch (SQLException ex) {
-
             }
             stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set question_" + temp[1] + " = \"" + answer + "\" where testid=\"" + currentTestID + "\";");
             jLabel70.setText("Answer saved");
@@ -5789,6 +5817,7 @@ public class ClassTest extends javax.swing.JFrame {
                     jLabel89.setPreferredSize(new Dimension(icon.getIconHeight() + 25, icon.getIconWidth() + 25));
                     jLabel89.setIcon(icon);
                     imageDisplayPage.pack();
+                    canCheat = false;
                     imageDisplayPage.setVisible(true);
                     imageDisplayPage.setAlwaysOnTop(true);
                     imageDisplayPage.setAlwaysOnTop(false);
@@ -5898,7 +5927,6 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private boolean abortTest() {
-        canCheat = false;
         int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to abort test? You will not be able to re-take this test.", "Abort confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
             try {
@@ -5957,7 +5985,7 @@ public class ClassTest extends javax.swing.JFrame {
             fw.write("Error Log Time: " + format.format(new java.util.Date()));
             fw.write(System.getProperty("line.separator"));
             fw.write("Error message(Annotated): " + a);
-            fw.write(System.getProperty("line.separator"));            
+            fw.write(System.getProperty("line.separator"));
             fw.write("Error message(System): " + ex.getMessage());
             fw.write(System.getProperty("line.separator"));
             fw.write("Error occured for user: " + loginName);
@@ -6213,6 +6241,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel90;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
