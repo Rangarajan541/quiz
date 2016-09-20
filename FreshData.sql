@@ -104,7 +104,7 @@ CREATE TABLE `systemsettings` (
 
 LOCK TABLES `systemsettings` WRITE;
 /*!40000 ALTER TABLE `systemsettings` DISABLE KEYS */;
-INSERT INTO `systemsettings` VALUES ('totalcheatseconds','25'),('totalallowedwarnings','0'),('wakeupseconds','0'),('flashwarningseconds','60'),('loglocation','C:/Users/Elcot/Documents/Error Log.txt'),('reslocation','C:/Users/Elcot/Documents/');
+INSERT INTO `systemsettings` VALUES ('totalcheatseconds','25'),('totalallowedwarnings','5'),('wakeupseconds','300'),('flashwarningseconds','60'),('loglocation','%userprofile%/Documents/Quiz/'),('reslocation','%userprofile%/Documents/Quiz/Test resources/');
 /*!40000 ALTER TABLE `systemsettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,31 +162,6 @@ LOCK TABLES `testlist` WRITE;
 /*!40000 ALTER TABLE `testlist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `testlist` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `testquestions_ip_1`
---
-
-DROP TABLE IF EXISTS `testquestions_ip_1`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `testquestions_ip_1` (
-  `sno` int(11) DEFAULT NULL,
-  `question` varchar(2500) DEFAULT NULL,
-  `answer` varchar(5) DEFAULT NULL,
-  `imagesource` varchar(2500) DEFAULT NULL,
-  `reserve` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `testquestions_ip_1`
---
-
-LOCK TABLES `testquestions_ip_1` WRITE;
-/*!40000 ALTER TABLE `testquestions_ip_1` DISABLE KEYS */;
-/*!40000 ALTER TABLE `testquestions_ip_1` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -197,4 +172,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-18 22:09:00
+-- Dump completed on 2016-09-20  8:34:21
