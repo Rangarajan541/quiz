@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Rangarajan.A
+ * @author Rangarajan.A -- rajanranga541@gmail.com -- facebook.com/Rangarajan541
  */
 @SuppressWarnings("serial")
 public class ClassTest extends javax.swing.JFrame {
@@ -50,7 +50,7 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask testTimerTask;
     private java.util.TimerTask antiCheatTask;
     private final String separator = "==InternalSeparator==";
-    private boolean isTestInProgress = false, canCheat = true, red = true;
+    private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
     private String logLocation = "D:/Online Quiz - Error log.txt", resLocation = "D:/res";
 
     public ClassTest() {
@@ -361,11 +361,21 @@ public class ClassTest extends javax.swing.JFrame {
             if (rs.next()) {
                 logLocation = rs.getString("data");
                 jTextField30.setText(logLocation);
+                try {
+                    if (!new File(logLocation).exists()) {
+                        new File(logLocation).createNewFile();
+                    }
+                } catch (IOException ex) {
+                    showException("Error occured while creating log file after fetching.", ex);
+                }
             }
             rs = stmt.executeQuery("select * from systemsettings where identifier=\"reslocation\";");
             if (rs.next()) {
                 resLocation = rs.getString("data");
                 jTextField31.setText(resLocation);
+                if (!new File(resLocation).exists()) {
+                    new File(resLocation).mkdirs();
+                }
             }
         } catch (SQLException ex) {
             showException("Error occured while loading parameters", ex);
@@ -4301,13 +4311,13 @@ public class ClassTest extends javax.swing.JFrame {
                         studentPanelPage.dispose();
                         currentTestID = testid;
                         jLabel38.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
-                        rs = stmt.executeQuery("select points from testlist where testid=\"" + testid + "\";");
+                        rs = stmt.executeQuery("select points from testlist  where status!=-1 and testid=\"" + testid + "\";");
                         if (rs.next()) {
                             marks = rs.getInt(1);
                         }
                         jLabel39.setText("Marks per Question: " + marks);
                         studentQuestionPage.setVisible(true);
-                        rs = stmt.executeQuery("select seconds from testlist where testid=\"" + testid + "\";");
+                        rs = stmt.executeQuery("select seconds from testlist where status!=-1 and testid=\"" + testid + "\";");
                         if (rs.next()) {
                             testCountdown = rs.getInt(1);
                         }
@@ -4371,7 +4381,7 @@ public class ClassTest extends javax.swing.JFrame {
         ResultSet rs;
         int correctAnswers = 0, wrongAnswers = 0, marks = 1;
         try {
-            rs = stmt.executeQuery("select points from testlist where testid=\"" + currentTestID + "\";");
+            rs = stmt.executeQuery("select points from testlist where and status!=-1 testid=\"" + currentTestID + "\";");
             if (rs.next()) {
                 marks = rs.getInt(1);
             }
@@ -4591,7 +4601,7 @@ public class ClassTest extends javax.swing.JFrame {
                     if (rs3.next()) {
                         totalMarks = rs3.getInt(1);
                     }
-                    rs2 = stmt2.executeQuery("select description,subject,points from testlist where testid=\"" + testid + "\";");
+                    rs2 = stmt2.executeQuery("select description,subject,points from testlist where status!=-1 and testid=\"" + testid + "\";");
                     if (rs2.next()) {
                         totalMarks = totalMarks * rs2.getInt("points");
                         String score = Integer.toString(rs.getInt("marksearned")) + "/" + totalMarks;
@@ -4711,7 +4721,7 @@ public class ClassTest extends javax.swing.JFrame {
                         parentDir.delete();
                     } catch (NullPointerException ex) {
                     }
-                    stmt.executeUpdate("delete from testlist where testid=\"" + x + "\";");
+                    stmt.executeUpdate("update testlist set status=-1 where testid=\"" + x + "\";");
                     stmt.executeUpdate("drop table testquestions_" + x);
                     JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was deleted.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException ex) {
@@ -4764,12 +4774,13 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField16ActionPerformed
 
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
-
+        fetchSystemParameters();
         ResultSet rs;
         String testid = jTextField15.getText().trim();
         if (jTextField16.getText().trim().length() == 0 || jTextField17.getText().trim().length() == 0 || jTextField18.getText().trim().length() == 0) {
             JOptionPane.showMessageDialog(editQuestionPage, "Please fill all fields at the top", "Empty Details", JOptionPane.ERROR_MESSAGE);
             return;
+
         }
         try {
             stmt.executeUpdate("update testlist set description=\"" + jTextField16.getText().trim() + "\" where testid=\"" + testid + "\";");
@@ -4783,7 +4794,7 @@ public class ClassTest extends javax.swing.JFrame {
                         );
                         return;
                     }
-                    String answer = (String) jTable9.getValueAt(i, 1);
+                    String answer = ((String) jTable9.getValueAt(i, 1)).toLowerCase().trim();
                     if (answer != null) {
                         if ((answer.length() > 1) || !(answer.equals("a") || answer.equals("b") || answer.equals("c") || answer.equals("d"))) {
                             JOptionPane.showMessageDialog(editQuestionPage, "The answer for question " + Integer.toString(i + 1) + " is invalid.\nEnter only a (or) b (or) c (or) d.", "Invalid Answer", JOptionPane.WARNING_MESSAGE);
@@ -4950,7 +4961,7 @@ public class ClassTest extends javax.swing.JFrame {
         String testid = generateTestID();
         ResultSet rs;
         try {
-            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginName + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + jTextField9.getText().trim() + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
+            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginName + "\",\"" + Integer.parseInt(jTextField8.getText().trim()) + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
             stmt.executeUpdate("create table testquestions_" + testid + "( sno int(11),question varchar(2500),answer varchar(5),imagesource varchar(2500),reserve int(1));");
             rs = stmt.executeQuery("select * from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
@@ -4961,6 +4972,8 @@ public class ClassTest extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             showException("Error occured while creating testqsns table", ex);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(editQuestionPage, "Enter only numerical values for time and points per question.", "Invalid values", JOptionPane.ERROR_MESSAGE);
         }
         return testid;
     }
@@ -5427,19 +5440,18 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton58ActionPerformed
 
     private void jButton56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton56ActionPerformed
-        canCheat = false;
+
         imageDisplayPage.setVisible(true);
 
     }//GEN-LAST:event_jButton56ActionPerformed
 
     private void imageDisplayPageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imageDisplayPageFocusGained
 
-        canCheat = false;
+
     }//GEN-LAST:event_imageDisplayPageFocusGained
 
     private void imageDisplayPageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imageDisplayPageFocusLost
 
-        canCheat = true;
 
     }//GEN-LAST:event_imageDisplayPageFocusLost
 
@@ -5604,7 +5616,7 @@ public class ClassTest extends javax.swing.JFrame {
         DefaultTableModel testReportModel = (DefaultTableModel) jTable5.getModel();
         testReportModel.setRowCount(0);
         try {
-            rs = stmt.executeQuery("select subject from testlist where testid=\"" + testid + "\";");
+            rs = stmt.executeQuery("select subject from testlist where status!=-1 and testid=\"" + testid + "\";");
             if (rs.next()) {
                 jTextField24.setText(rs.getString("subject"));
             }
@@ -5855,10 +5867,10 @@ public class ClassTest extends javax.swing.JFrame {
         String subject = null;
         try {
             if (jComboBox1.getSelectedIndex() == 0) {
-                rs = stmt.executeQuery("select * from testlist order by status desc");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 order by status desc");
             } else {
                 selectedSubject = (String) (jComboBox1.getSelectedItem());
-                rs = stmt.executeQuery("select * from testlist where subject=\"" + selectedSubject + "\" order by status desc;");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 and subject=\"" + selectedSubject + "\" order by status desc;");
             }
             DefaultTableModel studentTestTableModel = (DefaultTableModel) (jTable1.getModel());
             studentTestTableModel.setRowCount(0);
@@ -5878,7 +5890,7 @@ public class ClassTest extends javax.swing.JFrame {
                 if (rs2.next()) {
                     statusRep = "Taken";
                 }
-                rs2 = stmt2.executeQuery("select * from testlist where testid=\"" + testid + "\";");
+                rs2 = stmt2.executeQuery("select * from testlist where status!=-1 and testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     subject = rs2.getString("subject");
                 }
@@ -6016,9 +6028,9 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             int noQuestions = 0;
             if (selInd == 0) {
-                rs = stmt.executeQuery("select * from testlist where username=\"" + loginName + "\";");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 and username=\"" + loginName + "\";");
             } else {
-                rs = stmt.executeQuery("select * from testlist;");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 ;");
             }
             DefaultTableModel teacherTable = (DefaultTableModel) jTable2.getModel();
             teacherTable.setRowCount(0);
