@@ -765,12 +765,12 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel51.setFont(new java.awt.Font("Walkway SemiBold", 1, 48)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(0, 80, 223));
+        jLabel51.setForeground(new java.awt.Color(0, 0, 153));
         jLabel51.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel51.setText("MAHATMA CBSE");
 
-        jLabel8.setFont(new java.awt.Font("Walkway SemiBold", 0, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(220, 0, 0));
+        jLabel8.setFont(new java.awt.Font("Walkway SemiBold", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(204, 0, 51));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("ONLINE TEST SYSTEM");
 
@@ -913,9 +913,9 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addComponent(jLabel13)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel11Layout.createSequentialGroup()
                     .addContainerGap(98, Short.MAX_VALUE)
