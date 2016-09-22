@@ -62,7 +62,9 @@ public class ClassTest extends javax.swing.JFrame {
             stmt = con.createStatement();
             stmt2 = con.createStatement();
         } catch (Exception ex) {
-            showException("Error occured while establishing database link", ex);
+            //showException("Error occured while establishing database link", ex);
+            JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
         }
         fetchSystemParameters();
         WindowAdapter onCloseListener = new WindowAdapter() {
@@ -280,6 +282,8 @@ public class ClassTest extends javax.swing.JFrame {
         for (int i = 0; i <= yearList.length - 1; i++) {
             yearList[i] = Integer.toString(2016 + i);
         }
+        jComboBox7.setSelectedIndex(1);
+        jComboBox14.setSelectedIndex(1);
         jComboBox10.setModel(new DefaultComboBoxModel(yearList));
         jComboBox12.setModel(new DefaultComboBoxModel(yearList));
         jComboBox10.setSelectedItem(x);
@@ -361,13 +365,6 @@ public class ClassTest extends javax.swing.JFrame {
             if (rs.next()) {
                 logLocation = rs.getString("data");
                 jTextField30.setText(logLocation);
-                try {
-                    if (!new File(logLocation).exists()) {
-                        new File(logLocation).createNewFile();
-                    }
-                } catch (IOException ex) {
-                    showException("Error occured while creating log file after fetching.", ex);
-                }
             }
             rs = stmt.executeQuery("select * from systemsettings where identifier=\"reslocation\";");
             if (rs.next()) {
@@ -899,7 +896,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel12.setText("Confirm Password:");
 
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Walkway SemiBold", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(240, 0, 0));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("STUDENT REGISTRATION FORM");
@@ -940,7 +937,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel13)
-                .addContainerGap(255, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
             .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel11Layout.createSequentialGroup()
                     .addGap(50, 50, 50)
@@ -1001,7 +998,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel17.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Walkway SemiBold", 0, 24)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(240, 0, 0));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("TEACHER REGISTRATION FORM");
@@ -1028,7 +1025,7 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addComponent(jLabel17)
                 .addContainerGap())
             .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1054,7 +1051,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel17)
-                .addContainerGap(316, Short.MAX_VALUE))
+                .addContainerGap(318, Short.MAX_VALUE))
             .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel12Layout.createSequentialGroup()
                     .addGap(50, 50, 50)
@@ -1119,7 +1116,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Walkway SemiBold", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(240, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LOGIN");
@@ -4715,10 +4712,12 @@ public class ClassTest extends javax.swing.JFrame {
                         }
                     }
                     try {
-                        for (File f : parentDir.listFiles()) {
-                            f.delete();
+                        if (parentDir != null) {
+                            for (File f : parentDir.listFiles()) {
+                                f.delete();
+                            }
+                            parentDir.delete();
                         }
-                        parentDir.delete();
                     } catch (NullPointerException ex) {
                     }
                     stmt.executeUpdate("update testlist set status=-1 where testid=\"" + x + "\";");
@@ -5580,8 +5579,10 @@ public class ClassTest extends javax.swing.JFrame {
                 }
                 break;
             }
-            while (rs.next()) {
-                actModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("activity"), rs.getString("time")});
+            if (rs != null) {
+                while (rs.next()) {
+                    actModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("activity"), rs.getString("time")});
+                }
             }
             searchOption = jComboBox14.getSelectedIndex();
             switch (searchOption) {
@@ -5601,6 +5602,7 @@ public class ClassTest extends javax.swing.JFrame {
             while (rs.next()) {
                 errModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
             }
+
         } catch (SQLException ex) {
             showException("Error occured while updating logs", ex);
         }
@@ -5983,7 +5985,6 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void logError(String a, Exception ex) {
-        ex.printStackTrace();
         java.util.Date datetime = new java.util.Date();
         SimpleDateFormat format;
         try {
