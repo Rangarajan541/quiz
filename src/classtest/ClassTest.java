@@ -5829,7 +5829,6 @@ public class ClassTest extends javax.swing.JFrame {
                     jLabel89.setPreferredSize(new Dimension(icon.getIconHeight() + 25, icon.getIconWidth() + 25));
                     jLabel89.setIcon(icon);
                     imageDisplayPage.pack();
-                    canCheat = false;
                     imageDisplayPage.setVisible(true);
                     imageDisplayPage.setAlwaysOnTop(true);
                     imageDisplayPage.setAlwaysOnTop(false);
