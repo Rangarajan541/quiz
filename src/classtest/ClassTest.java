@@ -301,7 +301,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         generateYearModel();
     }
-
+    @SuppressWarnings("unchecked")
     private void generateYearModel() {
         Calendar now = Calendar.getInstance();
         int x = now.get(Calendar.YEAR);
@@ -1787,7 +1787,7 @@ public class ClassTest extends javax.swing.JFrame {
         });
 
         jTextArea1.setEditable(false);
-        jTextArea1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextArea1.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea1);
@@ -1968,7 +1968,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -2842,7 +2842,7 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel20.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jTextArea3.setColumns(20);
-        jTextArea3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jTextArea3.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
         jTextArea3.setLineWrap(true);
         jTextArea3.setRows(5);
         jTextArea3.setWrapStyleWord(true);
@@ -3987,7 +3987,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
+        jTextArea2.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
         jTextArea2.setWrapStyleWord(true);
@@ -4016,7 +4016,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel92)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
             .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel29Layout.createSequentialGroup()
                     .addContainerGap()
