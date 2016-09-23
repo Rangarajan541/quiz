@@ -20,11 +20,25 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.*;
-import java.util.*;
-import javax.swing.*;
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -4461,7 +4475,7 @@ public class ClassTest extends javax.swing.JFrame {
                         stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
                         studentPanelPage.dispose();
                         currentTestID = testid;
-                        jLabel38.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + (String) jTable1.getValueAt(jTable1.getSelectedRow(), 1));
+                        jLabel38.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + jTable1.getValueAt(jTable1.getSelectedRow(), 1));
                         rs = stmt.executeQuery("select points from testlist  where status!=-1 and testid=\"" + testid + "\";");
                         if (rs.next()) {
                             marks = rs.getInt(1);
@@ -4754,7 +4768,7 @@ public class ClassTest extends javax.swing.JFrame {
                     }
                     rs2 = stmt2.executeQuery("select description,subject,points from testlist where status!=-1 and testid=\"" + testid + "\";");
                     if (rs2.next()) {
-                        totalMarks = totalMarks * rs2.getInt("points");
+                        totalMarks *= rs2.getInt("points");
                         String score = Integer.toString(rs.getInt("marksearned")) + "/" + totalMarks;
                         prevResultsModel.addRow(new Object[]{rs2.getString("subject"), rs2.getString("description"), score});
                     }
@@ -5172,7 +5186,7 @@ public class ClassTest extends javax.swing.JFrame {
                 fw.write("Test Subject," + jTextField24.getText().trim() + System.getProperty("line.separator"));
                 fw.write("Test Description," + jTextField20.getText().trim() + System.getProperty("line.separator"));
                 for (int i = 0; i < jTable5.getRowCount(); i++) {
-                    fw.write((String) jTable5.getValueAt(i, 0) + "," + Integer.toString((Integer) jTable5.getValueAt(i, 1)) + System.getProperty("line.separator"));
+                    fw.write(jTable5.getValueAt(i, 0) + "," + Integer.toString((Integer) jTable5.getValueAt(i, 1)) + System.getProperty("line.separator"));
                 }
                 fw.write("Class Average," + jTextField21.getText() + System.getProperty("line.separator"));
                 fw.write("Highest Score," + jTextField22.getText() + System.getProperty("line.separator"));
@@ -5184,8 +5198,8 @@ public class ClassTest extends javax.swing.JFrame {
                     if (fw != null) {
                         fw.close();
                     }
-                } catch (Exception e3) {
-                    showException("Unknown Exception occured while closing FileWriter", e3);
+                } catch (IOException e3) {
+                    showException("Error occured while producing resultsheet", e3);
                 }
             }
         }
@@ -5509,7 +5523,7 @@ public class ClassTest extends javax.swing.JFrame {
                 File f = jFileChooser1.getSelectedFile();
                 String logPath = f.getCanonicalPath();
                 if (!logPath.endsWith(".txt")) {
-                    logPath = logPath + ".txt";
+                    logPath += ".txt";
                 }
                 logPath = logPath.replace('\\', '/');
                 jTextField30.setText(logPath);
@@ -5610,7 +5624,7 @@ public class ClassTest extends javax.swing.JFrame {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
             String status = (String) jComboBox6.getSelectedItem();
             for (int i = jTable1.getRowCount() - 1; i >= 0; i--) {
-                if (!(((String) jTable1.getValueAt(i, 2)).equals(status))) {
+                if (!(jTable1.getValueAt(i, 2).equals(status))) {
                     statusModel.removeRow(i);
                 }
             }
@@ -5992,7 +6006,6 @@ public class ClassTest extends javax.swing.JFrame {
                     jLabel87.setForeground(new Color(255, 0, 0));
                     jButton56.setEnabled(true);
                 } else {
-                    System.out.println(img);
                     jLabel87.setText("This question does not have an image.");
                     jLabel87.setForeground(new Color(0, 0, 0));
                     jButton56.setEnabled(false);
@@ -6072,8 +6085,8 @@ public class ClassTest extends javax.swing.JFrame {
         char tempChar;
         for (int i = 0; i < a.length(); i++) {
             tempChar = a.charAt(i);
-            if ((int) tempChar > 32 && (int) tempChar < 65) {
-                if ((int) tempChar == 32 || (int) tempChar == 46) {
+            if (tempChar > 32 && (int) tempChar < 65) {
+                if (tempChar == 32 || (int) tempChar == 46) {
                     continue;
                 }
                 return false;
@@ -6139,7 +6152,6 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private void logError(String a, Exception ex) {
-        java.util.Date datetime = new java.util.Date();
         SimpleDateFormat format;
         try {
             format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -6229,7 +6241,6 @@ public class ClassTest extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ClassTest.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
