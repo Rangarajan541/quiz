@@ -6087,7 +6087,7 @@ public class ClassTest extends javax.swing.JFrame {
         for (int i = 0; i < a.length(); i++) {
             tempChar = a.charAt(i);
             if (tempChar > 32 && tempChar < 65) {
-                if (tempChar == 32 ||  tempChar == 46) {
+                if (tempChar == 32 || tempChar == 46) {
                     continue;
                 }
                 return false;
