@@ -2,3 +2,4 @@ cheatwarnings seconds ending, random warning issued
 testresults always on top
 cheat alarm not on top
 testresults question use bridge not pane
+enable bmp support
