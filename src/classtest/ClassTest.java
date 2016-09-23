@@ -56,8 +56,8 @@ public class ClassTest extends javax.swing.JFrame {
     private Connection con;
     private Statement stmt, stmt2;
     private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
-    int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300, flashWarning = 60;
-    private String SUBJECT = null, loginName;
+    private int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300, flashWarning = 60;
+    private String loginName;
     private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
     private java.util.Timer wakeUpTimer;
     private java.util.TimerTask wakeUpTimerTask;
@@ -77,7 +77,7 @@ public class ClassTest extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "open");
             stmt = con.createStatement();
             stmt2 = con.createStatement();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             logError("Error occured while establishing database link", ex);
             JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
@@ -4697,6 +4697,7 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton26ActionPerformed
 
+    @SuppressWarnings("unchecked")
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jLabel70.setText("Question Flagged");
         DefaultListModel flagListModel = (DefaultListModel) jList2.getModel();
@@ -6085,8 +6086,8 @@ public class ClassTest extends javax.swing.JFrame {
         char tempChar;
         for (int i = 0; i < a.length(); i++) {
             tempChar = a.charAt(i);
-            if (tempChar > 32 && (int) tempChar < 65) {
-                if (tempChar == 32 || (int) tempChar == 46) {
+            if (tempChar > 32 && tempChar < 65) {
+                if (tempChar == 32 ||  tempChar == 46) {
                     continue;
                 }
                 return false;
