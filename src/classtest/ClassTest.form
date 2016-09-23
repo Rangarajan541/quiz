@@ -708,9 +708,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField1">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="jPasswordField1">
             </Component>
@@ -2795,16 +2792,10 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField16">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField16ActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField17">
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField18">
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField18ActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel63">
               <Properties>

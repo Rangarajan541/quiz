@@ -419,7 +419,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("update systemsettings set data=\"" + Integer.parseInt(jTextField29.getText().trim()) + "\" where identifier=\"flashwarningseconds\";");
             stmt.executeUpdate("update systemsettings set data=\"" + jTextField30.getText().trim() + "\" where identifier=\"loglocation\";");
             stmt.executeUpdate("update systemsettings set data=\"" + jTextField31.getText().trim() + "\" where identifier=\"reslocation\";");
-            String alarmValue = "0";
+            String alarmValue;
             if (jRadioButton6.isSelected()) {
                 alarmValue = "1";
             } else {
@@ -1188,12 +1188,6 @@ public class ClassTest extends javax.swing.JFrame {
         buttonGroup2.add(jRadioButton10);
         jRadioButton10.setText("Teacher");
         jRadioButton10.setEnabled(false);
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -2591,18 +2585,6 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel58.setText("Edit Details");
 
         jTextField15.setEditable(false);
-
-        jTextField16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField16ActionPerformed(evt);
-            }
-        });
-
-        jTextField18.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField18ActionPerformed(evt);
-            }
-        });
 
         jLabel63.setText("minutes");
 
@@ -4088,10 +4070,6 @@ public class ClassTest extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         if (jTable2.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test", "No Test Selected", JOptionPane.WARNING_MESSAGE);
@@ -4390,6 +4368,7 @@ public class ClassTest extends javax.swing.JFrame {
                     }
                     if (instantCheatAlarm == 1) {
                         instantCheatAlarmTask = new java.util.TimerTask() {
+                            @Override
                             public void run() {
                                 alarmCheats();
                             }
@@ -4939,14 +4918,6 @@ public class ClassTest extends javax.swing.JFrame {
             showException("Error occured while updating edit question list", ex);
         }
     }
-    private void jTextField18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
-
-    }//GEN-LAST:event_jTextField18ActionPerformed
-
-    private void jTextField16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField16ActionPerformed
-
-    }//GEN-LAST:event_jTextField16ActionPerformed
-
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
         fetchSystemParameters();
         ResultSet rs;
@@ -5446,7 +5417,6 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton49ActionPerformed
 
     private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
-
         userHistoryPage.dispose();
     }//GEN-LAST:event_jMenuItem40ActionPerformed
 
