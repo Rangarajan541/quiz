@@ -62,7 +62,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt = con.createStatement();
             stmt2 = con.createStatement();
         } catch (Exception ex) {
-            //showException("Error occured while establishing database link", ex);
+            logError("Error occured while establishing database link", ex);
             JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         }
@@ -153,9 +153,14 @@ public class ClassTest extends javax.swing.JFrame {
 
             @Override
             public void windowLostFocus(WindowEvent e) {
-                if (canCheat) {
+                if (canCheat&&!imageDisplayed) {
                     preventCheating();
                 }
+            }
+        };
+        WindowAdapter imageAdapter = new WindowAdapter() {
+            public void windowClosing() {
+                imageDisplayed = false;
             }
         };
         redirectPage.setTitle("Welcome");
@@ -250,6 +255,7 @@ public class ClassTest extends javax.swing.JFrame {
         userHistoryPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         imageDisplayPage.setTitle("Question image - You can resize this window");
         imageDisplayPage.setLocationRelativeTo(studentQuestionPage);
+        imageDisplayPage.addWindowListener(imageAdapter);
         allWindowList.add(logPage);
         allWindowList.add(adminPage);
         allWindowList.add(editQuestionBridge);
@@ -1558,15 +1564,6 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        studentQuestionPage.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                studentQuestionPageFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                studentQuestionPageFocusLost(evt);
-            }
-        });
-
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTextField2.setEditable(false);
@@ -2467,7 +2464,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton28, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
+                        .addGap(182, 182, 182)
                         .addComponent(jLabel53)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
@@ -3900,15 +3897,6 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        imageDisplayPage.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                imageDisplayPageFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                imageDisplayPageFocusLost(evt);
-            }
-        });
-
         jLabel89.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jScrollPane18.setViewportView(jLabel89);
 
@@ -4376,7 +4364,7 @@ public class ClassTest extends javax.swing.JFrame {
         ResultSet rs;
         int correctAnswers = 0, wrongAnswers = 0, marks = 1;
         try {
-            rs = stmt.executeQuery("select points from testlist where and status!=-1 testid=\"" + currentTestID + "\";");
+            rs = stmt.executeQuery("select points from testlist where status!=-1 and testid=\"" + currentTestID + "\";");
             if (rs.next()) {
                 marks = rs.getInt(1);
             }
@@ -4697,7 +4685,7 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             String x = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
             String descx = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 1);
-            int result = JOptionPane.showConfirmDialog(teacherPanelPage, "Are you sure that you want to delete this test?\n\nTest ID: " + x + "\nTest Description: " + descx + "\nThis action CANNOT be undone.", "Delete Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(teacherPanelPage, "Are you sure that you want to delete this test?\n\nTest ID: " + x + "\nTest Description: " + descx + "\nThis action cannot be undone.", "Delete Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
                 try {
                     ResultSet rs = stmt.executeQuery("select imagesource from testquestions_" + x + ";");
@@ -4958,7 +4946,7 @@ public class ClassTest extends javax.swing.JFrame {
         String testid = generateTestID();
         ResultSet rs;
         try {
-            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginName + "\",\"" + Integer.parseInt(jTextField8.getText().trim()) + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
+            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginName + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
             stmt.executeUpdate("create table testquestions_" + testid + "( sno int(11),question varchar(2500),answer varchar(5),imagesource varchar(2500),reserve int(1));");
             rs = stmt.executeQuery("select * from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
@@ -4984,14 +4972,6 @@ public class ClassTest extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(teacherQuestionPage, "If you have a standard text (.txt) file with the questions and answer separated in the following manner:\n\nQuestion;-;Answer\nQuestion;-;Answer\nQuestion;-;Answer\n\nYou can select it to automatically upload questions for this test.\n\nIt is important for each question to begin in a new line, and that the answer for the question is in the same line, separated by ;-;\nAll Standard escape sequences like \\n \\t apply.", "Using source files", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton29ActionPerformed
-
-    private void studentQuestionPageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_studentQuestionPageFocusLost
-
-    }//GEN-LAST:event_studentQuestionPageFocusLost
-
-    private void studentQuestionPageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_studentQuestionPageFocusGained
-
-    }//GEN-LAST:event_studentQuestionPageFocusGained
 
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
 
@@ -5437,20 +5417,10 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton58ActionPerformed
 
     private void jButton56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton56ActionPerformed
-
+        imageDisplayed = true;
         imageDisplayPage.setVisible(true);
 
     }//GEN-LAST:event_jButton56ActionPerformed
-
-    private void imageDisplayPageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imageDisplayPageFocusGained
-
-
-    }//GEN-LAST:event_imageDisplayPageFocusGained
-
-    private void imageDisplayPageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imageDisplayPageFocusLost
-
-
-    }//GEN-LAST:event_imageDisplayPageFocusLost
 
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
@@ -5597,8 +5567,10 @@ public class ClassTest extends javax.swing.JFrame {
                 }
                 break;
             }
-            while (rs.next()) {
-                errModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
+            if (rs != null) {
+                while (rs.next()) {
+                    errModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
+                }
             }
 
         } catch (SQLException ex) {
@@ -5817,6 +5789,7 @@ public class ClassTest extends javax.swing.JFrame {
         String questionLine = questionListMod.get(i);
         String[] tempTokens = questionLine.split(separator);
         imageDisplayPage.setVisible(false);
+        imageDisplayed = false;
         File img;
         try {
             int ind = Integer.parseInt(tempTokens[1]);
@@ -5829,6 +5802,7 @@ public class ClassTest extends javax.swing.JFrame {
                     jLabel89.setPreferredSize(new Dimension(icon.getIconHeight() + 25, icon.getIconWidth() + 25));
                     jLabel89.setIcon(icon);
                     imageDisplayPage.pack();
+                    imageDisplayed = true;
                     imageDisplayPage.setVisible(true);
                     imageDisplayPage.setAlwaysOnTop(true);
                     imageDisplayPage.setAlwaysOnTop(false);
@@ -5836,6 +5810,7 @@ public class ClassTest extends javax.swing.JFrame {
                     jLabel87.setForeground(new Color(255, 0, 0));
                     jButton56.setEnabled(true);
                 } else {
+                    System.out.println(img);
                     jLabel87.setText("This question does not have an image.");
                     jLabel87.setForeground(new Color(0, 0, 0));
                     jButton56.setEnabled(false);

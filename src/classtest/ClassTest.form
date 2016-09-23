@@ -1204,10 +1204,6 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JFrame" name="studentQuestionPage">
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="studentQuestionPageFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="studentQuestionPageFocusLost"/>
-      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -2502,7 +2498,7 @@
                               <Component id="jButton28" min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="161" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
                               <Component id="jLabel53" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -4655,10 +4651,6 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JFrame" name="imageDisplayPage">
-      <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="imageDisplayPageFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="imageDisplayPageFocusLost"/>
-      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
