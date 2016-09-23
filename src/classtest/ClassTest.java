@@ -39,11 +39,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
-
-/*
- * @author Rangarajan.A -- rajanranga541@gmail.com -- facebook.com/Rangarajan541
- */
+import javax.swing.table.DefaultTableModel;/* * @author Rangarajan.A -- rajanranga541@gmail.com -- facebook.com/Rangarajan541 */
 @SuppressWarnings("serial")
 public class ClassTest extends javax.swing.JFrame {
 
@@ -301,6 +297,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         generateYearModel();
     }
+
     @SuppressWarnings("unchecked")
     private void generateYearModel() {
         Calendar now = Calendar.getInstance();
@@ -4082,7 +4079,6 @@ public class ClassTest extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         if (jTable2.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test", "No Test Selected", JOptionPane.WARNING_MESSAGE);
@@ -4097,11 +4093,8 @@ public class ClassTest extends javax.swing.JFrame {
             showException("Error occured while locking test " + x, ex);
         }
         updateTeacherTestList();
-
     }//GEN-LAST:event_jButton12ActionPerformed
-
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
         if (jComboBox2.getSelectedIndex() == 0) {
             studentRegisterPage.setVisible(true);
         } else if (jComboBox2.getSelectedIndex() == 1) {
@@ -4109,9 +4102,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         redirectPage.dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-
         loginPage.setVisible(true);
         redirectPage.dispose();
         if (jComboBox2.getSelectedIndex() == 0) {
@@ -4120,88 +4111,58 @@ public class ClassTest extends javax.swing.JFrame {
             jRadioButton10.setSelected(true);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
-
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-
         redirectPage.setVisible(true);
         studentRegisterPage.dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-
         redirectPage.setVisible(true);
         teacherRegisterPage.dispose();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
-
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-
         redirectPage.setVisible(true);
         loginPage.dispose();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
-
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-
         studentPreviousResultsPage.dispose();
     }//GEN-LAST:event_jMenuItem11ActionPerformed
-
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
         teacherTestReportPage.dispose();
     }//GEN-LAST:event_jMenuItem23ActionPerformed
-
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
-
     }//GEN-LAST:event_jMenuItem26ActionPerformed
-
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
         logPage.dispose();
     }//GEN-LAST:event_jMenuItem29ActionPerformed
-
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
         adminPage.dispose();
     }//GEN-LAST:event_jMenuItem32ActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-
         System.exit(0);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-
         System.exit(0);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-
         System.exit(0);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
-
     private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
-
         studentPanelPage.setVisible(true);
         studentFinishTestPage.dispose();
     }//GEN-LAST:event_jMenuItem35ActionPerformed
-
     private void jMenuItem36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem36ActionPerformed
-
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem36ActionPerformed
-
     private void jMenuItem37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem37ActionPerformed
-
         logout();
     }//GEN-LAST:event_jMenuItem37ActionPerformed
-
     private boolean validateRegName(String a, int type) {
         ResultSet rs;
         if (checkValidCharsUsed(a)) {
@@ -4257,7 +4218,6 @@ public class ClassTest extends javax.swing.JFrame {
         return null;
     }
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-
         ResultSet rs;
         boolean regNameCorrect, passwordCorrect;
         String regName = jTextField4.getText().trim();
@@ -4282,9 +4242,7 @@ public class ClassTest extends javax.swing.JFrame {
         jPasswordField2.setText(null);
         jPasswordField3.setText(null);
     }//GEN-LAST:event_jButton10ActionPerformed
-
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-
         String regName = jTextField5.getText().trim();
         char[] password = jPasswordField4.getPassword();
         char[] passwordConfirm = jPasswordField5.getPassword();
@@ -4310,7 +4268,6 @@ public class ClassTest extends javax.swing.JFrame {
         jPasswordField4.setText(null);
         jPasswordField5.setText(null);
     }//GEN-LAST:event_jButton11ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         fetchSystemParameters();
         ResultSet rs;
@@ -4438,22 +4395,16 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
         updateStudentTestList();
         updateStudentTestListForStatus();
     }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-
         updateStudentTestList();
         updateStudentTestListForStatus();
     }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-
         logout();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         fetchSystemParameters();
         ResultSet rs;
@@ -4529,7 +4480,6 @@ public class ClassTest extends javax.swing.JFrame {
         } catch (SQLException ex) {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
     private void finishTest() {
         try {
             testTimerTask.cancel();
@@ -4592,27 +4542,21 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-
         if (!abortTest()) {
             return;
         }
         logout();
     }//GEN-LAST:event_jMenuItem16ActionPerformed
-
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-
         if (!abortTest()) {
             return;
         }
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem15ActionPerformed
-
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-
         abortTest();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jLabel70.setText(null);
         if (Integer.parseInt(jTextField13.getText()) == 1) {
@@ -4621,9 +4565,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         curQuesInd--;
         setNextQuestion(curQuesInd);
-
     }//GEN-LAST:event_jButton5ActionPerformed
-
     private void updateQuestionProgress() {
         ResultSet rs;
         jLabel41.setText("Total Answered: " + totalAnsweredQuestions);
@@ -4652,9 +4594,7 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-            /*
-             showException("Error occured while checking if already answered to update radio",ex);*/
-        }
+            /*             showException("Error occured while checking if already answered to update radio",ex);*/        }
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         jLabel70.setText(null);
@@ -4664,29 +4604,19 @@ public class ClassTest extends javax.swing.JFrame {
         }
         curQuesInd++;
         setNextQuestion(curQuesInd);
-
     }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-
         updateAnswer("d");
     }//GEN-LAST:event_jRadioButton4ActionPerformed
-
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-
         updateAnswer("c");
     }//GEN-LAST:event_jRadioButton3ActionPerformed
-
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-
         updateAnswer("b");
     }//GEN-LAST:event_jRadioButton2ActionPerformed
-
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-
         updateAnswer("a");
     }//GEN-LAST:event_jRadioButton1ActionPerformed
-
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
         jLabel70.setText("Question Unflagged");
         DefaultListModel flaggedListModel = (DefaultListModel) jList2.getModel();
@@ -4695,7 +4625,6 @@ public class ClassTest extends javax.swing.JFrame {
         }
         jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton26ActionPerformed
-
     @SuppressWarnings("unchecked")
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jLabel70.setText("Question Flagged");
@@ -4706,9 +4635,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jTable8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable8MouseClicked
-
         if (evt.getClickCount() == 2) {
             String selLine = (String) (jTable8.getValueAt(jTable8.getSelectedRow(), 0));
             String selLineTokens[] = selLine.split(" ");
@@ -4716,9 +4643,7 @@ public class ClassTest extends javax.swing.JFrame {
             setNextQuestion(curQuesInd);
         }
     }//GEN-LAST:event_jTable8MouseClicked
-
     private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
-
         if (evt.getClickCount() == 2) {
             totalFlagged++;
             String selLine = (String) jList2.getSelectedValue();
@@ -4727,7 +4652,6 @@ public class ClassTest extends javax.swing.JFrame {
             setNextQuestion(curQuesInd);
         }
     }//GEN-LAST:event_jList2MouseClicked
-
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         canCheat = false;
         int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to finish? You will not be able to re-take this test.", "Finish Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -4736,21 +4660,16 @@ public class ClassTest extends javax.swing.JFrame {
         }
         canCheat = true;
     }//GEN-LAST:event_jButton17ActionPerformed
-
     private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
-
         if (evt.getClickCount() == 2) {
             JOptionPane.showMessageDialog(studentFinishTestPage, jTable3.getValueAt(jTable3.getSelectedRow(), 0), "View Question", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jTable3MouseClicked
-
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-
         studentFinishTestPage.dispose();
         studentPanelPage.setVisible(true);
         cleanUpAfterTest();
     }//GEN-LAST:event_jButton18ActionPerformed
-
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         try {
             Statement stmt3 = con.createStatement();
@@ -4780,29 +4699,19 @@ public class ClassTest extends javax.swing.JFrame {
         }
         studentPreviousResultsPage.setVisible(true);
     }//GEN-LAST:event_jButton19ActionPerformed
-
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-
         studentPreviousResultsPage.dispose();
     }//GEN-LAST:event_jButton20ActionPerformed
-
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-
         System.exit(0);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
-
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-
         logout();
     }//GEN-LAST:event_jMenuItem13ActionPerformed
-
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         teacherQuestionPage.setVisible(true);
-
     }//GEN-LAST:event_jButton15ActionPerformed
-
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
-
         try {
             File f;
             int val = jFileChooser1.showOpenDialog(teacherQuestionPage);
@@ -4835,12 +4744,9 @@ public class ClassTest extends javax.swing.JFrame {
             showException("error occured while parsing source file", ex);
         }
     }//GEN-LAST:event_jButton28ActionPerformed
-
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-
         updateTeacherTestList();
     }//GEN-LAST:event_jComboBox4ActionPerformed
-
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         if (jTable2.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test", "No Test Selected", JOptionPane.WARNING_MESSAGE);
@@ -4860,9 +4766,7 @@ public class ClassTest extends javax.swing.JFrame {
             showException("Error occured while unlocking test " + x, ex);
         }
         updateTeacherTestList();
-
     }//GEN-LAST:event_jButton13ActionPerformed
-
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         try {
             String x = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
@@ -4900,7 +4804,6 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test to delete", "No Test Selected", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton14ActionPerformed
-
     private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
         if (jTable2.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test", "No Test Selected", JOptionPane.WARNING_MESSAGE);
@@ -4908,9 +4811,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         updateQuestionEditList();
         editQuestionPage.setVisible(true);
-
     }//GEN-LAST:event_jButton27ActionPerformed
-
     private void updateQuestionEditList() {
         ResultSet rs;
         try {
@@ -4948,8 +4849,7 @@ public class ClassTest extends javax.swing.JFrame {
                 String question = (String) jTable9.getValueAt(i, 0);
                 if (question != null) {
                     if (question.length() < 5) {
-                        JOptionPane.showMessageDialog(editQuestionPage, "Question " + Integer.toString(i + 1) + " is too short.", "Invalid Question", JOptionPane.WARNING_MESSAGE
-                        );
+                        JOptionPane.showMessageDialog(editQuestionPage, "Question " + Integer.toString(i + 1) + " is too short.", "Invalid Question", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
                     String answer = ((String) jTable9.getValueAt(i, 1)).toLowerCase().trim();
@@ -5013,7 +4913,6 @@ public class ClassTest extends javax.swing.JFrame {
             showException("Error occured while updating edits to database", ex);
         }
     }//GEN-LAST:event_jButton31ActionPerformed
-
     private void cleanUpAfterCreation() {
         DefaultTableModel model = (DefaultTableModel) jTable9.getModel();
         model.setRowCount(0);
@@ -5021,7 +4920,6 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField8.setText(null);
     }
     private void jTable9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable9MouseClicked
-
         if (evt.getClickCount() == 2) {
             curEdit = jTable9.getSelectedRow();
             jTextArea3.setText((String) jTable9.getValueAt(curEdit, 0));
@@ -5029,16 +4927,12 @@ public class ClassTest extends javax.swing.JFrame {
             jLabel67.setText("Test ID: " + jTextField15.getText());
         }
     }//GEN-LAST:event_jTable9MouseClicked
-
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
-
         jTable9.setValueAt(jTextArea3.getText().trim(), curEdit, 0);
         jTextArea3.setText(null);
         editQuestionBridge.dispose();
     }//GEN-LAST:event_jButton32ActionPerformed
-
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-
         DefaultTableModel editQuestionModel = (DefaultTableModel) jTable9.getModel();
         int ind = jTable9.getSelectedRow();
         if (ind == -1) {
@@ -5047,9 +4941,7 @@ public class ClassTest extends javax.swing.JFrame {
             editQuestionModel.insertRow(ind, new Object[]{});
         }
     }//GEN-LAST:event_jButton33ActionPerformed
-
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-
         if (jTable9.getSelectedRow() != -1) {
             int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Are you sure you want to delete Question " + Integer.toString(jTable9.getSelectedRow() + 1) + "? The only way to add it back would be to insert it again", "Delete Question Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (ans == JOptionPane.YES_OPTION) {
@@ -5060,9 +4952,7 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(editQuestionPage, "Please select a question to delete", "No Question Selected", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton34ActionPerformed
-
     private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
-
         DefaultTableModel editQuestionsModel = (DefaultTableModel) jTable9.getModel();
         for (int i = jTable9.getRowCount() - 1; i >= 0; i--) {
             if (jTable9.getValueAt(i, 0) == null) {
@@ -5070,25 +4960,17 @@ public class ClassTest extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton35ActionPerformed
-
     private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
-
         updateTeacherTestList();
     }//GEN-LAST:event_jButton30ActionPerformed
-
     private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
-
         logout();
     }//GEN-LAST:event_jMenuItem19ActionPerformed
-
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
-
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
-
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-
         int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Save Changes before closing?", "Close confirmation", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (ans == JOptionPane.YES_OPTION) {
             jButton31.doClick();
@@ -5096,25 +4978,19 @@ public class ClassTest extends javax.swing.JFrame {
             editQuestionPage.dispose();
         }
     }//GEN-LAST:event_jMenuItem17ActionPerformed
-
     private void jMenuItem38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem38ActionPerformed
-
         int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Changes will not be saved. Are you sure?", "Exit confirmation", JOptionPane.YES_NO_OPTION);
         if (ans == JOptionPane.YES_OPTION) {
             logout();
         }
     }//GEN-LAST:event_jMenuItem38ActionPerformed
-
     private void jMenuItem39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem39ActionPerformed
-
         int ans = JOptionPane.showConfirmDialog(editQuestionPage, "Changes will not be saved. Are you sure?", "Exit confirmation", JOptionPane.YES_NO_OPTION);
         if (ans == JOptionPane.YES_OPTION) {
             logout();
             System.exit(0);
         }
-
     }//GEN-LAST:event_jMenuItem39ActionPerformed
-
     private String createTestFrame() {
         String testid = generateTestID();
         ResultSet rs;
@@ -5140,37 +5016,26 @@ public class ClassTest extends javax.swing.JFrame {
         editQuestionPage.setVisible(true);
         teacherQuestionPage.dispose();
     }//GEN-LAST:event_jButton21ActionPerformed
-
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
-
         JOptionPane.showMessageDialog(teacherQuestionPage, "If you have a standard text (.txt) file with the questions and answer separated in the following manner:\n\nQuestion;-;Answer\nQuestion;-;Answer\nQuestion;-;Answer\n\nYou can select it to automatically upload questions for this test.\n\nIt is important for each question to begin in a new line, and that the answer for the question is in the same line, separated by ;-;\nAll Standard escape sequences like \\n \\t apply.", "Using source files", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton29ActionPerformed
-
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
-
         antiCheatFrame.dispose();
         studentQuestionPage.setAlwaysOnTop(true);
         studentQuestionPage.setAlwaysOnTop(false);
     }//GEN-LAST:event_jButton36ActionPerformed
-
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-
         if (jTable2.getSelectedRow() != -1) {
             updateTestReport();
             teacherTestReportPage.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(teacherPanelPage, "You need to select a test", "No test selected", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_jButton16ActionPerformed
-
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-
         teacherTestReportPage.dispose();
     }//GEN-LAST:event_jButton22ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-
         String defName = jTextField3.getText().trim() + "_" + jTextField20.getText().trim() + ".csv";
         jFileChooser1.setSelectedFile(new File(defName));
         int ans = jFileChooser1.showSaveDialog(teacherTestReportPage);
@@ -5203,39 +5068,27 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
         }
-
     }//GEN-LAST:event_jButton7ActionPerformed
-
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem24ActionPerformed
-
     private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
-
         logout();
     }//GEN-LAST:event_jMenuItem25ActionPerformed
-
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-
         updateLogs();
         logPage.setVisible(true);
     }//GEN-LAST:event_jButton23ActionPerformed
-
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-
         try {
             stmt.executeUpdate("delete from activitylog");
         } catch (SQLException ex) {
             showException("error while clearing activity log", ex);
         }
         updateLogs();
-
     }//GEN-LAST:event_jButton24ActionPerformed
-
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
-
         try {
             stmt.executeUpdate("delete from errorlog");
         } catch (SQLException ex) {
@@ -5243,21 +5096,15 @@ public class ClassTest extends javax.swing.JFrame {
         }
         updateLogs();
     }//GEN-LAST:event_jButton37ActionPerformed
-
     private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
-
         updateSearchList();
         updatePendingList();
         adminPage.setVisible(true);
     }//GEN-LAST:event_jButton39ActionPerformed
-
     private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
-
         logPage.dispose();
     }//GEN-LAST:event_jButton40ActionPerformed
-
     private void jButton42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton42ActionPerformed
-
         if (jTable11.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
             return;
@@ -5273,14 +5120,10 @@ public class ClassTest extends javax.swing.JFrame {
         }
         updatePendingList();
     }//GEN-LAST:event_jButton42ActionPerformed
-
     private void jButton44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton44ActionPerformed
-
         updateSearchList();
     }//GEN-LAST:event_jButton44ActionPerformed
-
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
-
         if (jTable7.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(adminPage, "Please select a user", "No user selected", JOptionPane.ERROR_MESSAGE);
             return;
@@ -5298,11 +5141,8 @@ public class ClassTest extends javax.swing.JFrame {
         }
         jPasswordField6.setText(null);
         jPasswordField7.setText(null);
-
     }//GEN-LAST:event_jButton38ActionPerformed
-
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
-
         ResultSet rs;
         if (jTable7.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
@@ -5333,14 +5173,10 @@ public class ClassTest extends javax.swing.JFrame {
         }
         updateSearchList();
     }//GEN-LAST:event_jButton41ActionPerformed
-
     private void jButton45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton45ActionPerformed
-
         updatePendingList();
     }//GEN-LAST:event_jButton45ActionPerformed
-
     private void jButton43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton43ActionPerformed
-
         if (jTable11.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
             return;
@@ -5356,26 +5192,17 @@ public class ClassTest extends javax.swing.JFrame {
         }
         updatePendingList();
     }//GEN-LAST:event_jButton43ActionPerformed
-
     private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
-
         logout();
-
     }//GEN-LAST:event_jMenuItem34ActionPerformed
-
     private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
-
         logout();
         System.exit(0);
     }//GEN-LAST:event_jMenuItem33ActionPerformed
-
     private void jButton47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton47ActionPerformed
         updateSystemParameters();
-
     }//GEN-LAST:event_jButton47ActionPerformed
-
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
-
         if (jTable7.getSelectedRow() != -1) {
             if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
                 updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
@@ -5387,18 +5214,14 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user.", "No user selected", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton46ActionPerformed
-
     private void jButton50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton50ActionPerformed
-
         if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
             updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
         } else {
             updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
         }
     }//GEN-LAST:event_jButton50ActionPerformed
-
     private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
-
         String name = jTextField28.getText().trim();
         if (jTable12.getSelectedRow() != -1) {
             String testid = (String) jTable12.getValueAt(jTable12.getSelectedRow(), 0);
@@ -5418,9 +5241,7 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(userHistoryPage, "You need to select a test.", "No test selected", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton48ActionPerformed
-
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
-
         try {
             stmt.executeUpdate("delete from activitylog where username=\"" + jTextField28.getText().trim() + "\";");
         } catch (SQLException ex) {
@@ -5429,21 +5250,16 @@ public class ClassTest extends javax.swing.JFrame {
             updateUserHistoryTable(jTextField28.getText().trim(), TYPE_TEACHER);
         }
     }//GEN-LAST:event_jButton49ActionPerformed
-
     private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
         userHistoryPage.dispose();
     }//GEN-LAST:event_jMenuItem40ActionPerformed
-
     private void jTextField10KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField10KeyPressed
         updateSearchList();
     }//GEN-LAST:event_jTextField10KeyPressed
-
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
         updateSearchList();
     }//GEN-LAST:event_jComboBox5ActionPerformed
-
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-
         if (jTable1.getSelectedRow() != -1) {
             if (((String) jTable1.getValueAt(jTable1.getSelectedRow(), 2)).trim().equals("Taken")) {
                 String testid = ((String) jTable1.getValueAt(jTable1.getSelectedRow(), 0)).trim();
@@ -5501,21 +5317,16 @@ public class ClassTest extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(studentPanelPage, "You need to select a test.", "No test selected", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_jButton25ActionPerformed
-
     private void jButton51ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton51ActionPerformed
         updateStudentTestList();
         updateStudentTestListForStatus();
     }//GEN-LAST:event_jButton51ActionPerformed
-
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
         updateStudentTestList();
         updateStudentTestListForStatus();
     }//GEN-LAST:event_jComboBox6ActionPerformed
-
     private void jButton54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton54ActionPerformed
-
         try {
             jFileChooser1.setSelectedFile(new File(jTextField30.getText()));
             int val = jFileChooser1.showSaveDialog(adminPage);
@@ -5532,28 +5343,20 @@ public class ClassTest extends javax.swing.JFrame {
             showException("Error occured while selecting error log location", ex);
         }
     }//GEN-LAST:event_jButton54ActionPerformed
-
     private void jButton55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton55ActionPerformed
-
         try {
             throw new Exception("User generated");
         } catch (Exception ex) {
             showException("User generated", ex);
         }
     }//GEN-LAST:event_jButton55ActionPerformed
-
     private void jButton52ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton52ActionPerformed
-
         updateLogs();
     }//GEN-LAST:event_jButton52ActionPerformed
-
     private void jButton53ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton53ActionPerformed
-
         updateLogs();
     }//GEN-LAST:event_jButton53ActionPerformed
-
     private void jButton57ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton57ActionPerformed
-
         if (jTable9.getSelectedRow() != -1) {
             int val = jFileChooser1.showOpenDialog(editQuestionPage);
             if (val == JFileChooser.APPROVE_OPTION) {
@@ -5570,9 +5373,7 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(editQuestionPage, "Please select a question to add image", "No Question Selected", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButton57ActionPerformed
-
     private void jButton58ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton58ActionPerformed
-
         JFileChooser jFileChooser2 = new JFileChooser();
         jFileChooser2.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int val = jFileChooser2.showSaveDialog(adminPage);
@@ -5587,38 +5388,27 @@ public class ClassTest extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton58ActionPerformed
-
     private void jButton56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton56ActionPerformed
         imageDisplayed = true;
         imageDisplayPage.setVisible(true);
-
     }//GEN-LAST:event_jButton56ActionPerformed
-
     private void jButton59ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton59ActionPerformed
-
         jTextArea2.setText(null);
         cheatAlarmPage.dispose();
     }//GEN-LAST:event_jButton59ActionPerformed
-
     private void jButton60ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton60ActionPerformed
-
         int val = JOptionPane.showConfirmDialog(null, "Are you sure you want to stop receiving cheating alerts?", "Disable cheat alarm?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (val == JOptionPane.YES_OPTION) {
             instantCheatAlarmTask.cancel();
             cheatAlarmPage.dispose();
         }
     }//GEN-LAST:event_jButton60ActionPerformed
-
     private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
-
         jLabel93.setText("Save and restart program to enable/disable alarm");
     }//GEN-LAST:event_jRadioButton6ActionPerformed
-
     private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
         jLabel93.setText("Save and restart program to enable/disable alarm");
-
     }//GEN-LAST:event_jRadioButton5ActionPerformed
-
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
@@ -5927,7 +5717,6 @@ public class ClassTest extends javax.swing.JFrame {
             String questionLine = questionListMod.get(curQuesInd);
             temp = questionLine.split(separator);
             int dataIndex = Integer.parseInt(temp[1]);
-            //rs = stmt.executeQuery("select question_" + temp[1] + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
             try {
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
             } catch (SQLException ex) {
@@ -5935,14 +5724,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set question_" + temp[1] + " = \"" + answer + "\" where testid=\"" + currentTestID + "\";");
             jLabel70.setText("Answer saved");
         } catch (SQLException ex) {
-            /* try {
-                stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
-                updateAnswer(answer);
-                return;
-            } catch (SQLException ex1) {
-                showException("Error occured while creating column for answer", ex);
-            }*/
-            showException("Error occured while updating answer", ex);
+            /* try {                stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");                updateAnswer(answer);                return;            } catch (SQLException ex1) {                showException("Error occured while creating column for answer", ex);            }*/ showException("Error occured while updating answer", ex);
         }
     }
 
@@ -6230,16 +6012,10 @@ public class ClassTest extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         try {
-            /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-             if ("Nimbus".equals(info.getName())) {
-             javax.swing.UIManager.setLookAndFeel(info.getClassName());
-             break;
-             }
-             }*/
+            /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {             if ("Nimbus".equals(info.getName())) {             javax.swing.UIManager.setLookAndFeel(info.getClassName());             break;             }             }*/
             UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClassTest.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClassTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -6248,7 +6024,6 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame adminPage;
     private javax.swing.JFrame antiCheatFrame;
