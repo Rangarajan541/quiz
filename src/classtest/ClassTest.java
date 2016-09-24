@@ -853,6 +853,11 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField32 = new javax.swing.JTextField();
         jPasswordField8 = new javax.swing.JPasswordField();
         jButton61 = new javax.swing.JButton();
+        displayReportQuestionPage = new javax.swing.JFrame();
+        jPanel31 = new javax.swing.JPanel();
+        jScrollPane20 = new javax.swing.JScrollPane();
+        jTextArea5 = new javax.swing.JTextArea();
+        jButton62 = new javax.swing.JButton();
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -2021,8 +2026,6 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jLabel70)
                 .addContainerGap())
         );
-
-        studentFinishTestPage.setAlwaysOnTop(true);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -4175,6 +4178,63 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel31.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jTextArea5.setEditable(false);
+        jTextArea5.setColumns(20);
+        jTextArea5.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        jTextArea5.setLineWrap(true);
+        jTextArea5.setRows(5);
+        jTextArea5.setWrapStyleWord(true);
+        jScrollPane20.setViewportView(jTextArea5);
+
+        jButton62.setText("OK");
+        jButton62.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton62ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
+        jPanel31.setLayout(jPanel31Layout);
+        jPanel31Layout.setHorizontalGroup(
+            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel31Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel31Layout.createSequentialGroup()
+                .addGap(209, 209, 209)
+                .addComponent(jButton62)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel31Layout.setVerticalGroup(
+            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel31Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane20, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton62)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout displayReportQuestionPageLayout = new javax.swing.GroupLayout(displayReportQuestionPage.getContentPane());
+        displayReportQuestionPage.getContentPane().setLayout(displayReportQuestionPageLayout);
+        displayReportQuestionPageLayout.setHorizontalGroup(
+            displayReportQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(displayReportQuestionPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        displayReportQuestionPageLayout.setVerticalGroup(
+            displayReportQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(displayReportQuestionPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
         setEnabled(false);
@@ -4487,6 +4547,8 @@ public class ClassTest extends javax.swing.JFrame {
             currentAlarmIndex = Math.max(currentAlarmIndex, a);
             if (disp) {
                 cheatAlarmPage.setVisible(true);
+                cheatAlarmPage.setAlwaysOnTop(true);
+                cheatAlarmPage.setAlwaysOnTop(false);
             }
         } catch (SQLException ex) {
             showException("Error occured in cheat alarm functioning", ex);
@@ -4604,7 +4666,6 @@ public class ClassTest extends javax.swing.JFrame {
         isTestInProgress = false;
         studentQuestionPage.dispose();
         imageDisplayPage.dispose();
-        studentFinishTestPage.setVisible(true);
         ArrayList<String> finalAnswersList = new ArrayList<>();
         ResultSet rs;
         int correctAnswers = 0, wrongAnswers = 0, marks = 1;
@@ -4651,6 +4712,9 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set cheatwarnings=" + Integer.toString(issuedWarnings) + " where testid=\"" + currentTestID + "\";");
             logActivity(loginName, "User Finished Test");
             jTextField7.setText(Integer.toString(questionList.size() * marks));
+            studentFinishTestPage.setVisible(true);
+            studentFinishTestPage.setAlwaysOnTop(true);
+            studentFinishTestPage.setAlwaysOnTop(false);
         } catch (SQLException ex) {
             showException("Error occured while displaying results", ex);
         }
@@ -4776,7 +4840,8 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton17ActionPerformed
     private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
         if (evt.getClickCount() == 2) {
-            JOptionPane.showMessageDialog(studentFinishTestPage, jTable3.getValueAt(jTable3.getSelectedRow(), 0), "View Question", JOptionPane.INFORMATION_MESSAGE);
+            jTextArea5.setText((String) (jTable3.getValueAt(jTable3.getSelectedRow(), 0)));
+            displayReportQuestionPage.setVisible(true);
         }
     }//GEN-LAST:event_jTable3MouseClicked
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
@@ -5571,6 +5636,11 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton61ActionPerformed
 
+    private void jButton62ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton62ActionPerformed
+        jTextArea5.setText(null);
+        displayReportQuestionPage.dispose();
+    }//GEN-LAST:event_jButton62ActionPerformed
+
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
@@ -6216,6 +6286,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JFrame cheatAlarmPage;
+    private javax.swing.JFrame displayReportQuestionPage;
     private javax.swing.JFrame editQuestionBridge;
     private javax.swing.JFrame editQuestionPage;
     private javax.swing.JFrame generateKeyPage;
@@ -6278,6 +6349,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton60;
     private javax.swing.JButton jButton61;
+    private javax.swing.JButton jButton62;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -6482,6 +6554,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -6516,6 +6589,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane18;
     private javax.swing.JScrollPane jScrollPane19;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane20;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -6542,6 +6616,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
+    private javax.swing.JTextArea jTextArea5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
