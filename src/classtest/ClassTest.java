@@ -65,246 +65,251 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask instantCheatAlarmTask;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
-    private String logLocation = "D:/Online Quiz - Error log.txt", resLocation = "D:/res";
+    private static boolean correctKeyEntered = false;
+    private String logLocation = "C:/Quiz/Error log.txt", resLocation = "C:/Quiz/res";
     private int instantCheatAlarm = 0, currentAlarmIndex = 0;
 
-    public ClassTest() {
+    private ClassTest() {
         initComponents();
-        redirectPage.setVisible(true);
-        try {
-            FileReader fr = new FileReader(new File("D:/key.txt"));
-            BufferedReader br = new BufferedReader(fr);
-            String dummy[] = br.readLine().split(";");
-            String acc = dummy[0];
-            String pass = dummy[1];
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", decrypt(acc), decrypt(pass));
-            stmt = con.createStatement();
-            stmt2 = con.createStatement();
-        } catch (ClassNotFoundException | SQLException | IOException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
-            logError("Error occured while establishing database link", ex);
-            JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
-            System.exit(-1);
-        }
-        fetchSystemParameters();
-        WindowAdapter onCloseListener = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? You will be automatically logged out.", "Exit confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (result == JOptionPane.YES_OPTION) {
-                    logout();
-                    System.exit(0);
+        if (correctKeyEntered) {
+            initDatabaseSettingsWizard();
+        } else {
+            redirectPage.setVisible(true);
+            try {
+                FileReader fr = new FileReader(new File("C:/Quiz/key.txt"));
+                BufferedReader br = new BufferedReader(fr);
+                String dummy[] = br.readLine().split(";");
+                String acc = dummy[0];
+                String pass = dummy[1];
+                Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", decrypt(acc), decrypt(pass));
+                stmt = con.createStatement();
+                stmt2 = con.createStatement();
+            } catch (ClassNotFoundException | SQLException | IOException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
+                logError("Error occured while establishing database link", ex);
+                JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
+                System.exit(-1);
+            }
+            fetchSystemParameters();
+            WindowAdapter onCloseListener = new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit? You will be automatically logged out.", "Exit confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (result == JOptionPane.YES_OPTION) {
+                        logout();
+                        System.exit(0);
+                    }
                 }
-            }
-        };
-        WindowAdapter resultsCloseListener = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                cleanUpAfterTest();
-                studentPanelPage.setVisible(true);
-            }
-        };
-        WindowAdapter abortTestListener = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                canCheat = false;
-                abortTest();
-            }
-        };
-        MouseListener wakeUpListenerMouse = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                resetWakeUpTimer();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                resetWakeUpTimer();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                resetWakeUpTimer();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                resetWakeUpTimer();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                resetWakeUpTimer();
-            }
-        };
-        KeyListener wakeUpListenerKey = new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                resetWakeUpTimer();
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                resetWakeUpTimer();
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                resetWakeUpTimer();
-            }
-        };
-        FocusListener wakeUpListenerFocus = new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                resetWakeUpTimer();
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                resetWakeUpTimer();
-            }
-        };
-        WindowFocusListener antiCheatListener = new WindowFocusListener() {
-            @Override
-            public void windowGainedFocus(WindowEvent e) {
-                resetCheatMeasures();
-                canCheat = true;
-            }
-
-            @Override
-            public void windowLostFocus(WindowEvent e) {
-                if (!imageDisplayed && canCheat) {
-                    preventCheating();
+            };
+            WindowAdapter resultsCloseListener = new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    cleanUpAfterTest();
+                    studentPanelPage.setVisible(true);
                 }
+            };
+            WindowAdapter abortTestListener = new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    canCheat = false;
+                    abortTest();
+                }
+            };
+            MouseListener wakeUpListenerMouse = new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    resetWakeUpTimer();
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    resetWakeUpTimer();
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    resetWakeUpTimer();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    resetWakeUpTimer();
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    resetWakeUpTimer();
+                }
+            };
+            KeyListener wakeUpListenerKey = new KeyListener() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    resetWakeUpTimer();
+                }
+
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    resetWakeUpTimer();
+                }
+
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    resetWakeUpTimer();
+                }
+            };
+            FocusListener wakeUpListenerFocus = new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    resetWakeUpTimer();
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    resetWakeUpTimer();
+                }
+            };
+            WindowFocusListener antiCheatListener = new WindowFocusListener() {
+                @Override
+                public void windowGainedFocus(WindowEvent e) {
+                    resetCheatMeasures();
+                    canCheat = true;
+                }
+
+                @Override
+                public void windowLostFocus(WindowEvent e) {
+                    if (!imageDisplayed && canCheat) {
+                        preventCheating();
+                    }
+                }
+            };
+            WindowAdapter imageAdapter = new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    imageDisplayed = false;
+                }
+            };
+            redirectPage.setTitle("Welcome");
+            redirectPage.pack();
+            redirectPage.setLocationRelativeTo(null);
+            redirectPage.setResizable(false);
+            redirectPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            studentRegisterPage.setTitle("Student Registration");
+            studentRegisterPage.pack();
+            studentRegisterPage.setLocationRelativeTo(null);
+            studentRegisterPage.setResizable(false);
+            studentRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            teacherRegisterPage.setTitle("Teacher Registration");
+            teacherRegisterPage.pack();
+            teacherRegisterPage.setLocationRelativeTo(null);
+            teacherRegisterPage.setResizable(false);
+            teacherRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            loginPage.setTitle("Login");
+            loginPage.setResizable(false);
+            loginPage.pack();
+            loginPage.setLocationRelativeTo(null);
+            loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            studentPanelPage.setTitle("Student Home");
+            studentPanelPage.setResizable(false);
+            studentPanelPage.pack();
+            studentPanelPage.setLocationRelativeTo(null);
+            studentPanelPage.addWindowListener(onCloseListener);
+            studentPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            studentQuestionPage.setTitle("Online Test In Progress - Do not close");
+            studentQuestionPage.setResizable(false);
+            studentQuestionPage.pack();
+            studentQuestionPage.setLocationRelativeTo(null);
+            studentQuestionPage.addWindowListener(abortTestListener);
+            studentQuestionPage.addWindowFocusListener(antiCheatListener);
+            studentQuestionPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            studentFinishTestPage.setTitle("Test Results");
+            studentFinishTestPage.setResizable(false);
+            studentFinishTestPage.pack();
+            studentFinishTestPage.setLocationRelativeTo(null);
+            studentFinishTestPage.addWindowListener(resultsCloseListener);
+            studentFinishTestPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            studentPreviousResultsPage.setTitle("Previous Test Results");
+            studentPreviousResultsPage.setResizable(false);
+            studentPreviousResultsPage.pack();
+            studentPreviousResultsPage.setLocationRelativeTo(studentPanelPage);
+            studentPreviousResultsPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            teacherPanelPage.setTitle("Teacher Home");
+            teacherPanelPage.setResizable(false);
+            teacherPanelPage.pack();
+            teacherPanelPage.setLocationRelativeTo(null);
+            teacherPanelPage.addWindowListener(onCloseListener);
+            teacherPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            editQuestionPage.setTitle("Edit Test");
+            editQuestionPage.setResizable(false);
+            editQuestionPage.pack();
+            editQuestionPage.setLocationRelativeTo(null);
+            editQuestionPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            editQuestionBridge.setTitle("Edit question");
+            editQuestionBridge.setResizable(false);
+            editQuestionBridge.pack();
+            editQuestionBridge.setLocationRelativeTo(editQuestionPage);
+            editQuestionBridge.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            teacherQuestionPage.setTitle("Create Test");
+            teacherQuestionPage.setResizable(false);
+            teacherQuestionPage.pack();
+            teacherQuestionPage.setLocationRelativeTo(teacherPanelPage);
+            teacherQuestionPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            antiCheatFrame.setTitle("Anti Cheat System");
+            antiCheatFrame.setResizable(false);
+            antiCheatFrame.pack();
+            antiCheatFrame.setLocationRelativeTo(null);
+            antiCheatFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            teacherTestReportPage.setTitle("Test Report");
+            teacherTestReportPage.setResizable(false);
+            teacherTestReportPage.pack();
+            teacherTestReportPage.setLocationRelativeTo(teacherPanelPage);
+            teacherTestReportPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            logPage.setTitle("Administrator settings");
+            logPage.setResizable(false);
+            logPage.pack();
+            logPage.setLocationRelativeTo(teacherPanelPage);
+            logPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            adminPage.setTitle("Administrator settings");
+            adminPage.setResizable(false);
+            adminPage.pack();
+            adminPage.setLocationRelativeTo(teacherPanelPage);
+            adminPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            userHistoryPage.setTitle("Student history");
+            userHistoryPage.setResizable(false);
+            userHistoryPage.pack();
+            userHistoryPage.setLocationRelativeTo(adminPage);
+            userHistoryPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            imageDisplayPage.setTitle("Question image - You can resize this window");
+            imageDisplayPage.setLocationRelativeTo(studentQuestionPage);
+            imageDisplayPage.addWindowListener(imageAdapter);
+            cheatAlarmPage.setTitle("Instant cheat alarm");
+            cheatAlarmPage.pack();
+            cheatAlarmPage.setLocationRelativeTo(null);
+            cheatAlarmPage.setResizable(false);
+            allWindowList.add(logPage);
+            allWindowList.add(adminPage);
+            allWindowList.add(editQuestionBridge);
+            allWindowList.add(editQuestionPage);
+            allWindowList.add(loginPage);
+            allWindowList.add(redirectPage);
+            allWindowList.add(studentFinishTestPage);
+            allWindowList.add(studentPanelPage);
+            allWindowList.add(studentPreviousResultsPage);
+            allWindowList.add(studentQuestionPage);
+            allWindowList.add(studentRegisterPage);
+            allWindowList.add(teacherPanelPage);
+            allWindowList.add(teacherQuestionPage);
+            allWindowList.add(teacherRegisterPage);
+            allWindowList.add(teacherTestReportPage);
+            allWindowList.add(userHistoryPage);
+            allWindowList.add(imageDisplayPage);
+            allWindowList.add(cheatAlarmPage);
+            for (JFrame x : allWindowList) {
+                x.addFocusListener(wakeUpListenerFocus);
+                x.addKeyListener(wakeUpListenerKey);
+                x.addMouseListener(wakeUpListenerMouse);
             }
-        };
-        WindowAdapter imageAdapter = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                imageDisplayed = false;
-            }
-        };
-        redirectPage.setTitle("Welcome");
-        redirectPage.pack();
-        redirectPage.setLocationRelativeTo(null);
-        redirectPage.setResizable(false);
-        redirectPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        studentRegisterPage.setTitle("Student Registration");
-        studentRegisterPage.pack();
-        studentRegisterPage.setLocationRelativeTo(null);
-        studentRegisterPage.setResizable(false);
-        studentRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        teacherRegisterPage.setTitle("Teacher Registration");
-        teacherRegisterPage.pack();
-        teacherRegisterPage.setLocationRelativeTo(null);
-        teacherRegisterPage.setResizable(false);
-        teacherRegisterPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        loginPage.setTitle("Login");
-        loginPage.setResizable(false);
-        loginPage.pack();
-        loginPage.setLocationRelativeTo(null);
-        loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        studentPanelPage.setTitle("Student Home");
-        studentPanelPage.setResizable(false);
-        studentPanelPage.pack();
-        studentPanelPage.setLocationRelativeTo(null);
-        studentPanelPage.addWindowListener(onCloseListener);
-        studentPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        studentQuestionPage.setTitle("Online Test In Progress - Do not close");
-        studentQuestionPage.setResizable(false);
-        studentQuestionPage.pack();
-        studentQuestionPage.setLocationRelativeTo(null);
-        studentQuestionPage.addWindowListener(abortTestListener);
-        studentQuestionPage.addWindowFocusListener(antiCheatListener);
-        studentQuestionPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        studentFinishTestPage.setTitle("Test Results");
-        studentFinishTestPage.setResizable(false);
-        studentFinishTestPage.pack();
-        studentFinishTestPage.setLocationRelativeTo(null);
-        studentFinishTestPage.addWindowListener(resultsCloseListener);
-        studentFinishTestPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        studentPreviousResultsPage.setTitle("Previous Test Results");
-        studentPreviousResultsPage.setResizable(false);
-        studentPreviousResultsPage.pack();
-        studentPreviousResultsPage.setLocationRelativeTo(studentPanelPage);
-        studentPreviousResultsPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        teacherPanelPage.setTitle("Teacher Home");
-        teacherPanelPage.setResizable(false);
-        teacherPanelPage.pack();
-        teacherPanelPage.setLocationRelativeTo(null);
-        teacherPanelPage.addWindowListener(onCloseListener);
-        teacherPanelPage.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        editQuestionPage.setTitle("Edit Test");
-        editQuestionPage.setResizable(false);
-        editQuestionPage.pack();
-        editQuestionPage.setLocationRelativeTo(null);
-        editQuestionPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        editQuestionBridge.setTitle("Edit question");
-        editQuestionBridge.setResizable(false);
-        editQuestionBridge.pack();
-        editQuestionBridge.setLocationRelativeTo(editQuestionPage);
-        editQuestionBridge.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        teacherQuestionPage.setTitle("Create Test");
-        teacherQuestionPage.setResizable(false);
-        teacherQuestionPage.pack();
-        teacherQuestionPage.setLocationRelativeTo(teacherPanelPage);
-        teacherQuestionPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        antiCheatFrame.setTitle("Anti Cheat System");
-        antiCheatFrame.setResizable(false);
-        antiCheatFrame.pack();
-        antiCheatFrame.setLocationRelativeTo(null);
-        antiCheatFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        teacherTestReportPage.setTitle("Test Report");
-        teacherTestReportPage.setResizable(false);
-        teacherTestReportPage.pack();
-        teacherTestReportPage.setLocationRelativeTo(teacherPanelPage);
-        teacherTestReportPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        logPage.setTitle("Administrator settings");
-        logPage.setResizable(false);
-        logPage.pack();
-        logPage.setLocationRelativeTo(teacherPanelPage);
-        logPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        adminPage.setTitle("Administrator settings");
-        adminPage.setResizable(false);
-        adminPage.pack();
-        adminPage.setLocationRelativeTo(teacherPanelPage);
-        adminPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        userHistoryPage.setTitle("Student history");
-        userHistoryPage.setResizable(false);
-        userHistoryPage.pack();
-        userHistoryPage.setLocationRelativeTo(adminPage);
-        userHistoryPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        imageDisplayPage.setTitle("Question image - You can resize this window");
-        imageDisplayPage.setLocationRelativeTo(studentQuestionPage);
-        imageDisplayPage.addWindowListener(imageAdapter);
-        cheatAlarmPage.setTitle("Instant cheat alarm");
-        cheatAlarmPage.setLocationRelativeTo(null);
-        cheatAlarmPage.setResizable(false);
-        cheatAlarmPage.pack();
-        allWindowList.add(logPage);
-        allWindowList.add(adminPage);
-        allWindowList.add(editQuestionBridge);
-        allWindowList.add(editQuestionPage);
-        allWindowList.add(loginPage);
-        allWindowList.add(redirectPage);
-        allWindowList.add(studentFinishTestPage);
-        allWindowList.add(studentPanelPage);
-        allWindowList.add(studentPreviousResultsPage);
-        allWindowList.add(studentQuestionPage);
-        allWindowList.add(studentRegisterPage);
-        allWindowList.add(teacherPanelPage);
-        allWindowList.add(teacherQuestionPage);
-        allWindowList.add(teacherRegisterPage);
-        allWindowList.add(teacherTestReportPage);
-        allWindowList.add(userHistoryPage);
-        allWindowList.add(imageDisplayPage);
-        allWindowList.add(cheatAlarmPage);
-        for (JFrame x : allWindowList) {
-            x.addFocusListener(wakeUpListenerFocus);
-            x.addKeyListener(wakeUpListenerKey);
-            x.addMouseListener(wakeUpListenerMouse);
+            generateYearModel();
         }
-        generateYearModel();
     }
 
     @SuppressWarnings("unchecked")
@@ -839,6 +844,15 @@ public class ClassTest extends javax.swing.JFrame {
         jButton59 = new javax.swing.JButton();
         jButton60 = new javax.swing.JButton();
         jLabel92 = new javax.swing.JLabel();
+        generateKeyPage = new javax.swing.JFrame();
+        jPanel30 = new javax.swing.JPanel();
+        jLabel94 = new javax.swing.JLabel();
+        jLabel95 = new javax.swing.JLabel();
+        jLabel96 = new javax.swing.JLabel();
+        jLabel97 = new javax.swing.JLabel();
+        jTextField32 = new javax.swing.JTextField();
+        jPasswordField8 = new javax.swing.JPasswordField();
+        jButton61 = new javax.swing.JButton();
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -1982,7 +1996,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -4078,6 +4092,89 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel30.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel94.setFont(new java.awt.Font("Walkway SemiBold", 1, 48)); // NOI18N
+        jLabel94.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel94.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel94.setText("MAHATMA CBSE");
+
+        jLabel95.setFont(new java.awt.Font("Walkway SemiBold", 1, 24)); // NOI18N
+        jLabel95.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel95.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel95.setText("ONLINE TEST SYSTEM");
+
+        javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
+        jPanel30.setLayout(jPanel30Layout);
+        jPanel30Layout.setHorizontalGroup(
+            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel30Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel94, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel95, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel30Layout.setVerticalGroup(
+            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel30Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel94, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel95, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jLabel96.setText("User:");
+
+        jLabel97.setText("Password:");
+
+        jButton61.setText("Generate Key");
+        jButton61.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton61ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout generateKeyPageLayout = new javax.swing.GroupLayout(generateKeyPage.getContentPane());
+        generateKeyPage.getContentPane().setLayout(generateKeyPageLayout);
+        generateKeyPageLayout.setHorizontalGroup(
+            generateKeyPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(generateKeyPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(generateKeyPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel30, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField32)
+                    .addGroup(generateKeyPageLayout.createSequentialGroup()
+                        .addGroup(generateKeyPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel96)
+                            .addComponent(jLabel97))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPasswordField8))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, generateKeyPageLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton61)
+                .addGap(174, 174, 174))
+        );
+        generateKeyPageLayout.setVerticalGroup(
+            generateKeyPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(generateKeyPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel96)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel97)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jButton61)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
         setEnabled(false);
@@ -5426,6 +5523,56 @@ public class ClassTest extends javax.swing.JFrame {
     private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
         jLabel93.setText("Save and restart program to enable/disable alarm");
     }//GEN-LAST:event_jRadioButton5ActionPerformed
+    @SuppressWarnings("deprecation")
+    private void jButton61ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton61ActionPerformed
+        String a[] = new String[2];
+        a[0] = jTextField32.getText();
+        a[1] = jPasswordField8.getText();
+        StringBuffer b = new StringBuffer("");
+        for (String x : a) {
+            for (int i = 0; i < x.length(); i++) {
+                b.append((char) ((x.charAt(i)) - 3));
+            }
+            b.append(";");
+        }
+        try {
+            boolean ok = false;
+            File f = new File("C:/Quiz/key.txt");
+            if (!f.exists()) {
+                if (f.getParentFile().mkdirs()) {
+                    if (f.createNewFile()) {
+                        ok = true;
+                    } else {
+                        System.out.println("mkfile");
+                        throw new IOException("Couldn't mkfile");
+                    }
+                } else {
+                    System.out.println("mkdir");
+                    throw new IOException("Couldn't mkdir");
+                }
+            } else if (f.delete()) {
+                ok = true;
+            }
+            if (ok) {
+                try (FileWriter fw = new FileWriter(f);) {
+                    fw.write(b.toString());
+                    fw.close();
+                    f.setExecutable(false);
+                    f.setReadable(false);
+                    f.setWritable(false);
+                } catch (IOException ex) {
+                    showException("Error occured while writing to gen files", ex);
+                }
+                JOptionPane.showMessageDialog(null, "Authentication key generated successfully.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please run as administrator.", "Action failed", JOptionPane.ERROR_MESSAGE);
+            }
+            System.exit(0);
+        } catch (IOException ex) {
+            logError("Error occured on creating gen files", ex);
+        }
+    }//GEN-LAST:event_jButton61ActionPerformed
+
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
@@ -5960,7 +6107,7 @@ public class ClassTest extends javax.swing.JFrame {
                 stmt.executeUpdate("insert into errorlog values(\"" + "SYSTEM" + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
             }
         } catch (SQLException | NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "An error occured while updating error database. Check Error log located at:\n" + logLocation, "Error Logging error", JOptionPane.ERROR_MESSAGE);
+            if (con!=null)JOptionPane.showMessageDialog(null, "An error occured while updating error database. Check Error log located at:\n" + logLocation, "Error Logging error", JOptionPane.ERROR_MESSAGE);
         }
         try (FileWriter fw = new FileWriter(logLocation, true);) {
             format = new SimpleDateFormat("yyyy MMMMM dd - HH:mm:ss");
@@ -6031,12 +6178,29 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
 
+    private void initDatabaseSettingsWizard() {
+        generateKeyPage.setTitle("Database access settings");
+        generateKeyPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        generateKeyPage.setResizable(false);
+        generateKeyPage.pack();
+        generateKeyPage.setLocationRelativeTo(null);
+        generateKeyPage.setVisible(true);
+    }
+
     public static void main(String args[]) {
         try {
             /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {             if ("Nimbus".equals(info.getName())) {             javax.swing.UIManager.setLookAndFeel(info.getClassName());             break;             }             }*/
             UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ClassTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        try {
+            if (args != null) {
+                if (args[0].equals("GenerateKey010")) {
+                    correctKeyEntered = true;
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException ex) {
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -6054,6 +6218,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JFrame cheatAlarmPage;
     private javax.swing.JFrame editQuestionBridge;
     private javax.swing.JFrame editQuestionPage;
+    private javax.swing.JFrame generateKeyPage;
     private javax.swing.JFrame imageDisplayPage;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -6112,6 +6277,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton59;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton60;
+    private javax.swing.JButton jButton61;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -6223,6 +6389,10 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
     private javax.swing.JLabel jLabel93;
+    private javax.swing.JLabel jLabel94;
+    private javax.swing.JLabel jLabel95;
+    private javax.swing.JLabel jLabel96;
+    private javax.swing.JLabel jLabel97;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
@@ -6311,6 +6481,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -6324,6 +6495,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField5;
     private javax.swing.JPasswordField jPasswordField6;
     private javax.swing.JPasswordField jPasswordField7;
+    private javax.swing.JPasswordField jPasswordField8;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton10;
     private javax.swing.JRadioButton jRadioButton2;
@@ -6395,6 +6567,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField30;
     private javax.swing.JTextField jTextField31;
+    private javax.swing.JTextField jTextField32;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
