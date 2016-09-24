@@ -465,7 +465,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private String decrypt(String a) {
-        StringBuffer b = new StringBuffer("");
+        StringBuilder b = new StringBuilder("");
         for (int i = 0; i < a.length(); i++) {
             b.append((char) ((a.charAt(i)) + 3));
         }
@@ -5528,7 +5528,7 @@ public class ClassTest extends javax.swing.JFrame {
         String a[] = new String[2];
         a[0] = jTextField32.getText();
         a[1] = jPasswordField8.getText();
-        StringBuffer b = new StringBuffer("");
+        StringBuilder b = new StringBuilder("");
         for (String x : a) {
             for (int i = 0; i < x.length(); i++) {
                 b.append((char) ((x.charAt(i)) - 3));
@@ -5543,11 +5543,9 @@ public class ClassTest extends javax.swing.JFrame {
                     if (f.createNewFile()) {
                         ok = true;
                     } else {
-                        System.out.println("mkfile");
                         throw new IOException("Couldn't mkfile");
                     }
                 } else {
-                    System.out.println("mkdir");
                     throw new IOException("Couldn't mkdir");
                 }
             } else if (f.delete()) {
@@ -6107,7 +6105,9 @@ public class ClassTest extends javax.swing.JFrame {
                 stmt.executeUpdate("insert into errorlog values(\"" + "SYSTEM" + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
             }
         } catch (SQLException | NullPointerException e) {
-            if (con!=null)JOptionPane.showMessageDialog(null, "An error occured while updating error database. Check Error log located at:\n" + logLocation, "Error Logging error", JOptionPane.ERROR_MESSAGE);
+            if (con != null) {
+                JOptionPane.showMessageDialog(null, "An error occured while updating error database. Check Error log located at:\n" + logLocation, "Error Logging error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         try (FileWriter fw = new FileWriter(logLocation, true);) {
             format = new SimpleDateFormat("yyyy MMMMM dd - HH:mm:ss");
