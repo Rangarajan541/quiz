@@ -40,6 +40,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+
 /*
  * @author Rangarajan.A -- rajanranga541@gmail.com -- facebook.com/Rangarajan541
  */
@@ -71,11 +72,16 @@ public class ClassTest extends javax.swing.JFrame {
         initComponents();
         redirectPage.setVisible(true);
         try {
+            FileReader fr = new FileReader(new File("D:/key.txt"));
+            BufferedReader br = new BufferedReader(fr);
+            String dummy[] = br.readLine().split(";");
+            String acc = dummy[0];
+            String pass = dummy[1];
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", "root", "open");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", decrypt(acc), decrypt(pass));
             stmt = con.createStatement();
             stmt2 = con.createStatement();
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | IOException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
             logError("Error occured while establishing database link", ex);
             JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
@@ -451,6 +457,14 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void resetWakeUpTimer() {
         wakeUpSeconds = savedWakeUpSetting;
+    }
+
+    private String decrypt(String a) {
+        StringBuffer b = new StringBuffer("");
+        for (int i = 0; i < a.length(); i++) {
+            b.append((char) ((a.charAt(i)) + 3));
+        }
+        return b.toString();
     }
 
     @SuppressWarnings("unchecked")
@@ -5940,8 +5954,12 @@ public class ClassTest extends javax.swing.JFrame {
         SimpleDateFormat format;
         try {
             format = new SimpleDateFormat("yyyyMMddHHmmss");
-            stmt.executeUpdate("insert into errorlog values(\"" + loginName + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
-        } catch (SQLException e) {
+            if (loginName != null) {
+                stmt.executeUpdate("insert into errorlog values(\"" + loginName + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
+            } else {
+                stmt.executeUpdate("insert into errorlog values(\"" + "SYSTEM" + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
+            }
+        } catch (SQLException | NullPointerException e) {
             JOptionPane.showMessageDialog(null, "An error occured while updating error database. Check Error log located at:\n" + logLocation, "Error Logging error", JOptionPane.ERROR_MESSAGE);
         }
         try (FileWriter fw = new FileWriter(logLocation, true);) {
