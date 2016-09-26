@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.15, for Win32 (AMD64)
+-- MySQL dump 10.13  Distrib 5.7.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: quiz
 -- ------------------------------------------------------
@@ -62,6 +62,31 @@ LOCK TABLES `errorlog` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `instantcheatalarm`
+--
+
+DROP TABLE IF EXISTS `instantcheatalarm`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `instantcheatalarm` (
+  `logno` int(11) NOT NULL,
+  `testid` varchar(50) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`logno`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `instantcheatalarm`
+--
+
+LOCK TABLES `instantcheatalarm` WRITE;
+/*!40000 ALTER TABLE `instantcheatalarm` DISABLE KEYS */;
+/*!40000 ALTER TABLE `instantcheatalarm` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `student_auth`
 --
 
@@ -104,7 +129,7 @@ CREATE TABLE `systemsettings` (
 
 LOCK TABLES `systemsettings` WRITE;
 /*!40000 ALTER TABLE `systemsettings` DISABLE KEYS */;
-INSERT INTO `systemsettings` VALUES ('totalcheatseconds','25'),('totalallowedwarnings','5'),('wakeupseconds','300'),('flashwarningseconds','60'),('loglocation','%userprofile%/Documents/Quiz/'),('reslocation','%userprofile%/Documents/Quiz/Test resources/');
+INSERT INTO `systemsettings` VALUES ('totalcheatseconds','5'),('totalallowedwarnings','2'),('wakeupseconds','300'),('flashwarningseconds','60'),('loglocation','C:/Quiz/Error log.txt'),('reslocation','C:/Quiz/Resources/'),('instantcheatalarm','1');
 /*!40000 ALTER TABLE `systemsettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-20  8:34:21
+-- Dump completed on 2016-09-24 16:24:32
