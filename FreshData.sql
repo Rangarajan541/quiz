@@ -94,10 +94,12 @@ DROP TABLE IF EXISTS `student_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `student_auth` (
+  `userid` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
   `password` varchar(512) DEFAULT NULL,
   `onlinestatus` int(1) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  `standard` int(2) DEFAULT NULL,
+  PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,7 +131,7 @@ CREATE TABLE `systemsettings` (
 
 LOCK TABLES `systemsettings` WRITE;
 /*!40000 ALTER TABLE `systemsettings` DISABLE KEYS */;
-INSERT INTO `systemsettings` VALUES ('totalcheatseconds','5'),('totalallowedwarnings','2'),('wakeupseconds','300'),('flashwarningseconds','60'),('loglocation','C:/Quiz/Error log.txt'),('reslocation','C:/Quiz/Resources/'),('instantcheatalarm','1');
+INSERT INTO `systemsettings` VALUES ('totalcheatseconds','10'),('totalallowedwarnings','2'),('wakeupseconds','300'),('flashwarningseconds','60'),('loglocation','C:/Quiz/Error log.txt'),('reslocation','C:/Quiz/Resources/'),('instantcheatalarm','1');
 /*!40000 ALTER TABLE `systemsettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,12 +143,13 @@ DROP TABLE IF EXISTS `teacher_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teacher_auth` (
+  `userid` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
   `password` varchar(512) DEFAULT NULL,
   `subject` varchar(30) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   `onlinestatus` int(1) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -168,13 +171,14 @@ DROP TABLE IF EXISTS `testlist`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `testlist` (
   `testid` varchar(50) NOT NULL,
-  `username` varchar(50) DEFAULT NULL,
+  `userid` varchar(50) DEFAULT NULL,
   `description` varchar(50) DEFAULT NULL,
   `subject` varchar(50) DEFAULT NULL,
   `points` int(2) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   `datecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `seconds` int(11) DEFAULT NULL,
+  `standard` int(2) DEFAULT NULL,
   PRIMARY KEY (`testid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -197,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-24 16:24:32
+-- Dump completed on 2016-09-26  9:41:00
