@@ -61,19 +61,24 @@ public class ClassTest extends javax.swing.JFrame {
     private Connection con;
     private Statement stmt, stmt2;
     private int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300, flashWarning = 60;
-    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
-    private java.util.Timer wakeUpTimer;
-    private java.util.TimerTask wakeUpTimerTask;
-    private java.util.TimerTask testTimerTask;
-    private java.util.TimerTask antiCheatTask;
-    private java.util.TimerTask instantCheatAlarmTask;
+    private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0;
+    private int totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
+
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
     private static boolean correctKeyEntered = false, resetKeyEntered = false;
     private String logLocation = "C:/Quiz/Error log.txt", resLocation = "C:/Quiz/res";
     private int instantCheatAlarm = 0, currentAlarmIndex = 0;
     //SYSTEM VARIABLES DECLARATION END
-    
+
+    //TIMERS
+    private java.util.Timer wakeUpTimer;
+    private java.util.TimerTask wakeUpTimerTask;
+    private java.util.TimerTask testTimerTask;
+    private java.util.TimerTask antiCheatTask;
+    private java.util.TimerTask instantCheatAlarmTask;
+    //TIMERS END
+
     private ClassTest() {
         initComponents();
         if (correctKeyEntered) {
@@ -345,6 +350,7 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
             JOptionPane.showMessageDialog(null, "All data reset", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
         } catch (SQLException ex) {
             logError("Unable to reset", ex);
             JOptionPane.showMessageDialog(null, "Unable to reset data. Please check Log.", "Action failed", JOptionPane.ERROR_MESSAGE);
@@ -706,6 +712,8 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel55 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
         jTextField19 = new javax.swing.JTextField();
+        jLabel101 = new javax.swing.JLabel();
+        jComboBox16 = new javax.swing.JComboBox<>();
         jPanel18 = new javax.swing.JPanel();
         jButton21 = new javax.swing.JButton();
         jLabel52 = new javax.swing.JLabel();
@@ -731,6 +739,8 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField17 = new javax.swing.JTextField();
         jTextField18 = new javax.swing.JTextField();
         jLabel63 = new javax.swing.JLabel();
+        jLabel102 = new javax.swing.JLabel();
+        jComboBox17 = new javax.swing.JComboBox<>();
         jPanel21 = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
         jTable9 = new javax.swing.JTable();
@@ -1481,7 +1491,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton51, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton51, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2070,7 +2080,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(studentQuestionPageLayout.createSequentialGroup()
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(studentQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -2525,6 +2535,10 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTextField19.setText("30");
 
+        jLabel101.setText("Standard:");
+
+        jComboBox16.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
@@ -2538,14 +2552,18 @@ public class ClassTest extends javax.swing.JFrame {
                             .addComponent(jLabel25)
                             .addComponent(jLabel55)
                             .addComponent(jLabel68))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addComponent(jLabel36)
-                        .addGap(0, 26, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(jLabel101)
+                        .addGap(171, 171, 171)
+                        .addComponent(jComboBox16, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -2563,7 +2581,11 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel68)
                     .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel101)
+                    .addComponent(jComboBox16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jLabel36)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel55)
@@ -2627,7 +2649,7 @@ public class ClassTest extends javax.swing.JFrame {
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel52)
                     .addComponent(jButton21))
@@ -2701,6 +2723,10 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel63.setText("minutes");
 
+        jLabel102.setText("Standard");
+
+        jComboBox17.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
@@ -2709,11 +2735,13 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel59)
-                    .addComponent(jLabel61))
+                    .addComponent(jLabel61)
+                    .addComponent(jLabel102))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField17, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(jTextField15, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(jComboBox17, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2724,7 +2752,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel60)
                             .addComponent(jLabel62))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2735,23 +2763,30 @@ public class ClassTest extends javax.swing.JFrame {
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jLabel58)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel59)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel60))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel61)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel63)
-                    .addComponent(jLabel62))
-                .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel58)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel59)
+                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel60))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel61)
+                            .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel63)
+                            .addComponent(jLabel62))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addComponent(jLabel102)))
+                .addContainerGap())
         );
 
         jPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -2900,7 +2935,7 @@ public class ClassTest extends javax.swing.JFrame {
                         .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(12, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(editQuestionPageLayout.createSequentialGroup()
                         .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(editQuestionPageLayout.createSequentialGroup()
@@ -2934,7 +2969,7 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jLabel64))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel66)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jButton31)
                 .addContainerGap())
         );
@@ -3412,7 +3447,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jPanel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel29.setText("Search for user:");
+        jLabel29.setText("Search for username:");
 
         jTextField10.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -4135,7 +4170,7 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jLabel92)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
             .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel29Layout.createSequentialGroup()
                     .addGap(42, 42, 42)
@@ -4502,7 +4537,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (regIDCorrect && passwordCorrect) {
             if (checkValidCharsUsed(regName)) {
                 try {
-                    stmt.executeUpdate("insert into teacher_auth values (\""+regID+"\",\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
+                    stmt.executeUpdate("insert into teacher_auth values (\"" + regID + "\",\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
                     JOptionPane.showMessageDialog(this, "Your request has been submitted. Please have a system administrator review your request.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     logActivity(regName, "Teacher application submitted");
                     teacherRegisterPage.dispose();
@@ -5101,7 +5136,7 @@ public class ClassTest extends javax.swing.JFrame {
         fetchSystemParameters();
         ResultSet rs;
         String testid = jTextField15.getText().trim();
-        if (jTextField16.getText().trim().length() == 0 || jTextField17.getText().trim().length() == 0 || jTextField18.getText().trim().length() == 0) {
+        if (jTextField16.getText().trim().length() == 0 || jTextField17.getText().trim().length() == 0 || jTextField18.getText().trim().length() == 0||jComboBox17.getSelectedIndex()==0) {
             JOptionPane.showMessageDialog(editQuestionPage, "Please fill all fields at the top", "Empty Details", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -5259,7 +5294,7 @@ public class ClassTest extends javax.swing.JFrame {
         String testid = generateTestID();
         ResultSet rs;
         try {
-            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginID + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
+            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginID + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + "," + jComboBox16.getSelectedIndex() + 1 + ");");
             stmt.executeUpdate("create table testquestions_" + testid + "( sno int(11),question varchar(2500),answer varchar(5),imagesource varchar(2500),reserve int(1));");
             rs = stmt.executeQuery("select * from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
@@ -5267,6 +5302,7 @@ public class ClassTest extends javax.swing.JFrame {
                 jTextField16.setText(rs.getString("description"));
                 jTextField17.setText(rs.getString("points"));
                 jTextField18.setText(Integer.toString(rs.getInt("seconds") / 60));
+                jComboBox17.setSelectedIndex(rs.getInt("standard"));
             }
         } catch (SQLException ex) {
             showException("Error occured while creating testqsns table", ex);
@@ -5396,7 +5432,7 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             BigInteger finalPass = validatePassword(jPasswordField6.getPassword(), jPasswordField7.getPassword(), true);
             if (finalPass != null) {
-                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
+                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase();
                 stmt.executeUpdate("update " + type + "_auth set password=\"" + finalPass + "\" where userid=\"" + id + "\"");
                 JOptionPane.showMessageDialog(adminPage, "Password reset successfully", "Action successful", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -5407,7 +5443,6 @@ public class ClassTest extends javax.swing.JFrame {
         jPasswordField7.setText(null);
     }//GEN-LAST:event_jButton38ActionPerformed
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
-        ResultSet rs;
         if (jTable7.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
             return;
@@ -5416,7 +5451,7 @@ public class ClassTest extends javax.swing.JFrame {
         int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete \nUser " + id + " ?", "Confirm Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (ans == JOptionPane.YES_OPTION) {
             try {
-                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
+                String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase();
                 if (id.equals(loginID)) {
                     JOptionPane.showMessageDialog(adminPage, "You cannot delete yourself", "Invalid action", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -5479,7 +5514,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton46ActionPerformed
     private void jButton50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton50ActionPerformed
-        if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
+        if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase().equals("teacher")) {
             updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
         } else {
             updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
@@ -5853,7 +5888,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
             if (rs != null) {
                 while (rs.next()) {
-                    actModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("activity"), rs.getString("time")});
+                    actModelTable.addRow(new Object[]{rs.getString("userid"),rs.getString("username"), rs.getString("activity"), rs.getString("time")});
                 }
             }
             searchOption = jComboBox14.getSelectedIndex();
@@ -5873,7 +5908,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
             if (rs != null) {
                 while (rs.next()) {
-                    errModelTable.addRow(new Object[]{rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
+                    errModelTable.addRow(new Object[]{rs.getString("userid"),rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
                 }
             }
         } catch (SQLException ex) {
@@ -6135,10 +6170,10 @@ public class ClassTest extends javax.swing.JFrame {
         String subject = null;
         try {
             if (jComboBox1.getSelectedIndex() == 0) {
-                rs = stmt.executeQuery("select * from testlist where status!=-1 and standard="+loginStandard+" order by status desc");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 and standard=" + loginStandard + " order by status desc");
             } else {
                 selectedSubject = (String) (jComboBox1.getSelectedItem());
-                rs = stmt.executeQuery("select * from testlist where status!=-1 and subject=\"" + selectedSubject + "\" and standard="+loginStandard+" order by status desc;");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 and subject=\"" + selectedSubject + "\" and standard=" + loginStandard + " order by status desc;");
             }
             DefaultTableModel studentTestTableModel = (DefaultTableModel) (jTable1.getModel());
             studentTestTableModel.setRowCount(0);
@@ -6447,6 +6482,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox13;
     private javax.swing.JComboBox jComboBox14;
     private javax.swing.JComboBox<String> jComboBox15;
+    private javax.swing.JComboBox<String> jComboBox16;
+    private javax.swing.JComboBox<String> jComboBox17;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
@@ -6459,6 +6496,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
+    private javax.swing.JLabel jLabel101;
+    private javax.swing.JLabel jLabel102;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
