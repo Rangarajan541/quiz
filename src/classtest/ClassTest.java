@@ -862,6 +862,9 @@ public class ClassTest extends javax.swing.JFrame {
         jRadioButton6 = new javax.swing.JRadioButton();
         jLabel91 = new javax.swing.JLabel();
         jLabel93 = new javax.swing.JLabel();
+        jLabel103 = new javax.swing.JLabel();
+        jRadioButton7 = new javax.swing.JRadioButton();
+        jRadioButton8 = new javax.swing.JRadioButton();
         jMenuBar13 = new javax.swing.JMenuBar();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem32 = new javax.swing.JMenuItem();
@@ -870,6 +873,7 @@ public class ClassTest extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         antiCheatFrame = new javax.swing.JFrame();
         jPanel22 = new javax.swing.JPanel();
         jScrollPane14 = new javax.swing.JScrollPane();
@@ -3653,7 +3657,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addComponent(jButton42)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton43)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -3733,6 +3737,14 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel91.setText("Instant cheat alarm (may affect peformance):");
 
+        jLabel103.setText("Allow Student registrations:");
+
+        buttonGroup4.add(jRadioButton7);
+        jRadioButton7.setText("On");
+
+        buttonGroup4.add(jRadioButton8);
+        jRadioButton8.setText("Off");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
@@ -3740,7 +3752,12 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel93, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jLabel103)
+                        .addGap(143, 143, 143)
+                        .addComponent(jLabel93, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButton8))
                     .addComponent(jTextField31)
                     .addComponent(jTextField30)
                     .addComponent(jButton47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3769,11 +3786,13 @@ public class ClassTest extends javax.swing.JFrame {
                         .addComponent(jButton58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel27Layout.createSequentialGroup()
                         .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createSequentialGroup()
-                                .addComponent(jLabel91)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton6))
-                            .addComponent(jLabel90))
+                            .addComponent(jLabel90)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jRadioButton7)
+                                .addGroup(jPanel27Layout.createSequentialGroup()
+                                    .addComponent(jLabel91)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jRadioButton6))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jRadioButton5)))
                 .addContainerGap())
@@ -3816,8 +3835,14 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jRadioButton5)
                     .addComponent(jRadioButton6)
                     .addComponent(jLabel91))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel103)
+                            .addComponent(jRadioButton7)))
+                    .addComponent(jRadioButton8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel90)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -6420,6 +6445,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JFrame cheatAlarmPage;
     private javax.swing.JFrame displayReportQuestionPage;
     private javax.swing.JFrame editQuestionBridge;
@@ -6511,6 +6537,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
+    private javax.swing.JLabel jLabel103;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -6719,6 +6746,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
