@@ -331,9 +331,7 @@ public class ClassTest extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery("show tables");
             while (rs.next()) {
                 String tablename = (rs.getString(1));
-                if (!tablename.equals("systemsettings")) {
-                    stmt2.executeUpdate("delete from " + tablename + ";");
-                } else if (tablename.equals("systemsettings")) {
+                if (tablename.equals("systemsettings")) {
                     String defLog = "C:/Quiz/Error log.txt";
                     String defRes = "C:/Quiz/Resources/";
                     stmt2.executeUpdate("update systemsettings set data=\"" + 10 + "\" where identifier=\"totalcheatseconds\";");
@@ -343,10 +341,10 @@ public class ClassTest extends javax.swing.JFrame {
                     stmt2.executeUpdate("update systemsettings set data=\"" + defLog + "\" where identifier=\"loglocation\";");
                     stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
                     stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
-                } else if (tablename.startsWith("studenthistorydatabase_")) {
+                } else if (tablename.startsWith("studenthistorydatabase_") || tablename.startsWith("testquestionsdatabase_")) {
                     stmt2.executeUpdate("drop table " + tablename + ";");
-                } else if (tablename.startsWith("testquestionsdatabase_")) {
-                    stmt2.executeUpdate("drop table " + tablename + ";");
+                } else {
+                    stmt2.executeUpdate("delete from " + tablename + ";");
                 }
             }
             JOptionPane.showMessageDialog(null, "All data reset", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
@@ -5136,7 +5134,7 @@ public class ClassTest extends javax.swing.JFrame {
         fetchSystemParameters();
         ResultSet rs;
         String testid = jTextField15.getText().trim();
-        if (jTextField16.getText().trim().length() == 0 || jTextField17.getText().trim().length() == 0 || jTextField18.getText().trim().length() == 0||jComboBox17.getSelectedIndex()==0) {
+        if (jTextField16.getText().trim().length() == 0 || jTextField17.getText().trim().length() == 0 || jTextField18.getText().trim().length() == 0 || jComboBox17.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(editQuestionPage, "Please fill all fields at the top", "Empty Details", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -5888,7 +5886,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
             if (rs != null) {
                 while (rs.next()) {
-                    actModelTable.addRow(new Object[]{rs.getString("userid"),rs.getString("username"), rs.getString("activity"), rs.getString("time")});
+                    actModelTable.addRow(new Object[]{rs.getString("userid"), rs.getString("username"), rs.getString("activity"), rs.getString("time")});
                 }
             }
             searchOption = jComboBox14.getSelectedIndex();
@@ -5908,7 +5906,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
             if (rs != null) {
                 while (rs.next()) {
-                    errModelTable.addRow(new Object[]{rs.getString("userid"),rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
+                    errModelTable.addRow(new Object[]{rs.getString("userid"), rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
                 }
             }
         } catch (SQLException ex) {
