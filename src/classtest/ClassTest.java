@@ -63,7 +63,7 @@ public class ClassTest extends javax.swing.JFrame {
     private int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300, flashWarning = 60;
     private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0;
     private int totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
-
+    private int registrationsAllowed=0;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
     private static boolean correctKeyEntered = false, resetKeyEntered = false;
@@ -346,6 +346,7 @@ public class ClassTest extends javax.swing.JFrame {
                     stmt2.executeUpdate("update systemsettings set data=\"" + defLog + "\" where identifier=\"loglocation\";");
                     stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
                     stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
+                    stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"studentregistrationsallowed\";");
                 } else if (tablename.startsWith("studenthistorydatabase_") || tablename.startsWith("testquestionsdatabase_")) {
                     stmt2.executeUpdate("drop table " + tablename + ";");
                 } else {
@@ -479,6 +480,14 @@ public class ClassTest extends javax.swing.JFrame {
                     jRadioButton6.setSelected(true);
                 }
             }
+            rs = stmt.executeQuery("select * from systemsettings where identifier=\"studentregistrationsallowed\";");
+            jRadioButton8.setSelected(true);
+            if (rs.next()) {
+                registrationsAllowed = Integer.parseInt(rs.getString("data"));
+                if (registrationsAllowed == 1) {
+                    jRadioButton7.setSelected(true);
+                }
+            }
         } catch (SQLException ex) {
             showException("Error occured while loading parameters", ex);
         }
@@ -499,6 +508,14 @@ public class ClassTest extends javax.swing.JFrame {
                 alarmValue = "0";
             }
             stmt.executeUpdate("update systemsettings set data=\"" + alarmValue + "\" where identifier=\"instantcheatalarm\";");
+            String registrationValue;
+            if (jRadioButton7.isSelected()){
+                registrationValue="1";
+            }
+            else{
+                registrationValue="0";
+            }
+            stmt.executeUpdate("update systemsettings set data=\"" + registrationValue + "\" where identifier=\"studentregistrationsallowed\";");
             JOptionPane.showMessageDialog(adminPage, "Settings were successfully saved", "Action successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullPointerException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(adminPage, "Fields cannot be empty.\nSet value to 0 to disable the setting.", "Invalid parameters", JOptionPane.ERROR_MESSAGE);
@@ -4399,7 +4416,13 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         if (jComboBox2.getSelectedIndex() == 0) {
-            studentRegisterPage.setVisible(true);
+            if(registrationsAllowed==1){
+                studentRegisterPage.setVisible(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(redirectPage,"Registrations have been closed. Contact an administrator to register","Registrations closed",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         } else if (jComboBox2.getSelectedIndex() == 1) {
             teacherRegisterPage.setVisible(true);
         }
