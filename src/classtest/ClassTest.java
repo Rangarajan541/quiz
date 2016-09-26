@@ -2325,17 +2325,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Test ID", "Description", "Status", "Date added", "No of Questions", "Time Allotted", "Marks Per Question"
+                "Test ID", "Description", "Status", "Date added", "No of Questions", "Time Allotted", "Marks Per Question", "Standard"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2920,21 +2920,6 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(editQuestionPageLayout.createSequentialGroup()
-                        .addComponent(jButton57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(editQuestionPageLayout.createSequentialGroup()
-                        .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(editQuestionPageLayout.createSequentialGroup()
-                        .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(editQuestionPageLayout.createSequentialGroup()
                         .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(editQuestionPageLayout.createSequentialGroup()
                                 .addComponent(jLabel64)
@@ -2945,7 +2930,19 @@ public class ClassTest extends javax.swing.JFrame {
                             .addGroup(editQuestionPageLayout.createSequentialGroup()
                                 .addGap(261, 261, 261)
                                 .addComponent(jButton31)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(editQuestionPageLayout.createSequentialGroup()
+                        .addGroup(editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(editQuestionPageLayout.createSequentialGroup()
+                                .addComponent(jButton33, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton34, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         editQuestionPageLayout.setVerticalGroup(
             editQuestionPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5117,6 +5114,7 @@ public class ClassTest extends javax.swing.JFrame {
             jTextField16.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 1));
             jTextField17.setText(Integer.toString((Integer) jTable2.getValueAt(jTable2.getSelectedRow(), 6)));
             jTextField18.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 5));
+            jComboBox17.setSelectedIndex((Integer.parseInt((String)jTable2.getValueAt(jTable2.getSelectedRow(),7))));
             DefaultTableModel editQuestionsModel = (DefaultTableModel) jTable9.getModel();
             editQuestionsModel.setRowCount(0);
             rs = stmt.executeQuery("select * from testquestions_" + testid + ";");
@@ -6360,13 +6358,14 @@ public class ClassTest extends javax.swing.JFrame {
                 }
                 String testid = rs.getString("testid");
                 String time = rs.getString("datecreated");
-                String allottedTime = Double.toString(rs.getInt("seconds") / 60);
+                String allottedTime = Integer.toString(rs.getInt("seconds") / 60);
                 rs2 = stmt2.executeQuery("select count(*) from testquestions_" + testid + ";");
                 if (rs2.next()) {
                     noQuestions = rs2.getInt(1);
                 }
                 int marksPQ = rs.getInt("points");
-                teacherTable.addRow(new Object[]{testid, desc, status, time, noQuestions, allottedTime, marksPQ});
+                int std=rs.getInt("standard");
+                teacherTable.addRow(new Object[]{testid, desc, status, time, noQuestions, allottedTime, marksPQ,std});
             }
         } catch (SQLException ex) {
             showException("Error occured while updating teacher table", ex);
