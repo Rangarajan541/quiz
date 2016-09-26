@@ -47,16 +47,20 @@ import javax.swing.table.DefaultTableModel;
 @SuppressWarnings("serial")
 public class ClassTest extends javax.swing.JFrame {
 
-    private String currentTestID = null;
+    //USER VARIABLES DECLARATION    
+    private String currentTestID = null, loginID = null, loginName = null;
+    private int loginStandard = -1;
+    private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
+    //USER VARIABLES DECLARATION END
+
+    //SYSTEM VARIABLES DECLARATION    
     private ArrayList<JFrame> allWindowList = new ArrayList<>();
     private ArrayList<String> questionList = new ArrayList<>();
     private ArrayList<String> questionListMod = new ArrayList<>();
     private ArrayList<Integer> answeredList = new ArrayList<>();
     private Connection con;
     private Statement stmt, stmt2;
-    private final int TYPE_TEACHER = 1, TYPE_STUDENT = 0;
     private int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300, flashWarning = 60;
-    private String loginName;
     private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0, totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
     private java.util.Timer wakeUpTimer;
     private java.util.TimerTask wakeUpTimerTask;
@@ -65,10 +69,11 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask instantCheatAlarmTask;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
-    private static boolean correctKeyEntered = false;
+    private static boolean correctKeyEntered = false, resetKeyEntered = false;
     private String logLocation = "C:/Quiz/Error log.txt", resLocation = "C:/Quiz/res";
     private int instantCheatAlarm = 0, currentAlarmIndex = 0;
-
+    //SYSTEM VARIABLES DECLARATION END
+    
     private ClassTest() {
         initComponents();
         if (correctKeyEntered) {
@@ -85,10 +90,14 @@ public class ClassTest extends javax.swing.JFrame {
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quiz", decrypt(acc), decrypt(pass));
                 stmt = con.createStatement();
                 stmt2 = con.createStatement();
+
             } catch (ClassNotFoundException | SQLException | IOException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
                 logError("Error occured while establishing database link", ex);
                 JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
                 System.exit(-1);
+            }
+            if (resetKeyEntered) {
+                resetAllData();
             }
             fetchSystemParameters();
             WindowAdapter onCloseListener = new WindowAdapter() {
@@ -312,6 +321,37 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
 
+    private void resetAllData() {
+        try {
+            ResultSet rs = stmt.executeQuery("show tables");
+            while (rs.next()) {
+                String tablename = (rs.getString(1));
+                if (!tablename.equals("systemsettings")) {
+                    stmt2.executeUpdate("delete from " + tablename + ";");
+                } else if (tablename.equals("systemsettings")) {
+                    String defLog = "C:/Quiz/Error log.txt";
+                    String defRes = "C:/Quiz/Resources/";
+                    stmt2.executeUpdate("update systemsettings set data=\"" + 10 + "\" where identifier=\"totalcheatseconds\";");
+                    stmt2.executeUpdate("update systemsettings set data=\"" + 2 + "\" where identifier=\"totalallowedwarnings\";");
+                    stmt2.executeUpdate("update systemsettings set data=\"" + 300 + "\" where identifier=\"wakeupseconds\";");
+                    stmt2.executeUpdate("update systemsettings set data=\"" + 60 + "\" where identifier=\"flashwarningseconds\";");
+                    stmt2.executeUpdate("update systemsettings set data=\"" + defLog + "\" where identifier=\"loglocation\";");
+                    stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
+                    stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
+                } else if (tablename.startsWith("studenthistorydatabase_")) {
+                    stmt2.executeUpdate("drop table " + tablename + ";");
+                } else if (tablename.startsWith("testquestionsdatabase_")) {
+                    stmt2.executeUpdate("drop table " + tablename + ";");
+                }
+            }
+            JOptionPane.showMessageDialog(null, "All data reset", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            logError("Unable to reset", ex);
+            JOptionPane.showMessageDialog(null, "Unable to reset data. Please check Log.", "Action failed", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private void generateYearModel() {
         Calendar now = Calendar.getInstance();
@@ -367,7 +407,7 @@ public class ClassTest extends javax.swing.JFrame {
                     }
                 };
                 issuedWarnings++;
-                logActivity(loginName, "Student issued cheat warnings.");
+                logActivity(loginID, "Student issued cheat warnings.");
                 try {
                     int curInd = 1;
                     ResultSet rs = stmt.executeQuery("select logno from instantcheatalarm order by logno desc;");
@@ -376,7 +416,7 @@ public class ClassTest extends javax.swing.JFrame {
                     }
                     stmt.executeUpdate("insert into instantcheatalarm values (" + curInd + ",\"" + currentTestID + "\",\"" + loginName + "\",now());");
                 } catch (SQLException ex) {
-                    logError("Error occured while alarming " + loginName + " for test", ex);
+                    logError("Error occured while alarming " + loginID + " for test", ex);
                 }
                 if (totalCheatSeconds != 0) {
                     wakeUpTimer.scheduleAtFixedRate(antiCheatTask, 1000, 1000);
@@ -500,6 +540,10 @@ public class ClassTest extends javax.swing.JFrame {
         jPasswordField3 = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
+        jLabel98 = new javax.swing.JLabel();
+        jComboBox15 = new javax.swing.JComboBox<>();
+        jLabel99 = new javax.swing.JLabel();
+        jTextField33 = new javax.swing.JTextField();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -516,6 +560,8 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jPasswordField5 = new javax.swing.JPasswordField();
+        jTextField34 = new javax.swing.JTextField();
+        jLabel100 = new javax.swing.JLabel();
         jMenuBar3 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -1005,53 +1051,67 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
+        jLabel98.setText("Standard:");
+
+        jComboBox15.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+
+        jLabel99.setText("User ID");
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel13)
-                .addContainerGap(15, Short.MAX_VALUE))
-            .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel11Layout.createSequentialGroup()
-                    .addContainerGap(98, Short.MAX_VALUE)
-                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                            .addComponent(jButton10)
-                            .addGap(63, 63, 63))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPasswordField3)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel13))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel99)
+                            .addComponent(jPasswordField3, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(jLabel98)
                             .addComponent(jLabel12)
+                            .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                             .addComponent(jLabel11)
-                            .addComponent(jTextField4)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)))
-                    .addGap(97, 97, 97)))
+                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                            .addComponent(jLabel10)
+                            .addComponent(jComboBox15, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField33, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addComponent(jButton10)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel13)
-                .addContainerGap(257, Short.MAX_VALUE))
-            .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel11Layout.createSequentialGroup()
-                    .addGap(50, 50, 50)
-                    .addComponent(jLabel10)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jLabel11)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jLabel12)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jButton10)
-                    .addContainerGap(33, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel99)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField33, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel98)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton10)
+                .addContainerGap())
         );
 
         jMenu2.setText("Nav");
@@ -1117,6 +1177,8 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel16.setText("Confirm Password:");
 
+        jLabel100.setText("User ID:");
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
@@ -1128,15 +1190,18 @@ public class ClassTest extends javax.swing.JFrame {
                         .addComponent(jLabel17))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGap(99, 99, 99)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel18)
-                            .addComponent(jPasswordField5)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel15)
-                            .addComponent(jTextField5)
-                            .addComponent(jPasswordField4)
-                            .addComponent(jLabel14)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel18)
+                                .addComponent(jPasswordField5)
+                                .addComponent(jLabel16)
+                                .addComponent(jLabel15)
+                                .addComponent(jTextField5)
+                                .addComponent(jPasswordField4)
+                                .addComponent(jLabel14)
+                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel100))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel12Layout.createSequentialGroup()
@@ -1149,7 +1214,11 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel100)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1216,7 +1285,7 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LOGIN");
 
-        jLabel2.setText("Name:");
+        jLabel2.setText("User ID");
 
         jLabel3.setText("Password:");
 
@@ -3134,17 +3203,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable6.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Name", "Activity", "Time"
+                "User ID", "Name", "Activity", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3157,17 +3226,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable10.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "User", "Error Description", "Time"
+                "User ID", "User", "Error Description", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3356,11 +3425,11 @@ public class ClassTest extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Type", "Subject"
+                "User ID", "Name", "Type", "Subject"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3456,11 +3525,11 @@ public class ClassTest extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Subject"
+                "User ID", "Name", "Subject"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3783,7 +3852,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTextArea4.setEditable(false);
         jTextArea4.setColumns(20);
-        jTextArea4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jTextArea4.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
         jTextArea4.setForeground(new java.awt.Color(255, 0, 0));
         jTextArea4.setLineWrap(true);
         jTextArea4.setRows(5);
@@ -4337,29 +4406,25 @@ public class ClassTest extends javax.swing.JFrame {
     private void jMenuItem37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem37ActionPerformed
         logout();
     }//GEN-LAST:event_jMenuItem37ActionPerformed
-    private boolean validateRegName(String a, int type) {
+    private boolean validateRegID(String a, int type) {
         ResultSet rs;
-        if (checkValidCharsUsed(a)) {
-            if (a.length() >= 4) {
-                try {
-                    if (type == TYPE_STUDENT) {
-                        rs = stmt.executeQuery("select name from student_auth where name=\"" + a + "\";");
-                    } else {
-                        rs = stmt.executeQuery("select name from teacher_auth where name=\"" + a + "\";");
-                    }
-                    if (rs.next()) {
-                        JOptionPane.showMessageDialog(this, "That name is taken. Please try something else.", "Name in use", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        return true;
-                    }
-                } catch (SQLException ex) {
-                    showException("Error while checking for redundancy on registration.", ex);
+        if (a.length() >= 4) {
+            try {
+                if (type == TYPE_STUDENT) {
+                    rs = stmt.executeQuery("select userid from student_auth where userid=\"" + a + "\";");
+                } else {
+                    rs = stmt.executeQuery("select userid from teacher_auth where userid=\"" + a + "\";");
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Name must contain atleast 4 characters.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(this, "That User ID is taken. Please try something else.", "Name in use", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    return true;
+                }
+            } catch (SQLException ex) {
+                showException("Error while checking for redundancy on registration.", ex);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Your Name cannot contain special characters or Numbers.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Reg ID must contain atleast 4 characters.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
         }
         return false;
     }
@@ -4393,24 +4458,30 @@ public class ClassTest extends javax.swing.JFrame {
     }
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         ResultSet rs;
-        boolean regNameCorrect, passwordCorrect;
+        boolean regIDCorrect, passwordCorrect;
+        String regID = jTextField33.getText().trim();
         String regName = jTextField4.getText().trim();
-        regNameCorrect = validateRegName(regName, 0);
+        regIDCorrect = validateRegID(regID, 0);
         char[] password = jPasswordField2.getPassword();
         char[] passwordConfirm = jPasswordField3.getPassword();
         BigInteger big = validatePassword(password, passwordConfirm, true);
         passwordCorrect = big != null;
-        if (regNameCorrect && passwordCorrect) {
-            try {
-                stmt.executeUpdate("insert into student_auth values(\"" + regName + "\",\"" + big + "\",0);");
-                stmt.executeUpdate("create table studentHistoryDatabase_" + regName + "(testid varchar(50), marksearned int(5), aborted int(1), cheatwarnings int (2),datetaken timestamp);");
-                JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                logActivity(regName, "student registered");
-                studentRegisterPage.dispose();
-                loginPage.setVisible(true);
-                jRadioButton9.setSelected(true);
-            } catch (SQLException ex) {
-                showException("Error on creating user record", ex);
+        int std = jComboBox15.getSelectedIndex() + 1;
+        if (regIDCorrect && passwordCorrect) {
+            if (checkValidCharsUsed(regName)) {
+                try {
+                    stmt.executeUpdate("insert into student_auth values(\"" + regID + "\",\"" + regName + "\",\"" + big + "\",0," + std + ");");
+                    stmt.executeUpdate("create table studentHistoryDatabase_" + regID + "(testid varchar(50), marksearned int(5), aborted int(1), cheatwarnings int (2),datetaken timestamp);");
+                    JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    logActivity(regName, "student registered");
+                    studentRegisterPage.dispose();
+                    loginPage.setVisible(true);
+                    jRadioButton9.setSelected(true);
+                } catch (SQLException ex) {
+                    showException("Error on creating user record", ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(teacherRegisterPage, "You cannot use numbers and symbols for name.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
             }
         }
         jPasswordField2.setText(null);
@@ -4418,25 +4489,30 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         String regName = jTextField5.getText().trim();
+        String regID = jTextField34.getText().trim();
         char[] password = jPasswordField4.getPassword();
         char[] passwordConfirm = jPasswordField5.getPassword();
-        boolean regNameCorrect = validateRegName(regName, 1);
+        boolean regIDCorrect = validateRegID(regID, 1);
         boolean passwordCorrect = false;
         BigInteger big = validatePassword(password, passwordConfirm, true);
         if (big != null) {
             passwordCorrect = true;
         }
         String subject = (String) jComboBox3.getSelectedItem();
-        if (regNameCorrect && passwordCorrect) {
-            try {
-                stmt.executeUpdate("insert into teacher_auth values (\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
-                JOptionPane.showMessageDialog(this, "Your request has been submitted. Please have a system administrator review your request.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                logActivity(regName, "Teacher application submitted");
-                teacherRegisterPage.dispose();
-                loginPage.setVisible(true);
-                jRadioButton10.setSelected(true);
-            } catch (SQLException ex) {
-                showException("Error on creating user record", ex);
+        if (regIDCorrect && passwordCorrect) {
+            if (checkValidCharsUsed(regName)) {
+                try {
+                    stmt.executeUpdate("insert into teacher_auth values (\""+regID+"\",\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
+                    JOptionPane.showMessageDialog(this, "Your request has been submitted. Please have a system administrator review your request.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    logActivity(regName, "Teacher application submitted");
+                    teacherRegisterPage.dispose();
+                    loginPage.setVisible(true);
+                    jRadioButton10.setSelected(true);
+                } catch (SQLException ex) {
+                    showException("Error on creating user record", ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(teacherRegisterPage, "You cannot use numbers and symbols for name.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
             }
         }
         jPasswordField4.setText(null);
@@ -4445,13 +4521,13 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         fetchSystemParameters();
         ResultSet rs;
-        loginName = jTextField1.getText().trim();
+        loginID = jTextField1.getText().trim();
         char[] loginPassword = jPasswordField1.getPassword();
         boolean loginSuccess = false;
         try {
             if (jRadioButton9.isSelected()) {
                 PRESENTUSERTYPE = TYPE_STUDENT;
-                rs = stmt.executeQuery("select * from student_auth where name=\"" + loginName + "\";");
+                rs = stmt.executeQuery("select * from student_auth where userid=\"" + loginID + "\";");
                 if (rs.next()) {
                     String digest = rs.getString("password");
                     if ((validatePassword(loginPassword, null, false)).toString().equals(digest)) {
@@ -4464,7 +4540,7 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             } else if (jRadioButton10.isSelected()) {
                 PRESENTUSERTYPE = TYPE_TEACHER;
-                rs = stmt.executeQuery("select * from teacher_auth where name=\"" + loginName + "\";");
+                rs = stmt.executeQuery("select * from teacher_auth where userid=\"" + loginID + "\";");
                 if (rs.next()) {
                     int privilege = rs.getInt("status");
                     if (privilege == 0) {
@@ -4482,7 +4558,7 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
             if (loginSuccess) {
-                logActivity(loginName, "User logged in");
+                logActivity(loginID, "User logged in");
                 resetWakeUpTimer();
                 wakeUpTimer = new java.util.Timer();
                 wakeUpTimerTask = new java.util.TimerTask() {
@@ -4496,12 +4572,21 @@ public class ClassTest extends javax.swing.JFrame {
                 }
                 loginPage.dispose();
                 if (isUserStudent()) {
-                    stmt.executeUpdate("update student_auth set onlinestatus=1 where name=\"" + loginName + "\";");
+                    rs = stmt.executeQuery("select * from student_auth where userid=\"" + loginID + "\";");
+                    if (rs.next()) {
+                        loginName = rs.getString("name");
+                        loginStandard = rs.getInt("standard");
+                    }
+                    stmt.executeUpdate("update student_auth set onlinestatus=1 where userid=\"" + loginID + "\";");
                     jLabel5.setText("Welcome, " + loginName);
                     studentPanelPage.setVisible(true);
                     updateStudentTestList();
                     updateStudentTestListForStatus();
                 } else {
+                    rs = stmt.executeQuery("select * from teacher_auth where userid=\"" + loginID + "\";");
+                    if (rs.next()) {
+                        loginName = rs.getString("name");
+                    }
                     try {
                         rs = stmt.executeQuery("select logno from instantcheatalarm order by logno desc;");
                         if (rs.next()) {
@@ -4519,7 +4604,7 @@ public class ClassTest extends javax.swing.JFrame {
                         };
                         wakeUpTimer.schedule(instantCheatAlarmTask, 1000, 1500);
                     }
-                    stmt.executeUpdate("update teacher_auth set onlinestatus=1 where name=\"" + loginName + "\";");
+                    stmt.executeUpdate("update teacher_auth set onlinestatus=1 where userid=\"" + loginID + "\";");
                     jLabel20.setText("Welcome, " + loginName);
                     teacherPanelPage.setVisible(true);
                     updateTeacherTestList();
@@ -4559,7 +4644,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (wakeUpSeconds == 1) {
             if (isTestInProgress) {
                 try {
-                    stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set aborted=2 where testid=\"" + currentTestID + "\";");
+                    stmt.executeUpdate("update studenthistorydatabase_" + loginID + " set aborted=2 where testid=\"" + currentTestID + "\";");
                 } catch (SQLException ex) {
                     showException("Error occured while aborting test due to inactivity", ex);
                 }
@@ -4598,7 +4683,7 @@ public class ClassTest extends javax.swing.JFrame {
                 default:
                     int answer = JOptionPane.showConfirmDialog(studentPanelPage, "Are you sure? You cannot retake this test once started.", "Start confirmation", JOptionPane.YES_NO_OPTION);
                     if (answer == 0) {
-                        stmt.executeUpdate("insert into studenthistorydatabase_" + loginName + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
+                        stmt.executeUpdate("insert into studenthistorydatabase_" + loginID + "(testid,marksearned,datetaken,aborted) values (\"" + testid + "\",0,now(),0);");
                         studentPanelPage.dispose();
                         currentTestID = testid;
                         jLabel38.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3) + " - " + jTable1.getValueAt(jTable1.getSelectedRow(), 1));
@@ -4686,7 +4771,7 @@ public class ClassTest extends javax.swing.JFrame {
                 String question = xTokens[1];
                 String selectedAnswer = "x";
                 try {
-                    rs = stmt.executeQuery("select question_" + index + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+                    rs = stmt.executeQuery("select question_" + index + " from studenthistorydatabase_" + loginID + " where testid=\"" + currentTestID + "\";");
                     if (rs.next()) {
                         selectedAnswer = rs.getString(1);
                     }
@@ -4708,9 +4793,9 @@ public class ClassTest extends javax.swing.JFrame {
             jLabel50.setText("Wrong Answers: " + wrongAnswers);
             jLabel76.setText("Issued cheat warnings: " + issuedWarnings);
             jTextField6.setText(Integer.toString(correctAnswers * marks));
-            stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set marksearned=" + Integer.toString(correctAnswers * marks) + " where testid=\"" + currentTestID + "\";");
-            stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set cheatwarnings=" + Integer.toString(issuedWarnings) + " where testid=\"" + currentTestID + "\";");
-            logActivity(loginName, "User Finished Test");
+            stmt.executeUpdate("update studenthistorydatabase_" + loginID + " set marksearned=" + Integer.toString(correctAnswers * marks) + " where testid=\"" + currentTestID + "\";");
+            stmt.executeUpdate("update studenthistorydatabase_" + loginID + " set cheatwarnings=" + Integer.toString(issuedWarnings) + " where testid=\"" + currentTestID + "\";");
+            logActivity(loginID, "User Finished Test");
             jTextField7.setText(Integer.toString(questionList.size() * marks));
             studentFinishTestPage.setVisible(true);
             studentFinishTestPage.setAlwaysOnTop(true);
@@ -4750,7 +4835,7 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel43.setText("Total Unanswered: " + Integer.toString(totalQuestions - totalAnsweredQuestions));
         buttonGroup1.clearSelection();
         try {
-            rs = stmt.executeQuery("select question_" + getQuestionIndex(curQuesInd) + " from studenthistorydatabase_" + loginName + " where testid=\"" + currentTestID + "\";");
+            rs = stmt.executeQuery("select question_" + getQuestionIndex(curQuesInd) + " from studenthistorydatabase_" + loginID + " where testid=\"" + currentTestID + "\";");
             if (rs.next()) {
                 String ans = rs.getString(1);
                 switch (ans) {
@@ -4855,7 +4940,7 @@ public class ClassTest extends javax.swing.JFrame {
             ResultSet rs, rs2, rs3;
             DefaultTableModel prevResultsModel = (DefaultTableModel) jTable4.getModel();
             prevResultsModel.setRowCount(0);
-            rs = stmt.executeQuery("select * from studenthistorydatabase_" + loginName + ";");
+            rs = stmt.executeQuery("select * from studenthistorydatabase_" + loginID + ";");
             while (rs.next()) {
                 try {
                     String testid = rs.getString("testid");
@@ -5174,7 +5259,7 @@ public class ClassTest extends javax.swing.JFrame {
         String testid = generateTestID();
         ResultSet rs;
         try {
-            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginName + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
+            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginID + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + ");");
             stmt.executeUpdate("create table testquestions_" + testid + "( sno int(11),question varchar(2500),answer varchar(5),imagesource varchar(2500),reserve int(1));");
             rs = stmt.executeQuery("select * from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
@@ -5288,11 +5373,11 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
-        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure that you want to grant teacher priveleges to " + name + "?\nWarning: User will be able to reset passwords and test settings. Caution advised.", "Confirm grant privileges", JOptionPane.WARNING_MESSAGE);
+        String id = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
+        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure that you want to grant teacher priveleges to " + id + "?\nWarning: User will be able to reset passwords and test settings. Caution advised.", "Confirm grant privileges", JOptionPane.WARNING_MESSAGE);
         if (ans == JOptionPane.YES_OPTION) {
             try {
-                stmt.executeUpdate("update teacher_auth set status=1 where name=\"" + name + "\"");
+                stmt.executeUpdate("update teacher_auth set status=1 where userid=\"" + id + "\"");
             } catch (SQLException ex) {
                 showException("Error while approving teacher", ex);
             }
@@ -5307,12 +5392,12 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(adminPage, "Please select a user", "No user selected", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String name = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
+        String id = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
         try {
             BigInteger finalPass = validatePassword(jPasswordField6.getPassword(), jPasswordField7.getPassword(), true);
             if (finalPass != null) {
                 String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
-                stmt.executeUpdate("update " + type + "_auth set password=\"" + finalPass + "\" where name=\"" + name + "\"");
+                stmt.executeUpdate("update " + type + "_auth set password=\"" + finalPass + "\" where userid=\"" + id + "\"");
                 JOptionPane.showMessageDialog(adminPage, "Password reset successfully", "Action successful", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
@@ -5327,25 +5412,25 @@ public class ClassTest extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user", "No User selected", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String name = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
-        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete \nUser " + name + " ?", "Confirm Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        String id = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
+        int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete \nUser " + id + " ?", "Confirm Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (ans == JOptionPane.YES_OPTION) {
             try {
                 String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase();
-                if (type.equals("teacher") && name.equals(loginName)) {
+                if (id.equals(loginID)) {
                     JOptionPane.showMessageDialog(adminPage, "You cannot delete yourself", "Invalid action", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 switch (type) {
                     case "teacher":
-                        stmt.executeUpdate("delete from teacher_auth where name =\"" + name + "\";");
+                        stmt.executeUpdate("delete from teacher_auth where userid=\"" + id + "\";");
                         break;
                     case "student":
-                        stmt.executeUpdate("delete from student_auth where name =\"" + name + "\";");
-                        stmt.executeUpdate("drop table studenthistorydatabase_" + name);
+                        stmt.executeUpdate("delete from student_auth where userid=\"" + id + "\";");
+                        stmt.executeUpdate("drop table studenthistorydatabase_" + id);
                         break;
                 }
-                JOptionPane.showMessageDialog(adminPage, "User " + name + " was successfully removed from the database.", "User deleted", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(adminPage, "User " + id + " was successfully removed from the database.", "User deleted", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 showException("Error occured while deleting user", ex);
             }
@@ -5362,9 +5447,9 @@ public class ClassTest extends javax.swing.JFrame {
         }
         int ans = JOptionPane.showConfirmDialog(adminPage, "Are you sure you want to delete this application?", "Confirm delete action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (ans == JOptionPane.YES_OPTION) {
-            String name = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
+            String id = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
             try {
-                stmt.executeUpdate("delete from teacher_auth where name=\"" + name + "\"");
+                stmt.executeUpdate("delete from teacher_auth where userid=\"" + id + "\"");
             } catch (SQLException ex) {
                 showException("Error while deleting teacher", ex);
             }
@@ -5383,7 +5468,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton47ActionPerformed
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
         if (jTable7.getSelectedRow() != -1) {
-            if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 1)).trim().toLowerCase().equals("teacher")) {
+            if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase().equals("teacher")) {
                 updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
             } else {
                 updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
@@ -5401,15 +5486,15 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton50ActionPerformed
     private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
-        String name = jTextField28.getText().trim();
+        String id = jTextField28.getText().trim();
         if (jTable12.getSelectedRow() != -1) {
             String testid = (String) jTable12.getValueAt(jTable12.getSelectedRow(), 0);
             if (testid != null) {
                 int ans = JOptionPane.showConfirmDialog(userHistoryPage, "Are you sure you want to enable a re-test? for\n\nTEST ID: " + testid + "\n\nYou cannot undo this action.", "Confirm action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (ans == JOptionPane.YES_OPTION) {
                     try {
-                        stmt.executeUpdate("delete from studenthistorydatabase_" + name + " where testid=\"" + testid + "\";");
-                        updateUserHistoryTable(name, TYPE_STUDENT);
+                        stmt.executeUpdate("delete from studenthistorydatabase_" + id + " where testid=\"" + testid + "\";");
+                        updateUserHistoryTable(id, TYPE_STUDENT);
                         JOptionPane.showMessageDialog(userHistoryPage, "Re-test enabled.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
                         showException("Error occured while enabling retest", ex);
@@ -5455,7 +5540,7 @@ public class ClassTest extends javax.swing.JFrame {
                         String correctAnswer = rs.getString("answer");
                         String selectedAnswer = "x";
                         try {
-                            rs2 = stmt2.executeQuery("select question_" + rs.getInt("sno") + " from studenthistorydatabase_" + loginName + " where testid=\"" + testid + "\";");
+                            rs2 = stmt2.executeQuery("select question_" + rs.getInt("sno") + " from studenthistorydatabase_" + loginID + " where testid=\"" + testid + "\";");
                             if (rs2.next()) {
                                 selectedAnswer = rs2.getString(1);
                             }
@@ -5472,7 +5557,7 @@ public class ClassTest extends javax.swing.JFrame {
                         }
                     }
                     int cheatWarnings = 0;
-                    rs = stmt.executeQuery("select cheatwarnings from studenthistorydatabase_" + loginName + " where testid =\"" + testid + "\";");
+                    rs = stmt.executeQuery("select cheatwarnings from studenthistorydatabase_" + loginID + " where testid =\"" + testid + "\";");
                     if (rs.next()) {
                         cheatWarnings = rs.getInt(1);
                     }
@@ -5653,8 +5738,8 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
 
-    private void updateUserHistoryTable(String name, int userType) {
-        jTextField28.setText(name);
+    private void updateUserHistoryTable(String id, int userType) {
+        jTextField28.setText(id);
         String query = jTextField27.getText().trim();
         ResultSet rs;
         DefaultTableModel studentHistoryModel = (DefaultTableModel) jTable12.getModel();
@@ -5663,7 +5748,7 @@ public class ClassTest extends javax.swing.JFrame {
         userLogModel.setRowCount(0);
         try {
             if (userType == TYPE_STUDENT) {
-                rs = stmt.executeQuery("select * from studenthistorydatabase_" + name + " where testid like \"%" + jTextField27.getText().trim() + "%\";");
+                rs = stmt.executeQuery("select * from studenthistorydatabase_" + id + " where testid like \"%" + jTextField27.getText().trim() + "%\";");
                 while (rs.next()) {
                     String testid = rs.getString("testid");
                     int marksearned = rs.getInt("marksearned");
@@ -5684,7 +5769,7 @@ public class ClassTest extends javax.swing.JFrame {
                     studentHistoryModel.addRow(new Object[]{testid, marksearned, abortedRep, cheats, date});
                 }
             }
-            rs = stmt.executeQuery("select * from activitylog where username=\"" + name + "\";");
+            rs = stmt.executeQuery("select * from activitylog where userid=\"" + id + "\";");
             while (rs.next()) {
                 String activity = rs.getString("activity");
                 String time = rs.getString("time");
@@ -5702,7 +5787,7 @@ public class ClassTest extends javax.swing.JFrame {
             DefaultTableModel pendingModel = (DefaultTableModel) jTable11.getModel();
             pendingModel.setRowCount(0);
             while (rs.next()) {
-                pendingModel.addRow(new Object[]{rs.getString("name"), rs.getString("subject")});
+                pendingModel.addRow(new Object[]{rs.getString("userid"), rs.getString("name"), rs.getString("subject")});
             }
         } catch (SQLException ex) {
             showException("Error occured while updating pending", ex);
@@ -5718,12 +5803,12 @@ public class ClassTest extends javax.swing.JFrame {
             if (jComboBox5.getSelectedIndex() == 0) {
                 rs = stmt.executeQuery("select * from teacher_auth where name like \"%" + name + "%\";");
                 while (rs.next()) {
-                    searchModel.addRow(new Object[]{rs.getString("name"), "Teacher", rs.getString("subject")});
+                    searchModel.addRow(new Object[]{rs.getString("userid"), rs.getString("name"), "Teacher", rs.getString("subject")});
                 }
             } else if (jComboBox5.getSelectedIndex() == 1) {
-                rs = stmt.executeQuery("select name from student_auth where name like \"%" + name + "%\";");
+                rs = stmt.executeQuery("select * from student_auth where name like \"%" + name + "%\";");
                 while (rs.next()) {
-                    searchModel.addRow(new Object[]{rs.getString("name"), "Student"});
+                    searchModel.addRow(new Object[]{rs.getString("userid"), rs.getString("name"), "Student"});
                 }
             }
         } catch (SQLException ex) {
@@ -5810,9 +5895,9 @@ public class ClassTest extends javax.swing.JFrame {
             if (rs.next()) {
                 jTextField24.setText(rs.getString("subject"));
             }
-            rs = stmt.executeQuery("select name from student_auth;");
+            rs = stmt.executeQuery("select * from student_auth;");
             while (rs.next()) {
-                rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString("name") + " where testid=\"" + testid + "\";");
+                rs2 = stmt2.executeQuery("select marksearned from studenthistorydatabase_" + rs.getString("userid") + " where testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     testReportModel.addRow(new Object[]{rs.getString("name"), rs2.getInt("marksearned")});
                 }
@@ -5893,12 +5978,12 @@ public class ClassTest extends javax.swing.JFrame {
         ResultSet rs;
         String subject = null;
         try {
-            rs = stmt.executeQuery("select subject from teacher_auth where name=\"" + loginName + "\";");
+            rs = stmt.executeQuery("select subject from teacher_auth where userid=\"" + loginID + "\";");
             if (rs.next()) {
                 subject = rs.getString("subject");
             }
         } catch (SQLException ex) {
-            showException("Error occured while fetching subject from loginName", ex);
+            showException("Error occured while fetching subject from" + loginID, ex);
         }
         return subject;
     }
@@ -5950,13 +6035,13 @@ public class ClassTest extends javax.swing.JFrame {
             temp = questionLine.split(separator);
             int dataIndex = Integer.parseInt(temp[1]);
             try {
-                stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");
+                stmt.executeUpdate("alter table studenthistorydatabase_" + loginID + " add column question_" + temp[1] + " varchar(1) default \"x\";");
             } catch (SQLException ex) {
             }
-            stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set question_" + temp[1] + " = \"" + answer + "\" where testid=\"" + currentTestID + "\";");
+            stmt.executeUpdate("update studenthistorydatabase_" + loginID + " set question_" + temp[1] + " = \"" + answer + "\" where testid=\"" + currentTestID + "\";");
             jLabel70.setText("Answer saved");
         } catch (SQLException ex) {
-            /* try {                stmt.executeUpdate("alter table studenthistorydatabase_" + loginName + " add column question_" + temp[1] + " varchar(1) default \"x\";");                updateAnswer(answer);                return;            } catch (SQLException ex1) {                showException("Error occured while creating column for answer", ex);            }*/ showException("Error occured while updating answer", ex);
+            /* try {                stmt.executeUpdate("alter table studenthistorydatabase_" + loginID + " add column question_" + temp[1] + " varchar(1) default \"x\";");                updateAnswer(answer);                return;            } catch (SQLException ex1) {                showException("Error occured while creating column for answer", ex);            }*/ showException("Error occured while updating answer", ex);
         }
     }
 
@@ -5969,7 +6054,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void initiateTest(String testid) {
         ResultSet rs;
         try {
-            logActivity(loginName, "User Started Test");
+            logActivity(loginID, "User Started Test");
             rs = stmt.executeQuery("select * from testquestions_" + testid + ";");
             while (rs.next()) {
                 questionList.add(Integer.toString(rs.getInt("sno")) + separator + rs.getString("question") + separator + rs.getString("answer") + separator + Integer.toString(rs.getInt("reserve")));
@@ -6050,10 +6135,10 @@ public class ClassTest extends javax.swing.JFrame {
         String subject = null;
         try {
             if (jComboBox1.getSelectedIndex() == 0) {
-                rs = stmt.executeQuery("select * from testlist where status!=-1 order by status desc");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 and standard="+loginStandard+" order by status desc");
             } else {
                 selectedSubject = (String) (jComboBox1.getSelectedItem());
-                rs = stmt.executeQuery("select * from testlist where status!=-1 and subject=\"" + selectedSubject + "\" order by status desc;");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 and subject=\"" + selectedSubject + "\" and standard="+loginStandard+" order by status desc;");
             }
             DefaultTableModel studentTestTableModel = (DefaultTableModel) (jTable1.getModel());
             studentTestTableModel.setRowCount(0);
@@ -6069,7 +6154,7 @@ public class ClassTest extends javax.swing.JFrame {
                         statusRep = "Active";
                         break;
                 }
-                rs2 = stmt2.executeQuery("select * from studenthistorydatabase_" + loginName + " where testid=\"" + testid + "\";");
+                rs2 = stmt2.executeQuery("select * from studenthistorydatabase_" + loginID + " where testid=\"" + testid + "\";");
                 if (rs2.next()) {
                     statusRep = "Taken";
                 }
@@ -6125,8 +6210,8 @@ public class ClassTest extends javax.swing.JFrame {
         int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to abort test? You will not be able to re-take this test.", "Abort confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
             try {
-                stmt.executeUpdate("update studenthistorydatabase_" + loginName + " set aborted=1 where testid=\"" + currentTestID + "\";");
-                logActivity(loginName, "User Aborted Test");
+                stmt.executeUpdate("update studenthistorydatabase_" + loginID + " set aborted=1 where testid=\"" + currentTestID + "\";");
+                logActivity(loginID, "User Aborted Test");
                 studentQuestionPage.dispose();
                 finishTest();
                 cleanUpAfterTest();
@@ -6152,9 +6237,9 @@ public class ClassTest extends javax.swing.JFrame {
     private void logout() {
         try {
             if (isUserStudent()) {
-                stmt.executeUpdate("update student_auth set onlinestatus=0 where name=\"" + loginName + "\";");
+                stmt.executeUpdate("update student_auth set onlinestatus=0 where userid=\"" + loginID + "\";");
             } else if (isUserTeacher()) {
-                stmt.executeUpdate("update teacher_auth set onlinestatus=0 where name=\"" + loginName + "\";");
+                stmt.executeUpdate("update teacher_auth set onlinestatus=0 where userid=\"" + loginID + "\";");
             }
             disposeAllFrames();
             loginPage.setVisible(true);
@@ -6162,15 +6247,15 @@ public class ClassTest extends javax.swing.JFrame {
             showException("Error occured while signing user out", ex);
         }
         wakeUpTimer.cancel();
-        logActivity(loginName, "User logged out");
+        logActivity(loginID, "User logged out");
     }
 
     private void logError(String a, Exception ex) {
         SimpleDateFormat format;
         try {
             format = new SimpleDateFormat("yyyyMMddHHmmss");
-            if (loginName != null) {
-                stmt.executeUpdate("insert into errorlog values(\"" + loginName + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
+            if (loginID != null) {
+                stmt.executeUpdate("insert into errorlog values(\"" + loginID + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
             } else {
                 stmt.executeUpdate("insert into errorlog values(\"" + "SYSTEM" + "\",\"" + ex.getMessage() + "\"," + format.format(new java.util.Date()) + ");");
             }
@@ -6187,7 +6272,7 @@ public class ClassTest extends javax.swing.JFrame {
             fw.write(System.getProperty("line.separator"));
             fw.write("Error message(System): " + ex.getMessage());
             fw.write(System.getProperty("line.separator"));
-            fw.write("Error occured for user: " + loginName);
+            fw.write("Error occured for user: " + loginID);
             fw.write(System.getProperty("line.separator"));
             StackTraceElement logLines[] = ex.getStackTrace();
             for (StackTraceElement x : logLines) {
@@ -6215,7 +6300,7 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             int noQuestions = 0;
             if (selInd == 0) {
-                rs = stmt.executeQuery("select * from testlist where status!=-1 and username=\"" + loginName + "\";");
+                rs = stmt.executeQuery("select * from testlist where status!=-1 and userid=\"" + loginID + "\";");
             } else {
                 rs = stmt.executeQuery("select * from testlist where status!=-1 ;");
             }
@@ -6268,6 +6353,8 @@ public class ClassTest extends javax.swing.JFrame {
             if (args != null) {
                 if (args[0].equals("GenerateKey010")) {
                     correctKeyEntered = true;
+                } else if (args[0].equals("Reset010")) {
+                    resetKeyEntered = true;
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -6359,6 +6446,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox12;
     private javax.swing.JComboBox jComboBox13;
     private javax.swing.JComboBox jComboBox14;
+    private javax.swing.JComboBox<String> jComboBox15;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
@@ -6370,6 +6458,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -6465,6 +6554,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel95;
     private javax.swing.JLabel jLabel96;
     private javax.swing.JLabel jLabel97;
+    private javax.swing.JLabel jLabel98;
+    private javax.swing.JLabel jLabel99;
     private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
@@ -6643,6 +6734,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField30;
     private javax.swing.JTextField jTextField31;
     private javax.swing.JTextField jTextField32;
+    private javax.swing.JTextField jTextField33;
+    private javax.swing.JTextField jTextField34;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
