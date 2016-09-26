@@ -299,6 +299,9 @@ public class ClassTest extends javax.swing.JFrame {
             cheatAlarmPage.pack();
             cheatAlarmPage.setLocationRelativeTo(null);
             cheatAlarmPage.setResizable(false);
+            displayReportQuestionPage.setTitle("View Question");
+            displayReportQuestionPage.pack();
+            displayReportQuestionPage.setLocationRelativeTo(null);
             allWindowList.add(logPage);
             allWindowList.add(adminPage);
             allWindowList.add(editQuestionBridge);
@@ -317,6 +320,8 @@ public class ClassTest extends javax.swing.JFrame {
             allWindowList.add(userHistoryPage);
             allWindowList.add(imageDisplayPage);
             allWindowList.add(cheatAlarmPage);
+            allWindowList.add(generateKeyPage);
+            allWindowList.add(displayReportQuestionPage);
             for (JFrame x : allWindowList) {
                 x.addFocusListener(wakeUpListenerFocus);
                 x.addKeyListener(wakeUpListenerKey);
@@ -2331,7 +2336,7 @@ public class ClassTest extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Test ID", "Description", "Status", "Date added", "No of Questions", "Time Allotted", "Marks Per Question", "Standard"
+                "Test ID", "Description", "Status", "Date added", "No of Questions", "Minutes", "Marks Per Question", "Standard"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -4957,6 +4962,8 @@ public class ClassTest extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             jTextArea5.setText((String) (jTable3.getValueAt(jTable3.getSelectedRow(), 0)));
             displayReportQuestionPage.setVisible(true);
+            displayReportQuestionPage.setAlwaysOnTop(true);
+            displayReportQuestionPage.setAlwaysOnTop(false);            
         }
     }//GEN-LAST:event_jTable3MouseClicked
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
@@ -5114,7 +5121,8 @@ public class ClassTest extends javax.swing.JFrame {
             jTextField16.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 1));
             jTextField17.setText(Integer.toString((Integer) jTable2.getValueAt(jTable2.getSelectedRow(), 6)));
             jTextField18.setText((String) jTable2.getValueAt(jTable2.getSelectedRow(), 5));
-            jComboBox17.setSelectedIndex((Integer.parseInt((String)jTable2.getValueAt(jTable2.getSelectedRow(),7))));
+            int val = (Integer) jTable2.getValueAt(jTable2.getSelectedRow(), 7);
+            jComboBox17.setSelectedIndex(val);
             DefaultTableModel editQuestionsModel = (DefaultTableModel) jTable9.getModel();
             editQuestionsModel.setRowCount(0);
             rs = stmt.executeQuery("select * from testquestions_" + testid + ";");
@@ -5137,16 +5145,17 @@ public class ClassTest extends javax.swing.JFrame {
             return;
         }
         try {
-            try{
-                int seconds=Integer.parseInt(jTextField18.getText().trim()) * 60;
-            }
-            catch (NumberFormatException ex){
-                JOptionPane.showMessageDialog(editQuestionPage,"Please enter only whole numbers for minutes.","Invalid Time",JOptionPane.ERROR_MESSAGE);
+            int seconds;
+            try {
+                seconds = Integer.parseInt(jTextField18.getText().trim()) * 60;
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(editQuestionPage, "Please enter only whole numbers for minutes.", "Invalid Time", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             stmt.executeUpdate("update testlist set description=\"" + jTextField16.getText().trim() + "\" where testid=\"" + testid + "\";");
-            stmt.executeUpdate("update testlist set points=\"" + jTextField17.getText().trim() + "\" where testid=\"" + jTextField15.getText().trim() + "\";");
-            stmt.executeUpdate("update testlist set seconds=\"" + Integer.parseInt(jTextField18.getText().trim()) * 60 + "\" where testid=\"" + jTextField15.getText().trim() + "\";");
+            stmt.executeUpdate("update testlist set points=\"" + jTextField17.getText().trim() + "\" where testid=\"" + testid + "\";");
+            stmt.executeUpdate("update testlist set seconds=\"" + Integer.parseInt(jTextField18.getText().trim()) * 60 + "\" where testid=\"" + testid + "\";");
+            stmt.executeUpdate("update testlist set standard=" + jComboBox17.getSelectedIndex() + " where testid =\"" + testid + "\";");
             for (int i = 0; i < jTable9.getRowCount(); i++) {
                 String question = (String) jTable9.getValueAt(i, 0);
                 if (question != null) {
@@ -5201,7 +5210,7 @@ public class ClassTest extends javax.swing.JFrame {
                                 imgPath = newPath.getCanonicalPath().replace('\\', '/');
                             }
                         }
-                        stmt.executeUpdate("insert into testquestions_" + testid + " values (" + Integer.toString(i + 1) + ",\"" + jTable9.getValueAt(i, 0) + "\",\"" + jTable9.getValueAt(i, 1) + "\",\"" + imgPath + "\",0);");
+                        stmt.executeUpdate("insert into testquestions_" + testid + " values (" + Integer.toString(i + 1) + ",\"" + jTable9.getValueAt(i, 0) + "\",\"" + ((String)jTable9.getValueAt(i, 1)).toLowerCase() + "\",\"" + imgPath + "\",0);");
                     }
                 } catch (IOException ex) {
                     showException("Error occured while uploading image", ex);
@@ -5545,7 +5554,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton48ActionPerformed
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
         try {
-            stmt.executeUpdate("delete from activitylog where username=\"" + jTextField28.getText().trim() + "\";");
+            stmt.executeUpdate("delete from activitylog where userid=\"" + jTextField28.getText().trim() + "\";");
         } catch (SQLException ex) {
             showException("Error occured while deleting log for particular user.", ex);
         } finally {
@@ -6364,8 +6373,8 @@ public class ClassTest extends javax.swing.JFrame {
                     noQuestions = rs2.getInt(1);
                 }
                 int marksPQ = rs.getInt("points");
-                int std=rs.getInt("standard");
-                teacherTable.addRow(new Object[]{testid, desc, status, time, noQuestions, allottedTime, marksPQ,std});
+                int std = rs.getInt("standard");
+                teacherTable.addRow(new Object[]{testid, desc, status, time, noQuestions, allottedTime, marksPQ, std});
             }
         } catch (SQLException ex) {
             showException("Error occured while updating teacher table", ex);
