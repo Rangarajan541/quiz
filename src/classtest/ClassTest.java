@@ -4537,7 +4537,7 @@ public class ClassTest extends javax.swing.JFrame {
                 try {
                     stmt.executeUpdate("insert into teacher_auth values (\"" + regID + "\",\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
                     JOptionPane.showMessageDialog(this, "Your request has been submitted. Please have a system administrator review your request.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    logActivity(regName, "Teacher application submitted");
+                    logActivity(regID, "Teacher application submitted");
                     teacherRegisterPage.dispose();
                     loginPage.setVisible(true);
                     jRadioButton10.setSelected(true);
@@ -5139,9 +5139,16 @@ public class ClassTest extends javax.swing.JFrame {
             return;
         }
         try {
+            try{
+                int seconds=Integer.parseInt(jTextField18.getText().trim()) * 60;
+            }
+            catch (NumberFormatException ex){
+                JOptionPane.showMessageDialog(editQuestionPage,"Please enter only whole numbers for minutes.","Invalid Time",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             stmt.executeUpdate("update testlist set description=\"" + jTextField16.getText().trim() + "\" where testid=\"" + testid + "\";");
             stmt.executeUpdate("update testlist set points=\"" + jTextField17.getText().trim() + "\" where testid=\"" + jTextField15.getText().trim() + "\";");
-            stmt.executeUpdate("update testlist set seconds=\"" + Double.toString(Double.parseDouble(jTextField18.getText().trim()) * 60) + "\" where testid=\"" + jTextField15.getText().trim() + "\";");
+            stmt.executeUpdate("update testlist set seconds=\"" + Integer.parseInt(jTextField18.getText().trim()) * 60 + "\" where testid=\"" + jTextField15.getText().trim() + "\";");
             for (int i = 0; i < jTable9.getRowCount(); i++) {
                 String question = (String) jTable9.getValueAt(i, 0);
                 if (question != null) {
@@ -5292,7 +5299,7 @@ public class ClassTest extends javax.swing.JFrame {
         String testid = generateTestID();
         ResultSet rs;
         try {
-            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginID + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + "," + jComboBox16.getSelectedIndex() + 1 + ");");
+            stmt.executeUpdate("insert into testlist values(\"" + testid + "\",\"" + loginID + "\",\"" + jTextField8.getText().trim() + "\",\"" + getTeacherSubject() + "\"," + Integer.parseInt(jTextField9.getText().trim()) + ",0,now()," + Double.toString(Double.parseDouble(jTextField19.getText().trim()) * 60) + "," + jComboBox16.getSelectedIndex() + ");");
             stmt.executeUpdate("create table testquestions_" + testid + "( sno int(11),question varchar(2500),answer varchar(5),imagesource varchar(2500),reserve int(1));");
             rs = stmt.executeQuery("select * from testlist where testid=\"" + testid + "\";");
             if (rs.next()) {
@@ -5886,7 +5893,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
             if (rs != null) {
                 while (rs.next()) {
-                    actModelTable.addRow(new Object[]{rs.getString("userid"), rs.getString("username"), rs.getString("activity"), rs.getString("time")});
+                    actModelTable.addRow(new Object[]{rs.getString("userid"), rs.getString("activity"), rs.getString("time")});
                 }
             }
             searchOption = jComboBox14.getSelectedIndex();
@@ -5906,7 +5913,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
             if (rs != null) {
                 while (rs.next()) {
-                    errModelTable.addRow(new Object[]{rs.getString("userid"), rs.getString("username"), rs.getString("particulars"), rs.getString("time")});
+                    errModelTable.addRow(new Object[]{rs.getString("userid"), rs.getString("particulars"), rs.getString("time")});
                 }
             }
         } catch (SQLException ex) {
