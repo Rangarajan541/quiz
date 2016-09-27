@@ -347,7 +347,7 @@ public class ClassTest extends javax.swing.JFrame {
                     stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
                     stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
                     stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"studentregistrationsallowed\";");
-                } else if (tablename.startsWith("studenthistorydatabase_") || tablename.startsWith("testquestionsdatabase_")) {
+                } else if (tablename.startsWith("studenthistorydatabase_") || tablename.startsWith("testquestions_")) {
                     stmt2.executeUpdate("drop table " + tablename + ";");
                 } else {
                     stmt2.executeUpdate("delete from " + tablename + ";");
