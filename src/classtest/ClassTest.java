@@ -4841,6 +4841,7 @@ public class ClassTest extends javax.swing.JFrame {
         } catch (NullPointerException ex) {
         }
         antiCheatFrame.dispose();
+        antiCheatFrame.setAlwaysOnTop(false);
         acCount = 0;
         isTestInProgress = false;
         studentQuestionPage.dispose();
