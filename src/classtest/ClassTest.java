@@ -63,7 +63,7 @@ public class ClassTest extends javax.swing.JFrame {
     private int totalCheatSeconds = 30, totalAllowedCheats = 5, savedWakeUpSetting = 300, flashWarning = 60;
     private int PRESENTUSERTYPE = -1, wakeUpSeconds = 300, curQuesInd = 0, totalAnsweredQuestions = 0, totalQuestions = 0;
     private int totalFlagged = 0, testCountdown = 0, curEdit = 0, acSeconds = totalCheatSeconds, acCount = 0, issuedWarnings = 0;
-    private int registrationsAllowed=0;
+    private int registrationsAllowed = 0;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
     private static boolean correctKeyEntered = false, resetKeyEntered = false;
@@ -509,11 +509,10 @@ public class ClassTest extends javax.swing.JFrame {
             }
             stmt.executeUpdate("update systemsettings set data=\"" + alarmValue + "\" where identifier=\"instantcheatalarm\";");
             String registrationValue;
-            if (jRadioButton7.isSelected()){
-                registrationValue="1";
-            }
-            else{
-                registrationValue="0";
+            if (jRadioButton7.isSelected()) {
+                registrationValue = "1";
+            } else {
+                registrationValue = "0";
             }
             stmt.executeUpdate("update systemsettings set data=\"" + registrationValue + "\" where identifier=\"studentregistrationsallowed\";");
             JOptionPane.showMessageDialog(adminPage, "Settings were successfully saved", "Action successful", JOptionPane.INFORMATION_MESSAGE);
@@ -796,6 +795,7 @@ public class ClassTest extends javax.swing.JFrame {
         jTextField21 = new javax.swing.JTextField();
         jTextField22 = new javax.swing.JTextField();
         jTextField23 = new javax.swing.JTextField();
+        jButton63 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
@@ -3092,7 +3092,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         jLabel74.setText("Lowest score:");
 
-        jButton7.setText("Save to printable csv file");
+        jButton7.setText("Save to CSV");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -3112,6 +3112,13 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTextField23.setEditable(false);
 
+        jButton63.setText("Save to HTML");
+        jButton63.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton63ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
@@ -3119,26 +3126,30 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel23Layout.createSequentialGroup()
-                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton63, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel23Layout.createSequentialGroup()
+                                    .addComponent(jLabel73)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel23Layout.createSequentialGroup()
+                                    .addComponent(jLabel72)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addComponent(jLabel73)
+                                .addGap(100, 100, 100)
+                                .addComponent(jLabel74)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addComponent(jLabel72)
+                                .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(100, 100, 100)
-                        .addComponent(jLabel74)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton22)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton7)))
+                                .addComponent(jButton22)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel23Layout.setVerticalGroup(
@@ -3158,9 +3169,10 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 2, Short.MAX_VALUE))
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton63, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2))
         );
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -3250,7 +3262,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addGroup(teacherTestReportPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel69)
                     .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -4416,11 +4428,10 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         if (jComboBox2.getSelectedIndex() == 0) {
-            if(registrationsAllowed==1){
+            if (registrationsAllowed == 1) {
                 studentRegisterPage.setVisible(true);
-            }
-            else{
-                JOptionPane.showMessageDialog(redirectPage,"Registrations have been closed. Contact an administrator to register","Registrations closed",JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(redirectPage, "Registrations have been closed. Contact an administrator to register", "Registrations closed", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } else if (jComboBox2.getSelectedIndex() == 1) {
@@ -5011,7 +5022,7 @@ public class ClassTest extends javax.swing.JFrame {
             jTextArea5.setText((String) (jTable3.getValueAt(jTable3.getSelectedRow(), 0)));
             displayReportQuestionPage.setVisible(true);
             displayReportQuestionPage.setAlwaysOnTop(true);
-            displayReportQuestionPage.setAlwaysOnTop(false);            
+            displayReportQuestionPage.setAlwaysOnTop(false);
         }
     }//GEN-LAST:event_jTable3MouseClicked
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
@@ -5258,7 +5269,7 @@ public class ClassTest extends javax.swing.JFrame {
                                 imgPath = newPath.getCanonicalPath().replace('\\', '/');
                             }
                         }
-                        stmt.executeUpdate("insert into testquestions_" + testid + " values (" + Integer.toString(i + 1) + ",\"" + jTable9.getValueAt(i, 0) + "\",\"" + ((String)jTable9.getValueAt(i, 1)).toLowerCase() + "\",\"" + imgPath + "\",0);");
+                        stmt.executeUpdate("insert into testquestions_" + testid + " values (" + Integer.toString(i + 1) + ",\"" + jTable9.getValueAt(i, 0) + "\",\"" + ((String) jTable9.getValueAt(i, 1)).toLowerCase() + "\",\"" + imgPath + "\",0);");
                     }
                 } catch (IOException ex) {
                     showException("Error occured while uploading image", ex);
@@ -5820,6 +5831,54 @@ public class ClassTest extends javax.swing.JFrame {
         jTextArea5.setText(null);
         displayReportQuestionPage.dispose();
     }//GEN-LAST:event_jButton62ActionPerformed
+
+    private void jButton63ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton63ActionPerformed
+        // TODO add your handling code here:
+        String defName = jTextField3.getText().trim() + "_" + jTextField20.getText().trim() + ".html";
+        jFileChooser1.setSelectedFile(new File(defName));
+        int ans = jFileChooser1.showSaveDialog(teacherTestReportPage);
+        FileWriter fw = null;
+        if (ans == JFileChooser.APPROVE_OPTION) {
+            try {
+                File f = jFileChooser1.getSelectedFile();
+                if (!(f.getCanonicalPath().endsWith(".html"))) {
+                    f = new File(f.getCanonicalPath() + ".html");
+                }
+                fw = new FileWriter(f);
+                fw.write("<html>");
+                fw.write("<head><title>Test Report</title></head>");
+                fw.write("<body><center><table width=60% border=2><tr><td colspan=2 align=\"center\"><h2>Test Report</h2></td><h3></tr><tr><td width=50%>Test Subject: </td><td>"+jTextField24.getText().trim()+"</td></tr>");
+                fw.write("<tr><td>Test Description: </td><td>"+jTextField20.getText().trim()+"</h2></td></tr>");                
+                fw.write("<tr bgcolor=\"pink\"><td align=\"center\" colspan=2>Student results</td></tr>");
+                for (int i = 0; i < jTable5.getRowCount(); i++) {
+                    fw.write("<tr>");
+                    fw.write("<td>"+jTable5.getValueAt(i, 0)+"</td>");
+                    fw.write("<td>"+Integer.toString((Integer) jTable5.getValueAt(i, 1))+"</td");
+                    fw.write("</tr>");
+                }
+                fw.write("<tr bgcolor=\"pink\"><td align=\"center\" colspan=2>Class results</td></tr>");
+                fw.write("<tr>");
+                fw.write("<td>Class Average</td><td>" + jTextField21.getText() + "</td>");
+                fw.write("</tr>");
+                fw.write("<tr>");
+                fw.write("<td>Highest Score</td><td>" + jTextField22.getText() + "</td>");
+                fw.write("</tr>");
+                fw.write("<tr>");
+                fw.write("<td>Lowest Score</td><td>" + jTextField23.getText() + "</td>");
+                fw.write("</center></body></html>");
+            } catch (IOException ex) {
+                showException("Error while saving file", ex);
+            } finally {
+                try {
+                    if (fw != null) {
+                        fw.close();
+                    }
+                } catch (IOException e3) {
+                    showException("Error occured while producing resultsheet", e3);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton63ActionPerformed
 
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
@@ -6534,6 +6593,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton60;
     private javax.swing.JButton jButton61;
     private javax.swing.JButton jButton62;
+    private javax.swing.JButton jButton63;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
