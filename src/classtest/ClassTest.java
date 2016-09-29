@@ -331,6 +331,21 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
 
+    private void clearAuthFields() {
+        jTextField33.setText(null);
+        jTextField4.setText(null);
+        jPasswordField3.setText(null);
+        jPasswordField2.setText(null);
+        jComboBox15.setSelectedIndex(0);
+        jTextField34.setText(null);
+        jTextField5.setText(null);
+        jPasswordField4.setText(null);
+        jPasswordField5.setText(null);
+        jComboBox3.setSelectedIndex(0);
+        jTextField1.setText(null);
+        jPasswordField1.setText(null);
+    }
+
     private void resetAllData() {
         try {
             ResultSet rs = stmt.executeQuery("show tables");
@@ -3168,10 +3183,11 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jLabel74)
                     .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton63, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton63, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(2, 2, 2))
         );
 
@@ -4578,8 +4594,7 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(teacherRegisterPage, "You cannot use numbers and symbols for name.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
             }
         }
-        jPasswordField2.setText(null);
-        jPasswordField3.setText(null);
+        clearAuthFields();
     }//GEN-LAST:event_jButton10ActionPerformed
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         String regName = jTextField5.getText().trim();
@@ -4609,8 +4624,7 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(teacherRegisterPage, "You cannot use numbers and symbols for name.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
             }
         }
-        jPasswordField4.setText(null);
-        jPasswordField5.setText(null);
+        clearAuthFields();
     }//GEN-LAST:event_jButton11ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         fetchSystemParameters();
@@ -4707,8 +4721,7 @@ public class ClassTest extends javax.swing.JFrame {
         } catch (SQLException ex) {
             showException("Error while fetching login results", ex);
         }
-        jTextField1.setText(null);
-        jPasswordField1.setText(null);
+        clearAuthFields();
     }//GEN-LAST:event_jButton1ActionPerformed
     private void alarmCheats() {
         ResultSet rs;
