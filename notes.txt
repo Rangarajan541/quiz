@@ -1,3 +1,0 @@
-cheatwarnings seconds ending, random warning issued
-
-enable bmp support

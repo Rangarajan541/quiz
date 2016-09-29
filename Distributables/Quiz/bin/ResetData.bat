@@ -1,0 +1,1 @@
+java -jar "C:\Quiz\bin\ClassTest.jar" Reset010
