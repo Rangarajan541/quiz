@@ -5796,14 +5796,13 @@ public class ClassTest extends javax.swing.JFrame {
             boolean ok = false;
             File f = new File("C:/Quiz/key.txt");
             if (!f.exists()) {
-                if (f.getParentFile().mkdirs()) {
-                    if (f.createNewFile()) {
-                        ok = true;
-                    } else {
-                        throw new IOException("Couldn't mkfile");
-                    }
+                if (!f.getParentFile().exists()) {
+                    f.getParentFile().mkdirs();
+                }
+                if (f.createNewFile()) {
+                    ok = true;
                 } else {
-                    throw new IOException("Couldn't mkdir");
+                    throw new IOException("Couldn't mkfile");
                 }
             } else if (f.delete()) {
                 ok = true;
@@ -5848,13 +5847,13 @@ public class ClassTest extends javax.swing.JFrame {
                 fw = new FileWriter(f);
                 fw.write("<html>");
                 fw.write("<head><title>Test Report</title></head>");
-                fw.write("<body><center><table width=60% border=2><tr><td colspan=2 align=\"center\"><h2>Test Report</h2></td><h3></tr><tr><td width=50%>Test Subject: </td><td>"+jTextField24.getText().trim()+"</td></tr>");
-                fw.write("<tr><td>Test Description: </td><td>"+jTextField20.getText().trim()+"</h2></td></tr>");                
+                fw.write("<body><center><table width=60% border=2><tr><td colspan=2 align=\"center\"><h2>Test Report</h2></td><h3></tr><tr><td width=50%>Test Subject: </td><td>" + jTextField24.getText().trim() + "</td></tr>");
+                fw.write("<tr><td>Test Description: </td><td>" + jTextField20.getText().trim() + "</h2></td></tr>");
                 fw.write("<tr bgcolor=\"pink\"><td align=\"center\" colspan=2>Student results</td></tr>");
                 for (int i = 0; i < jTable5.getRowCount(); i++) {
                     fw.write("<tr>");
-                    fw.write("<td>"+jTable5.getValueAt(i, 0)+"</td>");
-                    fw.write("<td>"+Integer.toString((Integer) jTable5.getValueAt(i, 1))+"</td");
+                    fw.write("<td>" + jTable5.getValueAt(i, 0) + "</td>");
+                    fw.write("<td>" + Integer.toString((Integer) jTable5.getValueAt(i, 1)) + "</td");
                     fw.write("</tr>");
                 }
                 fw.write("<tr bgcolor=\"pink\"><td align=\"center\" colspan=2>Class results</td></tr>");
