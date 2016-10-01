@@ -1,3 +1,6 @@
+/*
+ * @author Rangarajan.A
+ */
 package classtest;
 
 import java.awt.Color;
@@ -41,9 +44,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * @author Rangarajan.A -- rajanranga541@gmail.com -- facebook.com/Rangarajan541
- */
 @SuppressWarnings("serial")
 public class ClassTest extends javax.swing.JFrame {
 
@@ -4411,6 +4411,7 @@ public class ClassTest extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setEnabled(false);
         setResizable(false);
 
@@ -4517,26 +4518,32 @@ public class ClassTest extends javax.swing.JFrame {
         logout();
     }//GEN-LAST:event_jMenuItem37ActionPerformed
     private boolean validateRegID(String a, int type) {
-        ResultSet rs;
-        if (a.length() >= 4) {
-            try {
-                if (type == TYPE_STUDENT) {
-                    rs = stmt.executeQuery("select userid from student_auth where userid=\"" + a + "\";");
-                } else {
-                    rs = stmt.executeQuery("select userid from teacher_auth where userid=\"" + a + "\";");
-                }
-                if (rs.next()) {
-                    JOptionPane.showMessageDialog(this, "That User ID is taken. Please try something else.", "Name in use", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    return true;
-                }
-            } catch (SQLException ex) {
-                showException("Error while checking for redundancy on registration.", ex);
-            }
+        if (!checkValidCharsUsed(a, false, true)) {
+            System.out.println("-" + a + "-");
+            JOptionPane.showMessageDialog(this, "Your User-ID cannot contain spaces.", "Invalid ID", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Reg ID must contain atleast 4 characters.", "Invalid Name", JOptionPane.WARNING_MESSAGE);
+            ResultSet rs;
+            if (a.length() >= 4) {
+                try {
+                    if (type == TYPE_STUDENT) {
+                        rs = stmt.executeQuery("select userid from student_auth where userid=\"" + a + "\";");
+                    } else {
+                        rs = stmt.executeQuery("select userid from teacher_auth where userid=\"" + a + "\";");
+                    }
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(this, "That User ID is taken. Please try something else.", "Name in use", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        return true;
+                    }
+                } catch (SQLException ex) {
+                    showException("Error while checking for redundancy on registration.", ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Reg ID must contain atleast 4 characters.", "Invalid ID", JOptionPane.ERROR_MESSAGE);
+            }
         }
         return false;
+
     }
 
     private BigInteger validatePassword(char[] a, char[] b, boolean check) {
@@ -4569,8 +4576,8 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         ResultSet rs;
         boolean regIDCorrect, passwordCorrect;
-        String regID = jTextField33.getText().trim();
-        String regName = jTextField4.getText().trim();
+        String regID = jTextField33.getText();
+        String regName = jTextField4.getText();
         regIDCorrect = validateRegID(regID, 0);
         char[] password = jPasswordField2.getPassword();
         char[] passwordConfirm = jPasswordField3.getPassword();
@@ -4578,7 +4585,7 @@ public class ClassTest extends javax.swing.JFrame {
         passwordCorrect = big != null;
         int std = jComboBox15.getSelectedIndex() + 1;
         if (regIDCorrect && passwordCorrect) {
-            if (checkValidCharsUsed(regName)) {
+            if (checkValidCharsUsed(regName, true, false)) {
                 try {
                     stmt.executeUpdate("insert into student_auth values(\"" + regID + "\",\"" + regName + "\",\"" + big + "\",0," + std + ");");
                     stmt.executeUpdate("create table studentHistoryDatabase_" + regID + "(testid varchar(50), marksearned int(5), aborted int(1), cheatwarnings int (2),datetaken timestamp);");
@@ -4609,7 +4616,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         String subject = (String) jComboBox3.getSelectedItem();
         if (regIDCorrect && passwordCorrect) {
-            if (checkValidCharsUsed(regName)) {
+            if (checkValidCharsUsed(regName, true, false)) {
                 try {
                     stmt.executeUpdate("insert into teacher_auth values (\"" + regID + "\",\"" + regName + "\",\"" + big + "\",\"" + subject + "\",0,0);");
                     JOptionPane.showMessageDialog(this, "Your request has been submitted. Please have a system administrator review your request.", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -6347,14 +6354,26 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
 
-    private boolean checkValidCharsUsed(String a) {
+    private boolean checkValidCharsUsed(String a, boolean spaceDotAllowed, boolean numbersAllowed) {
         char tempChar;
         for (int i = 0; i < a.length(); i++) {
-            tempChar = a.charAt(i);
-            if (tempChar > 32 && tempChar < 65) {
-                if (tempChar == 32 || tempChar == 46) {
-                    continue;
+            tempChar = a.toUpperCase().charAt(i);
+            if ((tempChar == 32 || tempChar == 46) || (tempChar >= 48 && tempChar <= 57) || (tempChar >= 65 && tempChar <= 90) || (tempChar >= 97 && tempChar <= 122)) {
+                if (tempChar >= 48 && tempChar <= 57) {
+                    if (!numbersAllowed) {
+                        System.out.println(1);
+                        return false;
+                    }
                 }
+                if (tempChar == 32 || tempChar == 46) {
+                    if (!spaceDotAllowed) {
+                        System.out.println(2);
+                        return false;
+                    }
+                }
+            } else {
+                System.out.println(tempChar);
+                System.out.println(3);
                 return false;
             }
         }
