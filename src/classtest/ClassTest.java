@@ -4519,7 +4519,6 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem37ActionPerformed
     private boolean validateRegID(String a, int type) {
         if (!checkValidCharsUsed(a, false, true)) {
-            System.out.println("-" + a + "-");
             JOptionPane.showMessageDialog(this, "Your User-ID cannot contain spaces.", "Invalid ID", JOptionPane.ERROR_MESSAGE);
         } else {
             ResultSet rs;
@@ -6361,19 +6360,15 @@ public class ClassTest extends javax.swing.JFrame {
             if ((tempChar == 32 || tempChar == 46) || (tempChar >= 48 && tempChar <= 57) || (tempChar >= 65 && tempChar <= 90) || (tempChar >= 97 && tempChar <= 122)) {
                 if (tempChar >= 48 && tempChar <= 57) {
                     if (!numbersAllowed) {
-                        System.out.println(1);
                         return false;
                     }
                 }
                 if (tempChar == 32 || tempChar == 46) {
                     if (!spaceDotAllowed) {
-                        System.out.println(2);
                         return false;
                     }
                 }
             } else {
-                System.out.println(tempChar);
-                System.out.println(3);
                 return false;
             }
         }
