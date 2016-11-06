@@ -2500,15 +2500,19 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jButton30))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton12)
-                    .addComponent(jButton13)
-                    .addComponent(jButton14)
-                    .addComponent(jButton16)
-                    .addComponent(jButton27)
-                    .addComponent(jButton15))
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton12)
+                            .addComponent(jButton13)
+                            .addComponent(jButton14)
+                            .addComponent(jButton16)
+                            .addComponent(jButton27))
+                        .addGap(13, 13, 13))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                        .addComponent(jButton15)
+                        .addGap(18, 18, 18)))
                 .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton39)
@@ -4436,6 +4440,7 @@ public class ClassTest extends javax.swing.JFrame {
         String x = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 0);
         String descx = (String) jTable2.getValueAt(jTable2.getSelectedRow(), 1);
         try {
+            logActivity(loginID, "Locked test " + x);
             stmt.executeUpdate("update testlist set status=0 where testid=\"" + x + "\";");
             JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was locked.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
@@ -4589,7 +4594,7 @@ public class ClassTest extends javax.swing.JFrame {
                     stmt.executeUpdate("insert into student_auth values(\"" + regID + "\",\"" + regName + "\",\"" + big + "\",0," + std + ");");
                     stmt.executeUpdate("create table studentHistoryDatabase_" + regID + "(testid varchar(50), marksearned int(5), aborted int(1), cheatwarnings int (2),datetaken timestamp);");
                     JOptionPane.showMessageDialog(this, "Registration successful. You can log in now.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    logActivity(regName, "student registered");
+                    logActivity(regID, "student registered");
                     studentRegisterPage.dispose();
                     loginPage.setVisible(true);
                     jRadioButton9.setSelected(true);
@@ -4758,6 +4763,7 @@ public class ClassTest extends javax.swing.JFrame {
             if (isTestInProgress) {
                 try {
                     stmt.executeUpdate("update studenthistorydatabase_" + loginID + " set aborted=2 where testid=\"" + currentTestID + "\";");
+                    logActivity(loginID, "Timed out");
                 } catch (SQLException ex) {
                     showException("Error occured while aborting test due to inactivity", ex);
                 }
@@ -5141,6 +5147,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         try {
             stmt.executeUpdate("update testlist set status=1 where testid=\"" + x + "\";");
+            logActivity(loginID, "Unlocked test " + x);
             JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was unlocked.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             showException("Error occured while unlocking test " + x, ex);
@@ -5175,6 +5182,7 @@ public class ClassTest extends javax.swing.JFrame {
                     stmt.executeUpdate("update testlist set status=-1 where testid=\"" + x + "\";");
                     stmt.executeUpdate("drop table testquestions_" + x);
                     JOptionPane.showMessageDialog(teacherPanelPage, "Test " + descx + " was deleted.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
+                    logActivity(loginID, "Deleted Test " + x);
                 } catch (SQLException ex) {
                     showException("Error occured while deleting test " + x, ex);
                 }
@@ -5296,6 +5304,7 @@ public class ClassTest extends javax.swing.JFrame {
                 }
             }
             JOptionPane.showMessageDialog(editQuestionPage, "All changes successfully saved.", "Edit Successful", JOptionPane.INFORMATION_MESSAGE);
+            logActivity(loginID, "Saved Test" + testid);
             editQuestionPage.dispose();
             updateTeacherTestList();
             cleanUpAfterCreation();
@@ -5470,6 +5479,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         updateLogs();
         logPage.setVisible(true);
+        logActivity(loginID,"Accessed logs");
     }//GEN-LAST:event_jButton23ActionPerformed
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         try {
@@ -5481,6 +5491,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton24ActionPerformed
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
         try {
+            logActivity(loginID, "Cleared error log");
             stmt.executeUpdate("delete from errorlog");
         } catch (SQLException ex) {
             showException("error while clearing error log", ex);
@@ -5505,6 +5516,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (ans == JOptionPane.YES_OPTION) {
             try {
                 stmt.executeUpdate("update teacher_auth set status=1 where userid=\"" + id + "\"");
+                logActivity(loginID,"Approved application of "+id);
             } catch (SQLException ex) {
                 showException("Error while approving teacher", ex);
             }
@@ -5526,6 +5538,7 @@ public class ClassTest extends javax.swing.JFrame {
                 String type = ((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase();
                 stmt.executeUpdate("update " + type + "_auth set password=\"" + finalPass + "\" where userid=\"" + id + "\"");
                 JOptionPane.showMessageDialog(adminPage, "Password reset successfully", "Action successful", JOptionPane.INFORMATION_MESSAGE);
+                logActivity(loginID, "Password reset for " + id);
             }
         } catch (SQLException ex) {
             showException("Error while resetting pass", ex);
@@ -5557,6 +5570,7 @@ public class ClassTest extends javax.swing.JFrame {
                         break;
                 }
                 JOptionPane.showMessageDialog(adminPage, "User " + id + " was successfully removed from the database.", "User deleted", JOptionPane.INFORMATION_MESSAGE);
+                logActivity(loginID, "Deleted user " + id);
             } catch (SQLException ex) {
                 showException("Error occured while deleting user", ex);
             }
@@ -5576,6 +5590,7 @@ public class ClassTest extends javax.swing.JFrame {
             String id = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
             try {
                 stmt.executeUpdate("delete from teacher_auth where userid=\"" + id + "\"");
+                logActivity(loginID,"Deleted application of "+id);
             } catch (SQLException ex) {
                 showException("Error while deleting teacher", ex);
             }
@@ -5591,15 +5606,18 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem33ActionPerformed
     private void jButton47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton47ActionPerformed
         updateSystemParameters();
+        logActivity(loginID,"Changed system parameters");
     }//GEN-LAST:event_jButton47ActionPerformed
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
         if (jTable7.getSelectedRow() != -1) {
+            String name = (String) jTable7.getValueAt(jTable7.getSelectedRow(), 0);
             if (((String) jTable7.getValueAt(jTable7.getSelectedRow(), 2)).trim().toLowerCase().equals("teacher")) {
-                updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_TEACHER);
+                updateUserHistoryTable(name, TYPE_TEACHER);
             } else {
-                updateUserHistoryTable((String) jTable7.getValueAt(jTable7.getSelectedRow(), 0), TYPE_STUDENT);
+                updateUserHistoryTable(name, TYPE_STUDENT);
             }
             userHistoryPage.setVisible(true);
+            logActivity(loginID, "History accessed for " + name);
         } else {
             JOptionPane.showMessageDialog(adminPage, "You need to select a user.", "No user selected", JOptionPane.ERROR_MESSAGE);
         }
@@ -5621,6 +5639,7 @@ public class ClassTest extends javax.swing.JFrame {
                     try {
                         stmt.executeUpdate("delete from studenthistorydatabase_" + id + " where testid=\"" + testid + "\";");
                         updateUserHistoryTable(id, TYPE_STUDENT);
+                        logActivity(loginID,"Enabled retest for "+id);
                         JOptionPane.showMessageDialog(userHistoryPage, "Re-test enabled.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
                         showException("Error occured while enabling retest", ex);
@@ -5634,6 +5653,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
         try {
             stmt.executeUpdate("delete from activitylog where userid=\"" + jTextField28.getText().trim() + "\";");
+            logActivity(loginID,"Cleared log for "+jTextField28.getText().trim());
         } catch (SQLException ex) {
             showException("Error occured while deleting log for particular user.", ex);
         } finally {
@@ -5735,7 +5755,8 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton54ActionPerformed
     private void jButton55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton55ActionPerformed
         try {
-            throw new Exception("User generated");
+            logActivity(loginID,"Threw an exception (debugging)");
+            throw new Exception("User generated");            
         } catch (Exception ex) {
             showException("User generated", ex);
         }
