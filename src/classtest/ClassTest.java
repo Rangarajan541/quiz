@@ -302,6 +302,11 @@ public class ClassTest extends javax.swing.JFrame {
             displayReportQuestionPage.setTitle("View Question");
             displayReportQuestionPage.pack();
             displayReportQuestionPage.setLocationRelativeTo(null);
+            friendlyRetestPage.setTitle("Retest for students");
+            friendlyRetestPage.setResizable(false);
+            friendlyRetestPage.pack();
+            friendlyRetestPage.setLocationRelativeTo(teacherPanelPage);
+            friendlyRetestPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             allWindowList.add(logPage);
             allWindowList.add(adminPage);
             allWindowList.add(editQuestionBridge);
@@ -322,6 +327,7 @@ public class ClassTest extends javax.swing.JFrame {
             allWindowList.add(cheatAlarmPage);
             allWindowList.add(generateKeyPage);
             allWindowList.add(displayReportQuestionPage);
+            allWindowList.add(friendlyRetestPage);
             for (JFrame x : allWindowList) {
                 x.addFocusListener(wakeUpListenerFocus);
                 x.addKeyListener(wakeUpListenerKey);
@@ -348,28 +354,33 @@ public class ClassTest extends javax.swing.JFrame {
 
     private void resetAllData() {
         try {
-            ResultSet rs = stmt.executeQuery("show tables");
-            while (rs.next()) {
-                String tablename = (rs.getString(1));
-                if (tablename.equals("systemsettings")) {
-                    String defLog = "C:/Quiz/Error log.txt";
-                    String defRes = "C:/Quiz/Resources/";
-                    stmt2.executeUpdate("update systemsettings set data=\"" + 10 + "\" where identifier=\"totalcheatseconds\";");
-                    stmt2.executeUpdate("update systemsettings set data=\"" + 2 + "\" where identifier=\"totalallowedwarnings\";");
-                    stmt2.executeUpdate("update systemsettings set data=\"" + 300 + "\" where identifier=\"wakeupseconds\";");
-                    stmt2.executeUpdate("update systemsettings set data=\"" + 60 + "\" where identifier=\"flashwarningseconds\";");
-                    stmt2.executeUpdate("update systemsettings set data=\"" + defLog + "\" where identifier=\"loglocation\";");
-                    stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
-                    stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
-                    stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"studentregistrationsallowed\";");
-                } else if (tablename.startsWith("studenthistorydatabase_") || tablename.startsWith("testquestions_")) {
-                    stmt2.executeUpdate("drop table " + tablename + ";");
-                } else {
-                    stmt2.executeUpdate("delete from " + tablename + ";");
+            int res = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete all data? This action cannot be undone.", "Confirm Reset?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (res == JOptionPane.YES_OPTION) {
+                ResultSet rs = stmt.executeQuery("show tables");
+                while (rs.next()) {
+                    String tablename = (rs.getString(1));
+                    if (tablename.equals("systemsettings")) {
+                        String defLog = "C:/Quiz/Error log.txt";
+                        String defRes = "C:/Quiz/Resources/";
+                        stmt2.executeUpdate("update systemsettings set data=\"" + 10 + "\" where identifier=\"totalcheatseconds\";");
+                        stmt2.executeUpdate("update systemsettings set data=\"" + 2 + "\" where identifier=\"totalallowedwarnings\";");
+                        stmt2.executeUpdate("update systemsettings set data=\"" + 300 + "\" where identifier=\"wakeupseconds\";");
+                        stmt2.executeUpdate("update systemsettings set data=\"" + 60 + "\" where identifier=\"flashwarningseconds\";");
+                        stmt2.executeUpdate("update systemsettings set data=\"" + defLog + "\" where identifier=\"loglocation\";");
+                        stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
+                        stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
+                        stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"studentregistrationsallowed\";");
+                    } else if (tablename.startsWith("studenthistorydatabase_") || tablename.startsWith("testquestions_")) {
+                        stmt2.executeUpdate("drop table " + tablename + ";");
+                    } else {
+                        stmt2.executeUpdate("delete from " + tablename + ";");
+                    }
                 }
+                JOptionPane.showMessageDialog(null, "All data reset\n\nNote: Folder structure created earlier is unaffected.", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            } else {
+                System.exit(0);
             }
-            JOptionPane.showMessageDialog(null, "All data reset", "Action Successful", JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
         } catch (SQLException ex) {
             logError("Unable to reset", ex);
             JOptionPane.showMessageDialog(null, "Unable to reset data. Please check Log.", "Action failed", JOptionPane.ERROR_MESSAGE);
@@ -721,17 +732,25 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jLabel27 = new javax.swing.JLabel();
-        jButton27 = new javax.swing.JButton();
         jLabel56 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox();
         jButton30 = new javax.swing.JButton();
-        jButton39 = new javax.swing.JButton();
+        jPanel32 = new javax.swing.JPanel();
         jButton15 = new javax.swing.JButton();
+        jButton27 = new javax.swing.JButton();
+        jLabel104 = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
+        jPanel33 = new javax.swing.JPanel();
+        jButton12 = new javax.swing.JButton();
+        jLabel105 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        jPanel34 = new javax.swing.JPanel();
+        jLabel106 = new javax.swing.JLabel();
+        jButton16 = new javax.swing.JButton();
+        jButton64 = new javax.swing.JButton();
+        jPanel35 = new javax.swing.JPanel();
+        jButton39 = new javax.swing.JButton();
+        jLabel27 = new javax.swing.JLabel();
         jMenuBar8 = new javax.swing.JMenuBar();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem19 = new javax.swing.JMenuItem();
@@ -953,6 +972,24 @@ public class ClassTest extends javax.swing.JFrame {
         jScrollPane20 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
         jButton62 = new javax.swing.JButton();
+        friendlyRetestPage = new javax.swing.JFrame();
+        jPanel36 = new javax.swing.JPanel();
+        jLabel107 = new javax.swing.JLabel();
+        jTextField35 = new javax.swing.JTextField();
+        jScrollPane21 = new javax.swing.JScrollPane();
+        jTable14 = new javax.swing.JTable();
+        jScrollPane22 = new javax.swing.JScrollPane();
+        jTable15 = new javax.swing.JTable();
+        jLabel108 = new javax.swing.JLabel();
+        jLabel109 = new javax.swing.JLabel();
+        jTextField36 = new javax.swing.JTextField();
+        jButton65 = new javax.swing.JButton();
+        jButton66 = new javax.swing.JButton();
+        jButton67 = new javax.swing.JButton();
+        jButton68 = new javax.swing.JButton();
+        jMenuBar17 = new javax.swing.JMenuBar();
+        jMenu17 = new javax.swing.JMenu();
+        jMenuItem20 = new javax.swing.JMenuItem();
 
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -2349,7 +2386,7 @@ public class ClassTest extends javax.swing.JFrame {
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -2387,43 +2424,6 @@ public class ClassTest extends javax.swing.JFrame {
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane4.setViewportView(jTable2);
 
-        jButton12.setText("Lock Test");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
-            }
-        });
-
-        jButton13.setText("Unlock Test");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-
-        jButton14.setText("Delete Test");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
-            }
-        });
-
-        jButton16.setText("Report");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
-            }
-        });
-
-        jLabel27.setText("Advanced:");
-
-        jButton27.setText("Edit Test");
-        jButton27.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton27ActionPerformed(evt);
-            }
-        });
-
         jLabel56.setText("Show: ");
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Only my tests", "All tests" }));
@@ -2440,12 +2440,7 @@ public class ClassTest extends javax.swing.JFrame {
             }
         });
 
-        jButton39.setText("System Admin");
-        jButton39.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton39ActionPerformed(evt);
-            }
-        });
+        jPanel32.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton15.setText("Create Test");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
@@ -2453,6 +2448,171 @@ public class ClassTest extends javax.swing.JFrame {
                 jButton15ActionPerformed(evt);
             }
         });
+
+        jButton27.setText("Edit Test");
+        jButton27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton27ActionPerformed(evt);
+            }
+        });
+
+        jLabel104.setText("Primary Test Options:");
+
+        jButton13.setText("Unlock Test");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
+        jPanel32.setLayout(jPanel32Layout);
+        jPanel32Layout.setHorizontalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel32Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel32Layout.createSequentialGroup()
+                        .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton27, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel104))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel32Layout.setVerticalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel32Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(jLabel104)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton15)
+                    .addComponent(jButton27)
+                    .addComponent(jButton13))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel33.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton12.setText("Lock Test");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jLabel105.setText("Test restriction options:");
+
+        jButton14.setText("Delete Test");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
+        jPanel33.setLayout(jPanel33Layout);
+        jPanel33Layout.setHorizontalGroup(
+            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel33Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel33Layout.createSequentialGroup()
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel105))
+                .addGap(167, 167, 167))
+        );
+        jPanel33Layout.setVerticalGroup(
+            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel33Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel105)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton12)
+                    .addComponent(jButton14))
+                .addGap(34, 34, 34))
+        );
+
+        jPanel34.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel106.setText("Student options");
+
+        jButton16.setText("Test Report");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+
+        jButton64.setText("Enable retest for specific student");
+        jButton64.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton64ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
+        jPanel34.setLayout(jPanel34Layout);
+        jPanel34Layout.setHorizontalGroup(
+            jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel34Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel34Layout.createSequentialGroup()
+                        .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton64, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel106))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel34Layout.setVerticalGroup(
+            jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel34Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel106)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton16)
+                    .addComponent(jButton64))
+                .addContainerGap())
+        );
+
+        jPanel35.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton39.setText("System Admin");
+        jButton39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton39ActionPerformed(evt);
+            }
+        });
+
+        jLabel27.setText("Advanced:");
+
+        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
+        jPanel35.setLayout(jPanel35Layout);
+        jPanel35Layout.setHorizontalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel35Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel35Layout.setVerticalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel35Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton39)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -2471,22 +2631,13 @@ public class ClassTest extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton30))
                     .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel27)
-                            .addGroup(jPanel16Layout.createSequentialGroup()
-                                .addComponent(jButton15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton27)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton16)))
-                        .addGap(0, 288, Short.MAX_VALUE)))
+                            .addComponent(jPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
@@ -2501,22 +2652,14 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton12)
-                            .addComponent(jButton13)
-                            .addComponent(jButton14)
-                            .addComponent(jButton16)
-                            .addComponent(jButton27))
-                        .addGap(13, 13, 13))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
-                        .addComponent(jButton15)
-                        .addGap(18, 18, 18)))
-                .addComponent(jLabel27)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton39)
-                .addContainerGap())
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         jMenu8.setText("Nav");
@@ -4413,6 +4556,169 @@ public class ClassTest extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel36.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel107.setText("Search for student:");
+
+        jTable14.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student ID", "Name", "Standard"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable14MouseClicked(evt);
+            }
+        });
+        jScrollPane21.setViewportView(jTable14);
+
+        jTable15.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Test ID", "Subject", "Description", "Marks scored", "Total Marks", "Tried to Cheat", "Date Taken", "Closed Voluntarily"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane22.setViewportView(jTable15);
+
+        jLabel108.setText("Tests Taken:");
+
+        jLabel109.setText("Search by Test ID:");
+
+        jButton65.setText("Enable Retest");
+        jButton65.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton65ActionPerformed(evt);
+            }
+        });
+
+        jButton66.setText("Go");
+        jButton66.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton66ActionPerformed(evt);
+            }
+        });
+
+        jButton67.setText("Go");
+        jButton67.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton67ActionPerformed(evt);
+            }
+        });
+
+        jButton68.setText("See tests for this student");
+        jButton68.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton68ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
+        jPanel36.setLayout(jPanel36Layout);
+        jPanel36Layout.setHorizontalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel36Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane21)
+                    .addGroup(jPanel36Layout.createSequentialGroup()
+                        .addComponent(jLabel107)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField35)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton66))
+                    .addComponent(jScrollPane22)
+                    .addGroup(jPanel36Layout.createSequentialGroup()
+                        .addComponent(jLabel108)
+                        .addGap(164, 164, 164)
+                        .addComponent(jLabel109)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField36)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton67))
+                    .addComponent(jButton68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
+                .addContainerGap(435, Short.MAX_VALUE)
+                .addComponent(jButton65)
+                .addGap(419, 419, 419))
+        );
+        jPanel36Layout.setVerticalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel36Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel107)
+                    .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton66))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton68)
+                .addGap(13, 13, 13)
+                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel108)
+                    .addComponent(jLabel109)
+                    .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton67))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton65)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jMenu17.setText("Nav");
+
+        jMenuItem20.setText("Back");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu17.add(jMenuItem20);
+
+        jMenuBar17.add(jMenu17);
+
+        friendlyRetestPage.setJMenuBar(jMenuBar17);
+
+        javax.swing.GroupLayout friendlyRetestPageLayout = new javax.swing.GroupLayout(friendlyRetestPage.getContentPane());
+        friendlyRetestPage.getContentPane().setLayout(friendlyRetestPageLayout);
+        friendlyRetestPageLayout.setHorizontalGroup(
+            friendlyRetestPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(friendlyRetestPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        friendlyRetestPageLayout.setVerticalGroup(
+            friendlyRetestPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(friendlyRetestPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -4820,6 +5126,10 @@ public class ClassTest extends javax.swing.JFrame {
                             @Override
                             public void run() {
                                 if (testCountdown == 1) {
+                                    canCheat = false;
+                                    if (testTimerTask != null) {
+                                        testTimerTask.cancel();
+                                    }
                                     JOptionPane.showMessageDialog(studentQuestionPage, "Oops! Time up!", "Time up", JOptionPane.INFORMATION_MESSAGE);
                                     finishTest();
                                     testTimerTask.cancel();
@@ -5479,7 +5789,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         updateLogs();
         logPage.setVisible(true);
-        logActivity(loginID,"Accessed logs");
+        logActivity(loginID, "Accessed logs");
     }//GEN-LAST:event_jButton23ActionPerformed
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         try {
@@ -5516,7 +5826,7 @@ public class ClassTest extends javax.swing.JFrame {
         if (ans == JOptionPane.YES_OPTION) {
             try {
                 stmt.executeUpdate("update teacher_auth set status=1 where userid=\"" + id + "\"");
-                logActivity(loginID,"Approved application of "+id);
+                logActivity(loginID, "Approved application of " + id);
             } catch (SQLException ex) {
                 showException("Error while approving teacher", ex);
             }
@@ -5590,7 +5900,7 @@ public class ClassTest extends javax.swing.JFrame {
             String id = (String) jTable11.getValueAt(jTable11.getSelectedRow(), 0);
             try {
                 stmt.executeUpdate("delete from teacher_auth where userid=\"" + id + "\"");
-                logActivity(loginID,"Deleted application of "+id);
+                logActivity(loginID, "Deleted application of " + id);
             } catch (SQLException ex) {
                 showException("Error while deleting teacher", ex);
             }
@@ -5606,7 +5916,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem33ActionPerformed
     private void jButton47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton47ActionPerformed
         updateSystemParameters();
-        logActivity(loginID,"Changed system parameters");
+        logActivity(loginID, "Changed system parameters");
     }//GEN-LAST:event_jButton47ActionPerformed
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
         if (jTable7.getSelectedRow() != -1) {
@@ -5639,7 +5949,7 @@ public class ClassTest extends javax.swing.JFrame {
                     try {
                         stmt.executeUpdate("delete from studenthistorydatabase_" + id + " where testid=\"" + testid + "\";");
                         updateUserHistoryTable(id, TYPE_STUDENT);
-                        logActivity(loginID,"Enabled retest for "+id);
+                        logActivity(loginID, "Enabled retest for " + id);
                         JOptionPane.showMessageDialog(userHistoryPage, "Re-test enabled.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
                         showException("Error occured while enabling retest", ex);
@@ -5653,7 +5963,7 @@ public class ClassTest extends javax.swing.JFrame {
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
         try {
             stmt.executeUpdate("delete from activitylog where userid=\"" + jTextField28.getText().trim() + "\";");
-            logActivity(loginID,"Cleared log for "+jTextField28.getText().trim());
+            logActivity(loginID, "Cleared log for " + jTextField28.getText().trim());
         } catch (SQLException ex) {
             showException("Error occured while deleting log for particular user.", ex);
         } finally {
@@ -5755,8 +6065,8 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton54ActionPerformed
     private void jButton55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton55ActionPerformed
         try {
-            logActivity(loginID,"Threw an exception (debugging)");
-            throw new Exception("User generated");            
+            logActivity(loginID, "Threw an exception (debugging)");
+            throw new Exception("User generated");
         } catch (Exception ex) {
             showException("User generated", ex);
         }
@@ -5919,6 +6229,125 @@ public class ClassTest extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton63ActionPerformed
+
+    private void jButton64ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton64ActionPerformed
+        // TODO add your handling code here:
+        friendlyRetestPage.setVisible(true);
+    }//GEN-LAST:event_jButton64ActionPerformed
+
+    private void jButton66ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton66ActionPerformed
+        // TODO add your handling code here:
+        ResultSet rs;
+        String name = jTextField35.getText().trim();
+        DefaultTableModel model = (DefaultTableModel) jTable14.getModel();
+        model.setRowCount(0);
+        try {
+            rs = stmt.executeQuery("select * from student_auth where name like \"%" + name + "%\" or userid like \"%" + name + "%\";");
+            while (rs.next()) {
+                String id = rs.getString("userid");
+                String name1 = rs.getString("name");
+                int standard = rs.getInt("standard");
+                model.addRow(new Object[]{id, name1, standard});
+            }
+        } catch (SQLException ex) {
+            showException("Error occured while searching for students", ex);
+        }
+    }//GEN-LAST:event_jButton66ActionPerformed
+
+    private void jButton67ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton67ActionPerformed
+        // TODO add your handling code here:
+        lookForTests();
+    }//GEN-LAST:event_jButton67ActionPerformed
+
+    private void lookForTests() {
+        ResultSet rs, rs2, rs3;
+        if (jTable14.getSelectedRow() != -1) {
+            String query = jTextField36.getText().trim();
+            DefaultTableModel model = (DefaultTableModel) jTable15.getModel();
+            model.setRowCount(0);
+            String userid = (String) jTable14.getValueAt(jTable14.getSelectedRow(), 0);
+            try {
+                rs = stmt.executeQuery("select * from studenthistorydatabase_" + userid + " where testid like \"%" + query + "%\";");
+                while (rs.next()) {
+                    String testid = rs.getString("testid");
+                    int cheatwarnings = rs.getInt("cheatwarnings");
+                    String date = rs.getString("datetaken");
+                    int marksearned = rs.getInt("marksearned");
+                    int aborted = rs.getInt("aborted");
+                    String abRep;
+                    switch (aborted) {
+                        case 0:
+                            abRep = "No";
+                            break;
+                        case 1:
+                            abRep = "Yes";
+                            break;
+                        case 2:
+                            abRep = "Due to inactivity";
+                            break;
+                        default:
+                            abRep = "Unknown";
+                            break;
+                    }
+                    String desc = "Error", sub = "Error";
+                    int tot = -1;
+                    rs2 = stmt2.executeQuery("select * from testlist where testid=\"" + testid + "\";");
+                    if (rs2.next()) {
+                        desc = rs2.getString("description");
+                        sub = rs2.getString("subject");
+                        tot = rs2.getInt("points");
+                    }
+                    rs3 = stmt2.executeQuery("select count(*) from testquestions_" + testid + ";");
+                    if (rs3.next()) {
+                        tot *= rs3.getInt(1);
+                    }
+                    model.addRow(new Object[]{testid, sub, desc, marksearned, tot, cheatwarnings, date, abRep});
+
+                }
+            } catch (SQLException ex) {
+                showException("Error occured while searching for tests", ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(friendlyRetestPage, "You need to select a student first", "No student selected", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void jButton65ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton65ActionPerformed
+        // TODO add your handling code here:
+        int c1 = jTable14.getSelectedRow();
+        int c2 = jTable15.getSelectedRow();
+        if (c1 != -1 && c2 != -1) {
+            String userid = (String) jTable14.getValueAt(jTable14.getSelectedRow(), 0);
+            int res = JOptionPane.showConfirmDialog(friendlyRetestPage, "Enable retest for " + userid + "?\nThis action cannot be undone.", "Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (res == JOptionPane.YES_OPTION) {
+                try {
+                    String testid = (String) jTable15.getValueAt(jTable15.getSelectedRow(), 0);
+                    stmt.executeUpdate("delete from studenthistorydatabase_" + userid + " where testid =\"" + testid + "\";");
+                    logActivity(loginID, "Enabled retest for " + userid);
+                    jButton67.doClick();
+                    JOptionPane.showMessageDialog(friendlyRetestPage, "Re-test enabled.", "Action successful", JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException ex) {
+                    showException("Unable to enable retest. Try again", ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(friendlyRetestPage, "Please select a student and test.", "No test/student selected", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton65ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        // TODO add your handling code here:
+        friendlyRetestPage.dispose();
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jButton68ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton68ActionPerformed
+        lookForTests();
+
+    }//GEN-LAST:event_jButton68ActionPerformed
+
+    private void jTable14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable14MouseClicked
+        // TODO add your handling code here:
+        lookForTests();
+    }//GEN-LAST:event_jTable14MouseClicked
 
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
@@ -6580,6 +7009,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JFrame displayReportQuestionPage;
     private javax.swing.JFrame editQuestionBridge;
     private javax.swing.JFrame editQuestionPage;
+    private javax.swing.JFrame friendlyRetestPage;
     private javax.swing.JFrame generateKeyPage;
     private javax.swing.JFrame imageDisplayPage;
     private javax.swing.JButton jButton1;
@@ -6642,6 +7072,11 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton61;
     private javax.swing.JButton jButton62;
     private javax.swing.JButton jButton63;
+    private javax.swing.JButton jButton64;
+    private javax.swing.JButton jButton65;
+    private javax.swing.JButton jButton66;
+    private javax.swing.JButton jButton67;
+    private javax.swing.JButton jButton68;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -6669,6 +7104,12 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel102;
     private javax.swing.JLabel jLabel103;
+    private javax.swing.JLabel jLabel104;
+    private javax.swing.JLabel jLabel105;
+    private javax.swing.JLabel jLabel106;
+    private javax.swing.JLabel jLabel107;
+    private javax.swing.JLabel jLabel108;
+    private javax.swing.JLabel jLabel109;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -6775,6 +7216,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu14;
     private javax.swing.JMenu jMenu15;
     private javax.swing.JMenu jMenu16;
+    private javax.swing.JMenu jMenu17;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -6790,6 +7232,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar14;
     private javax.swing.JMenuBar jMenuBar15;
     private javax.swing.JMenuBar jMenuBar16;
+    private javax.swing.JMenuBar jMenuBar17;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuBar jMenuBar4;
@@ -6809,6 +7252,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
@@ -6856,6 +7300,11 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -6893,6 +7342,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane19;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane20;
+    private javax.swing.JScrollPane jScrollPane21;
+    private javax.swing.JScrollPane jScrollPane22;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -6907,6 +7358,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable12;
     private javax.swing.JTable jTable13;
+    private javax.swing.JTable jTable14;
+    private javax.swing.JTable jTable15;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
@@ -6948,6 +7401,8 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField32;
     private javax.swing.JTextField jTextField33;
     private javax.swing.JTextField jTextField34;
+    private javax.swing.JTextField jTextField35;
+    private javax.swing.JTextField jTextField36;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
