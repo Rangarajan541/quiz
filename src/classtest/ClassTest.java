@@ -2601,11 +2601,9 @@ public class ClassTest extends javax.swing.JFrame {
             .addGroup(jPanel35Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel35Layout.createSequentialGroup()
-                        .addComponent(jLabel27)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jButton39, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2660,7 +2658,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -6491,24 +6489,20 @@ public class ClassTest extends javax.swing.JFrame {
             errorDate.set(Calendar.YEAR, Integer.parseInt((String) jComboBox12.getSelectedItem()));
             errorDate.set(Calendar.MONTH, jComboBox11.getSelectedIndex());
             errorDate.set(Calendar.DATE, Integer.parseInt((String) jComboBox13.getSelectedItem()));
-            String actString = (new SimpleDateFormat("yyyyMMdd").format(activityDate.getTime()));
-            activityDate.set(Calendar.DATE, (activityDate.get(Calendar.DATE)) + 1);
-            String actStringNext = (new SimpleDateFormat("yyyyMMdd").format(activityDate.getTime()));
-            String errString = (new SimpleDateFormat("yyyyMMdd").format(errorDate.getTime()));
-            errorDate.set(Calendar.DATE, (errorDate.get(Calendar.DATE)) + 1);
-            String errStringNext = (new SimpleDateFormat("yyyyMMdd").format(errorDate.getTime()));
+            String actString = (new SimpleDateFormat("yyyyMMdd").format(activityDate.getTime()));                        
+            String errString = (new SimpleDateFormat("yyyyMMdd").format(errorDate.getTime()));            
             int searchOption = jComboBox7.getSelectedIndex();
             switch (searchOption) {
                 case 0: {
-                    rs = stmt.executeQuery("select * from activitylog where time>=date(" + actString + ") and time <date(" + actStringNext + ");");
+                    rs = stmt.executeQuery("select * from activitylog where date(" + actString + ") = date(time);");
                 }
                 break;
                 case 1: {
-                    rs = stmt.executeQuery("select * from activitylog where time<=date(" + actString + ");");
+                    rs = stmt.executeQuery("select * from activitylog where date(time)<=date(" + actString + ");");
                 }
                 break;
                 case 2: {
-                    rs = stmt.executeQuery("select * from activitylog where time>=date(" + actString + ");");
+                    rs = stmt.executeQuery("select * from activitylog where date(time)>=date(" + actString + ");");
                 }
                 break;
             }
@@ -6520,15 +6514,15 @@ public class ClassTest extends javax.swing.JFrame {
             searchOption = jComboBox14.getSelectedIndex();
             switch (searchOption) {
                 case 0: {
-                    rs = stmt.executeQuery("select * from errorlog where time>=date(" + errString + ") and time <date(" + errStringNext + ");");
+                    rs = stmt.executeQuery("select * from errorlog where date(time)=date(" + errString + ");");
                 }
                 break;
                 case 1: {
-                    rs = stmt.executeQuery("select * from errorlog where time<=date(" + errString + ");");
+                    rs = stmt.executeQuery("select * from errorlog where date(time)<=date(" + errString + ");");
                 }
                 break;
                 case 2: {
-                    rs = stmt.executeQuery("select * from errorlog where time>=date(" + errString + ");");
+                    rs = stmt.executeQuery("select * from errorlog where date(time)>=date(" + errString + ");");
                 }
                 break;
             }
