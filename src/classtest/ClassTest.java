@@ -67,7 +67,7 @@ public class ClassTest extends javax.swing.JFrame {
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
     private static boolean correctKeyEntered = false, resetKeyEntered = false;
-    private String logLocation = "C:/Quiz/Error log.txt", resLocation = "C:/Quiz/res";
+    private String logLocation = "C:/Quiz/Error log.txt", resLocation = "C:/Quiz/res", programDataLocation;
     private int instantCheatAlarm = 0, currentAlarmIndex = 0;
     //SYSTEM VARIABLES DECLARATION END
 
@@ -80,13 +80,16 @@ public class ClassTest extends javax.swing.JFrame {
     //TIMERS END
 
     private ClassTest() {
+        programDataLocation = System.getenv("PROGRAMDATA").replace('\\', '/');
+        resLocation = programDataLocation + "/Quiz/Resources";
+        logLocation = programDataLocation + "/Quiz/Error Log.txt";
         initComponents();
         if (correctKeyEntered) {
             initDatabaseSettingsWizard();
         } else {
             redirectPage.setVisible(true);
             try {
-                FileReader fr = new FileReader(new File("C:/Quiz/key.txt"));
+                FileReader fr = new FileReader(new File(programDataLocation + "/Quiz/key.txt"));
                 BufferedReader br = new BufferedReader(fr);
                 String dummy[] = br.readLine().split(";");
                 String acc = dummy[0];
@@ -98,7 +101,7 @@ public class ClassTest extends javax.swing.JFrame {
 
             } catch (ClassNotFoundException | SQLException | IOException | ArrayIndexOutOfBoundsException | NullPointerException ex) {
                 logError("Error occured while establishing database link", ex);
-                JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try later or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try re-running Authentication or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
                 System.exit(-1);
             }
             if (resetKeyEntered) {
@@ -360,8 +363,8 @@ public class ClassTest extends javax.swing.JFrame {
                 while (rs.next()) {
                     String tablename = (rs.getString(1));
                     if (tablename.equals("systemsettings")) {
-                        String defLog = "C:/Quiz/Error log.txt";
-                        String defRes = "C:/Quiz/Resources/";
+                        String defLog = programDataLocation + "/Quiz/Error log.txt";
+                        String defRes = programDataLocation + "/Quiz/Resources/";
                         stmt2.executeUpdate("update systemsettings set data=\"" + 10 + "\" where identifier=\"totalcheatseconds\";");
                         stmt2.executeUpdate("update systemsettings set data=\"" + 2 + "\" where identifier=\"totalallowedwarnings\";");
                         stmt2.executeUpdate("update systemsettings set data=\"" + 300 + "\" where identifier=\"wakeupseconds\";");
@@ -561,6 +564,25 @@ public class ClassTest extends javax.swing.JFrame {
             b.append((char) ((a.charAt(i)) + 3));
         }
         return b.toString();
+    }
+
+    private String getUsernameFromID(String userid, int type) {
+        ResultSet rs = null;
+        try {
+            if (type == TYPE_TEACHER) {
+                rs = stmt.executeQuery("select name from teacher_auth where userid=\"" + userid + "\";");
+            } else if (type == TYPE_STUDENT) {
+                rs = stmt.executeQuery("select name from student_auth where userid=\"" + userid + "\";");
+            }
+            if (rs != null) {
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
+        } catch (SQLException ex) {
+            showException("An error occured while fetching name from ID", ex);
+        }
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -2658,7 +2680,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -3434,17 +3456,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable6.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "User ID", "Name", "Activity", "Time"
+                "User ID", "Activity", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3457,17 +3479,17 @@ public class ClassTest extends javax.swing.JFrame {
 
         jTable10.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "User ID", "User", "Error Description", "Time"
+                "User ID", "Error Description", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -6179,7 +6201,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
         try {
             boolean ok = false;
-            File f = new File("C:/Quiz/key.txt");
+            File f = new File(programDataLocation + "/Quiz/key.txt");
             if (!f.exists()) {
                 if (!f.getParentFile().exists()) {
                     f.getParentFile().mkdirs();
@@ -6269,7 +6291,7 @@ public class ClassTest extends javax.swing.JFrame {
         // TODO add your handling code here:
         jButton66.doClick();
         friendlyRetestPage.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton64ActionPerformed
 
     private void jButton66ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton66ActionPerformed
@@ -6489,8 +6511,8 @@ public class ClassTest extends javax.swing.JFrame {
             errorDate.set(Calendar.YEAR, Integer.parseInt((String) jComboBox12.getSelectedItem()));
             errorDate.set(Calendar.MONTH, jComboBox11.getSelectedIndex());
             errorDate.set(Calendar.DATE, Integer.parseInt((String) jComboBox13.getSelectedItem()));
-            String actString = (new SimpleDateFormat("yyyyMMdd").format(activityDate.getTime()));                        
-            String errString = (new SimpleDateFormat("yyyyMMdd").format(errorDate.getTime()));            
+            String actString = (new SimpleDateFormat("yyyyMMdd").format(activityDate.getTime()));
+            String errString = (new SimpleDateFormat("yyyyMMdd").format(errorDate.getTime()));
             int searchOption = jComboBox7.getSelectedIndex();
             switch (searchOption) {
                 case 0: {
@@ -6947,6 +6969,7 @@ public class ClassTest extends javax.swing.JFrame {
             fw.write("___________");
             fw.write(System.getProperty("line.separator"));
         } catch (IOException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error occured while trying to log errors.");
         }
     }
@@ -7007,8 +7030,8 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
+
         try {
-            /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {             if ("Nimbus".equals(info.getName())) {             javax.swing.UIManager.setLookAndFeel(info.getClassName());             break;             }             }*/
             UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ClassTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

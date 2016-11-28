@@ -3823,9 +3823,8 @@
                 <Component class="javax.swing.JTable" name="jTable6">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
+                      <Table columnCount="3" rowCount="4">
                         <Column editable="false" title="User ID" type="java.lang.Object"/>
-                        <Column editable="false" title="Name" type="java.lang.Object"/>
                         <Column editable="false" title="Activity" type="java.lang.Object"/>
                         <Column editable="false" title="Time" type="java.lang.Object"/>
                       </Table>
@@ -3849,9 +3848,8 @@
                 <Component class="javax.swing.JTable" name="jTable10">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
+                      <Table columnCount="3" rowCount="4">
                         <Column editable="false" title="User ID" type="java.lang.Object"/>
-                        <Column editable="false" title="User" type="java.lang.Object"/>
                         <Column editable="false" title="Error Description" type="java.lang.Object"/>
                         <Column editable="false" title="Time" type="java.lang.Object"/>
                       </Table>
