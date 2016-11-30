@@ -66,7 +66,7 @@ public class ClassTest extends javax.swing.JFrame {
     private int registrationsAllowed = 0;
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
-    private static boolean correctKeyEntered = false, resetKeyEntered = false;
+    private static boolean correctKeyEntered = false, resetKeyEntered = false, teacherKeyEntered = false;
     private String logLocation = "C:/Quiz/Error log.txt", resLocation = "C:/Quiz/res", programDataLocation;
     private int instantCheatAlarm = 0, currentAlarmIndex = 0;
     //SYSTEM VARIABLES DECLARATION END
@@ -106,6 +106,23 @@ public class ClassTest extends javax.swing.JFrame {
             }
             if (resetKeyEntered) {
                 resetAllData();
+            }
+            if (teacherKeyEntered) {
+                try {                    
+                    ResultSet rs=stmt.executeQuery("select count(*) from teacher_auth where status=0");
+                    int count=-1;
+                    if (rs.next()){
+                        count=rs.getInt(1);
+                    }
+                    int val = JOptionPane.showConfirmDialog(null, "Are you sure you want to approve all teachers?\nThis gives them all administrator priveleges.\n\nNote: There are currently "+count+" teachers awaiting approval.", "Confirm Action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (val == JOptionPane.YES_OPTION) {
+                        stmt.executeUpdate("update teacher_auth set status=1;");
+                        JOptionPane.showMessageDialog(null, "All teachers approved", "Action successful.", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    System.exit(0);
+                } catch (SQLException ex) {
+                    showException("Error occured while auto-approving teacher applications.", ex);
+                }
             }
             fetchSystemParameters();
             WindowAdapter onCloseListener = new WindowAdapter() {
@@ -7042,6 +7059,8 @@ public class ClassTest extends javax.swing.JFrame {
                     correctKeyEntered = true;
                 } else if (args[0].equals("Reset010")) {
                     resetKeyEntered = true;
+                } else if (args[0].equals("ApproveTeachers010")) {
+                    teacherKeyEntered = true;
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
