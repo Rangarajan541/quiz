@@ -6235,9 +6235,6 @@ public class ClassTest extends javax.swing.JFrame {
                 try (FileWriter fw = new FileWriter(f);) {
                     fw.write(b.toString());
                     fw.close();
-                    f.setExecutable(false);
-                    f.setReadable(false);
-                    f.setWritable(false);
                 } catch (IOException ex) {
                     showException("Error occured while writing to gen files", ex);
                 }
