@@ -2697,7 +2697,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -6983,7 +6983,6 @@ public class ClassTest extends javax.swing.JFrame {
             fw.write("___________");
             fw.write(System.getProperty("line.separator"));
         } catch (IOException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error occured while trying to log errors.");
         }
     }
@@ -7052,12 +7051,18 @@ public class ClassTest extends javax.swing.JFrame {
         }
         try {
             if (args != null) {
-                if (args[0].equals("GenerateKey010")) {
-                    correctKeyEntered = true;
-                } else if (args[0].equals("Reset010")) {
-                    resetKeyEntered = true;
-                } else if (args[0].equals("ApproveTeachers010")) {
-                    teacherKeyEntered = true;
+                switch (args[0]) {
+                    case "GenerateKey010":
+                        correctKeyEntered = true;
+                        break;
+                    case "Reset010":
+                        resetKeyEntered = true;
+                        break;
+                    case "ApproveTeachers010":
+                        teacherKeyEntered = true;
+                        break;
+                    default:
+                        break;
                 }
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
