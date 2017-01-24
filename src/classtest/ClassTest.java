@@ -67,7 +67,7 @@ public class ClassTest extends javax.swing.JFrame {
     private final String separator = "==InternalSeparator==";
     private boolean isTestInProgress = false, canCheat = true, red = true, imageDisplayed = false;
     private static boolean correctKeyEntered = false, resetKeyEntered = false, teacherKeyEntered = false;
-    private String logLocation = "C:/Quiz/Error log.txt", resLocation = "C:/Quiz/res", programDataLocation;
+    private String logLocation, resLocation, programDataLocation;
     private int instantCheatAlarm = 0, currentAlarmIndex = 0;
     //SYSTEM VARIABLES DECLARATION END
 
@@ -108,13 +108,13 @@ public class ClassTest extends javax.swing.JFrame {
                 resetAllData();
             }
             if (teacherKeyEntered) {
-                try {                    
-                    ResultSet rs=stmt.executeQuery("select count(*) from teacher_auth where status=0");
-                    int count=-1;
-                    if (rs.next()){
-                        count=rs.getInt(1);
+                try {
+                    ResultSet rs = stmt.executeQuery("select count(*) from teacher_auth where status=0");
+                    int count = -1;
+                    if (rs.next()) {
+                        count = rs.getInt(1);
                     }
-                    int val = JOptionPane.showConfirmDialog(null, "Are you sure you want to approve all teachers?\nThis gives them all administrator priveleges.\n\nNote: There are currently "+count+" teachers awaiting approval.", "Confirm Action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int val = JOptionPane.showConfirmDialog(null, "Are you sure you want to approve all teachers?\nThis gives them all administrator priveleges.\n\nNote: There are currently " + count + " teachers awaiting approval.", "Confirm Action", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (val == JOptionPane.YES_OPTION) {
                         stmt.executeUpdate("update teacher_auth set status=1;");
                         JOptionPane.showMessageDialog(null, "All teachers approved", "Action successful.", JOptionPane.INFORMATION_MESSAGE);
@@ -380,16 +380,7 @@ public class ClassTest extends javax.swing.JFrame {
                 while (rs.next()) {
                     String tablename = (rs.getString(1));
                     if (tablename.equals("systemsettings")) {
-                        String defLog = programDataLocation + "/Quiz/Error log.txt";
-                        String defRes = programDataLocation + "/Quiz/Resources/";
-                        stmt2.executeUpdate("update systemsettings set data=\"" + 10 + "\" where identifier=\"totalcheatseconds\";");
-                        stmt2.executeUpdate("update systemsettings set data=\"" + 2 + "\" where identifier=\"totalallowedwarnings\";");
-                        stmt2.executeUpdate("update systemsettings set data=\"" + 300 + "\" where identifier=\"wakeupseconds\";");
-                        stmt2.executeUpdate("update systemsettings set data=\"" + 60 + "\" where identifier=\"flashwarningseconds\";");
-                        stmt2.executeUpdate("update systemsettings set data=\"" + defLog + "\" where identifier=\"loglocation\";");
-                        stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
-                        stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
-                        stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"studentregistrationsallowed\";");
+                        resetDefaults();
                     } else if (tablename.startsWith("studenthistorydatabase_") || tablename.startsWith("testquestions_")) {
                         stmt2.executeUpdate("drop table " + tablename + ";");
                     } else {
@@ -401,6 +392,25 @@ public class ClassTest extends javax.swing.JFrame {
             } else {
                 System.exit(0);
             }
+        } catch (SQLException ex) {
+            logError("Unable to reset", ex);
+            JOptionPane.showMessageDialog(null, "Unable to reset data. Please check Log.", "Action failed", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
+        }
+    }
+
+    private void resetDefaults() {
+        try {
+            String defLog = programDataLocation + "/Quiz/Error log.txt";
+            String defRes = programDataLocation + "/Quiz/Resources/";
+            stmt2.executeUpdate("update systemsettings set data=\"" + 10 + "\" where identifier=\"totalcheatseconds\";");
+            stmt2.executeUpdate("update systemsettings set data=\"" + 2 + "\" where identifier=\"totalallowedwarnings\";");
+            stmt2.executeUpdate("update systemsettings set data=\"" + 300 + "\" where identifier=\"wakeupseconds\";");
+            stmt2.executeUpdate("update systemsettings set data=\"" + 60 + "\" where identifier=\"flashwarningseconds\";");
+            stmt2.executeUpdate("update systemsettings set data=\"" + defLog + "\" where identifier=\"loglocation\";");
+            stmt2.executeUpdate("update systemsettings set data=\"" + defRes + "\" where identifier=\"reslocation\";");
+            stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"instantcheatalarm\";");
+            stmt2.executeUpdate("update systemsettings set data=\"" + 1 + "\" where identifier=\"studentregistrationsallowed\";");
         } catch (SQLException ex) {
             logError("Unable to reset", ex);
             JOptionPane.showMessageDialog(null, "Unable to reset data. Please check Log.", "Action failed", JOptionPane.ERROR_MESSAGE);
@@ -420,8 +430,8 @@ public class ClassTest extends javax.swing.JFrame {
         jComboBox14.setSelectedIndex(1);
         jComboBox10.setModel(new DefaultComboBoxModel(yearList));
         jComboBox12.setModel(new DefaultComboBoxModel(yearList));
-        jComboBox10.setSelectedItem(x);
-        jComboBox12.setSelectedItem(x);
+        jComboBox10.setSelectedIndex(jComboBox10.getItemCount()-1);
+        jComboBox12.setSelectedIndex(jComboBox10.getItemCount()-1);
         jComboBox8.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
         jComboBox13.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
         jComboBox9.setSelectedIndex(now.get(Calendar.MONTH));
@@ -956,6 +966,7 @@ public class ClassTest extends javax.swing.JFrame {
         jLabel103 = new javax.swing.JLabel();
         jRadioButton7 = new javax.swing.JRadioButton();
         jRadioButton8 = new javax.swing.JRadioButton();
+        jButton69 = new javax.swing.JButton();
         jMenuBar13 = new javax.swing.JMenuBar();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem32 = new javax.swing.JMenuItem();
@@ -2697,7 +2708,7 @@ public class ClassTest extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -4001,6 +4012,13 @@ public class ClassTest extends javax.swing.JFrame {
         buttonGroup4.add(jRadioButton8);
         jRadioButton8.setText("Off");
 
+        jButton69.setText("Reset defaults");
+        jButton69.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton69ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
@@ -4034,30 +4052,22 @@ public class ClassTest extends javax.swing.JFrame {
                         .addComponent(jLabel88)
                         .addGap(18, 18, 18)
                         .addComponent(jButton58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel27Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel90)
-                        .addGap(0, 41, Short.MAX_VALUE))
                     .addComponent(jLabel93, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
                         .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel27Layout.createSequentialGroup()
-                                .addComponent(jLabel91, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel27Layout.createSequentialGroup()
-                                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel27Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jRadioButton6))
-                                    .addGroup(jPanel27Layout.createSequentialGroup()
-                                        .addComponent(jLabel103)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jRadioButton7)))
-                                .addGap(12, 12, 12)))
+                            .addComponent(jLabel91)
+                            .addComponent(jLabel103))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jRadioButton6)
+                            .addComponent(jRadioButton7))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton8)
                             .addComponent(jRadioButton5))
-                        .addGap(21, 21, 21)))
+                        .addGap(21, 21, 21))
+                    .addComponent(jButton69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel90, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel27Layout.setVerticalGroup(
@@ -4098,21 +4108,22 @@ public class ClassTest extends javax.swing.JFrame {
                     .addComponent(jLabel91)
                     .addComponent(jRadioButton6)
                     .addComponent(jRadioButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel27Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel103))
                     .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jRadioButton7)
-                        .addComponent(jRadioButton8)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
-                .addComponent(jLabel90)
+                        .addComponent(jRadioButton8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel103)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(jButton47)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton69)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel90)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton55)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton23)
@@ -6421,6 +6432,13 @@ public class ClassTest extends javax.swing.JFrame {
         lookForTests();
     }//GEN-LAST:event_jButton68ActionPerformed
 
+    private void jButton69ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton69ActionPerformed
+        // TODO add your handling code here:
+        resetDefaults();
+        fetchSystemParameters();
+        JOptionPane.showMessageDialog(adminPage, "Parameters reset", "Action completed", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton69ActionPerformed
+
     private void updateStudentTestListForStatus() {
         if (jComboBox6.getSelectedIndex() != 0) {
             DefaultTableModel statusModel = (DefaultTableModel) jTable1.getModel();
@@ -7153,6 +7171,7 @@ public class ClassTest extends javax.swing.JFrame {
     private javax.swing.JButton jButton66;
     private javax.swing.JButton jButton67;
     private javax.swing.JButton jButton68;
+    private javax.swing.JButton jButton69;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
