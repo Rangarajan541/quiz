@@ -6742,7 +6742,6 @@ public class ClassTest extends javax.swing.JFrame {
         try {
             String questionLine = questionListMod.get(curQuesInd);
             temp = questionLine.split(separator);
-            int dataIndex = Integer.parseInt(temp[1]);
             try {
                 stmt.executeUpdate("alter table studenthistorydatabase_" + loginID + " add column question_" + temp[1] + " varchar(1) default \"x\";");
             } catch (SQLException ex) {
@@ -6750,7 +6749,7 @@ public class ClassTest extends javax.swing.JFrame {
             stmt.executeUpdate("update studenthistorydatabase_" + loginID + " set question_" + temp[1] + " = \"" + answer + "\" where testid=\"" + currentTestID + "\";");
             jLabel70.setText("Answer saved");
         } catch (SQLException ex) {
-            /* try {                stmt.executeUpdate("alter table studenthistorydatabase_" + loginID + " add column question_" + temp[1] + " varchar(1) default \"x\";");                updateAnswer(answer);                return;            } catch (SQLException ex1) {                showException("Error occured while creating column for answer", ex);            }*/ showException("Error occured while updating answer", ex);
+            showException("Error occured while updating answer", ex);
         }
     }
 
@@ -6775,7 +6774,6 @@ public class ClassTest extends javax.swing.JFrame {
                 questionListMod.add(temp);
                 i++;
             }
-            questionList.get(0);
             int listSize = questionListMod.size();
             DefaultTableModel questionListModel = (DefaultTableModel) jTable8.getModel();
             questionListModel.setRowCount(0);
@@ -6789,7 +6787,7 @@ public class ClassTest extends javax.swing.JFrame {
         }
     }
 
-    private void setNextQuestion(int i) {
+    private void setNextQuestion(int i) { //updates the text area with the question as per index
         String questionLine = questionListMod.get(i);
         String[] tempTokens = questionLine.split(separator);
         imageDisplayPage.setVisible(false);
