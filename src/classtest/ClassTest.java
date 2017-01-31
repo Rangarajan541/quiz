@@ -78,17 +78,20 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask antiCheatTask;
     private java.util.TimerTask instantCheatAlarmTask;
     //TIMERS END
-
+    
+    //Constructor beginning
     private ClassTest() {
+        //Getting the system ProgramData location for default storage
         programDataLocation = System.getenv("PROGRAMDATA").replace('\\', '/');
         resLocation = programDataLocation + "/Quiz/Resources";
         logLocation = programDataLocation + "/Quiz/Error Log.txt";
         initComponents();
-        if (correctKeyEntered) {
+        
+        if (correctKeyEntered) { //if db authentication is started, this starts
             initDatabaseSettingsWizard();
-        } else {
+        } else { 
             redirectPage.setVisible(true);
-            try {
+            try { //Decrpyting password, and using the same for connectivity
                 FileReader fr = new FileReader(new File(programDataLocation + "/Quiz/key.txt"));
                 BufferedReader br = new BufferedReader(fr);
                 String dummy[] = br.readLine().split(";");
@@ -104,10 +107,10 @@ public class ClassTest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error occured while establishing database link.\nPlease try re-running Authentication or contact an administrator.", "Data connectivity error", JOptionPane.ERROR_MESSAGE);
                 System.exit(-1);
             }
-            if (resetKeyEntered) {
+            if (resetKeyEntered) { //for full database reset
                 resetAllData();
             }
-            if (teacherKeyEntered) {
+            if (teacherKeyEntered) { //for approving teachers from outside the program
                 try {
                     ResultSet rs = stmt.executeQuery("select count(*) from teacher_auth where status=0");
                     int count = -1;
@@ -4915,7 +4918,7 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem37ActionPerformed
     private boolean validateRegID(String a, int type) {
         if (!checkValidCharsUsed(a, false, true)) {
-            JOptionPane.showMessageDialog(this, "Your User-ID cannot contain spaces.", "Invalid ID", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Your User-ID cannot contain spaces or symbols.", "Invalid ID", JOptionPane.ERROR_MESSAGE);
         } else {
             ResultSet rs;
             if (a.length() >= 4) {
