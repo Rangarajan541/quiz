@@ -5403,6 +5403,7 @@ public class ClassTest extends javax.swing.JFrame {
         DefaultListModel flaggedListModel = (DefaultListModel) jList2.getModel();
         if (flaggedListModel.removeElement("Question " + Integer.toString(curQuesInd + 1))) {
             totalFlagged--;
+            System.out.println("Unflagging");
         }
         jLabel42.setText("Total Flagged: " + totalFlagged);
     }//GEN-LAST:event_jButton26ActionPerformed
@@ -5426,7 +5427,6 @@ public class ClassTest extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable8MouseClicked
     private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
         if (evt.getClickCount() == 2) {
-            totalFlagged++;
             String selLine = (String) jList2.getSelectedValue();
             String selLineTokens[] = selLine.split(" ");
             curQuesInd = Integer.parseInt(selLineTokens[1]) - 1;
