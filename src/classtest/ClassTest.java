@@ -78,7 +78,7 @@ public class ClassTest extends javax.swing.JFrame {
     private java.util.TimerTask antiCheatTask;
     private java.util.TimerTask instantCheatAlarmTask;
     //TIMERS END
-    
+
     //Constructor beginning
     private ClassTest() {
         //Getting the system ProgramData location for default storage
@@ -86,10 +86,10 @@ public class ClassTest extends javax.swing.JFrame {
         resLocation = programDataLocation + "/Quiz/Resources";
         logLocation = programDataLocation + "/Quiz/Error Log.txt";
         initComponents();
-        
+
         if (correctKeyEntered) { //if db authentication is started, this starts
             initDatabaseSettingsWizard();
-        } else { 
+        } else {
             redirectPage.setVisible(true);
             try { //Decrpyting password, and using the same for connectivity
                 FileReader fr = new FileReader(new File(programDataLocation + "/Quiz/key.txt"));
@@ -433,8 +433,8 @@ public class ClassTest extends javax.swing.JFrame {
         jComboBox14.setSelectedIndex(1);
         jComboBox10.setModel(new DefaultComboBoxModel(yearList));
         jComboBox12.setModel(new DefaultComboBoxModel(yearList));
-        jComboBox10.setSelectedIndex(jComboBox10.getItemCount()-1);
-        jComboBox12.setSelectedIndex(jComboBox10.getItemCount()-1);
+        jComboBox10.setSelectedIndex(jComboBox10.getItemCount() - 1);
+        jComboBox12.setSelectedIndex(jComboBox10.getItemCount() - 1);
         jComboBox8.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
         jComboBox13.setSelectedItem(Integer.toString(now.get(Calendar.DATE)));
         jComboBox9.setSelectedIndex(now.get(Calendar.MONTH));
@@ -5336,6 +5336,7 @@ public class ClassTest extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem15ActionPerformed
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+
         abortTest();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -6925,6 +6926,7 @@ public class ClassTest extends javax.swing.JFrame {
     }
 
     private boolean abortTest() {
+        canCheat=false;
         int result = JOptionPane.showConfirmDialog(studentQuestionPage, "Are you sure you want to abort test? You will not be able to re-take this test.", "Abort confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
             try {
